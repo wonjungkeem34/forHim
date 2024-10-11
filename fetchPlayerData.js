@@ -83,12 +83,82 @@ export async function fetchPlayerData() {
   const losses = playerInfo[0].losses;
   const queueId = playerInfo[0].queueType;
 
+  const rankImagePath = `shared/img/rank/Rank=${tier}.png`;
+  const rankImageElement = document.getElementById("rankImage");
+  rankImageElement.src = rankImagePath; // 이미지 경로 설정
+  rankImageElement.alt = `${tier} ${rank} 이미지`;
+
+  rankImageElement.onerror = () => {
+    console.error("이미지를 로드하는데 실패했습니다:", rankImagePath);
+  };
   document.getElementById("queueType").innerText = queueId;
   document.getElementById("tier").innerText = tier;
   document.getElementById("rank").innerText = rank;
   document.getElementById("leaguePoints").innerText = leaguePoints;
   document.getElementById("wins").innerText = wins;
   document.getElementById("losses").innerText = losses;
+
+  const totalGames = wins + losses;
+  const r = Math.floor(totalGames / 100);
+  const other = totalGames % 100;
+
+  const allGamesID = [];
+  for (let i = 0; i <= r; i++) {
+    const start = i * 100;
+    const count = i !== r ? 100 : other;
+
+    const matchResponse = await fetch(
+      `/puuid/lol/match/v5/matches/by-puuid/${puuid}/ids?type=ranked&start=${start}&count=${count}`,
+      {
+        headers: REQUEST_HEADERS,
+      }
+    );
+
+    if (!matchResponse.ok) {
+      console.log("Response status:", matchResponse.status);
+      const errorText = await matchResponse.text();
+      console.error("Error response:", errorText);
+      throw new Error(errorText);
+    }
+
+    const tmpGamesID = await matchResponse.json();
+    allGamesID.push(...tmpGamesID); // 기존 배열에 추가
+  }
+
+  console.log(allGamesID); // 가져온 매치 ID 출력
+  if (allGamesID.length > 0) {
+    const matchDetailResponse = await fetch(
+      `/puuid/lol/match/v5/matches/${allGamesID[0]}`,
+      {
+        headers: REQUEST_HEADERS,
+      }
+    );
+
+    if (!matchDetailResponse.ok) {
+      console.log("Match Detail Response status:", matchDetailResponse.status);
+      const errorText = await matchDetailResponse.text();
+      console.error("Error response:", errorText);
+      throw new Error(errorText);
+    }
+
+    const matchResult = await matchDetailResponse.json();
+    console.log("Recent Match Result:", matchResult);
+    document.getElementById(
+      "matchId"
+    ).innerText = `Match ID: ${matchResult.metadata.matchId}`;
+    document.getElementById(
+      "gameMode"
+    ).innerText = `게임 모드: ${matchResult.info.gameMode}`;
+    document.getElementById("endOfGameResult").innerText = `결과: ${
+      matchResult.info.teams[0].win ? "승리" : "패배"
+    }`;
+    document.getElementById(
+      "gameDuration"
+    ).innerText = `지속 시간: ${matchResult.info.gameDuration}초`;
+    document.getElementById("mapId").innerText = `맵`;
+  } else {
+    console.log("No matches found.");
+  }
 }
 
 // 최신 패치 버전을 가져오는 함수
