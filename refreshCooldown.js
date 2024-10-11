@@ -3,16 +3,11 @@ import { fetchPlayerData } from "./fetchPlayerData.js";
 let cooldown = false;
 const countdownElement = document.getElementById("countdown");
 
-document.getElementById("gameName").innerText = "전세민";
-document.getElementById("tagLine").innerText = "KR1";
-
-fetchPlayerData();
-
-refreshButton.addEventListener("click", async () => {
+document.getElementById("refreshButton").addEventListener("click", async () => {
+  console.log("버튼 클릭 이벤트 리스너가 설정되었습니다.");
   if (cooldown) return;
   cooldown = true;
 
-  refreshButton.disabled = true;
   await fetchPlayerData();
 
   let countdown = 14;
@@ -27,7 +22,6 @@ refreshButton.addEventListener("click", async () => {
       clearInterval(interval);
       countdownElement.style.display = "none";
       cooldown = false;
-      refreshButton.disabled = false;
     }
   }, 1000);
 });

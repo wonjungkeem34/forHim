@@ -1,63 +1,151 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 body {
-  font-family: "Arial", sans-serif;
-  background-color: #fafafa;
+  background-color: #eef2f5;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-}
-
-header {
-  background-color: #333;
-  color: white;
-  padding: 1.5rem;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Roboto", sans-serif;
 }
 
 .container {
-  flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
   padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.content {
-  max-width: 800px;
-  width: 100%;
-  padding: 20px;
+.side-info {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 2;
+  padding-left: 20px;
+  margin-right: 20px;
 }
 
 .box {
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+#summoner-info {
+  width: 200px;
+}
+
+#recent-matches {
+  width: 100%;
   text-align: center;
 }
 
-.box h2 {
-  margin-bottom: 1rem;
-  color: #333;
+.profile-icon img {
+  margin-left: 10px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #457b9d;
 }
 
-.box img {
-  width: 80px; /* 아이콘 크기 조절 */
-  height: 80px; /* 아이콘 크기 조절 */
-  border-radius: 50%;
-  margin-bottom: 1rem;
+.user-info {
+  margin-left: 20px;
+}
+
+.user-info p {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+#gameName {
+  font-size: 1.2rem;
+  margin-right: 10px;
+  color: #34495e;
+  font-weight: bold;
+  display: inline;
+}
+
+#tagLine {
+  font-size: 1rem;
+  color: gray;
+  display: inline;
+}
+
+#queueType {
+  font-weight: normal;
+  font-size: 0.9rem;
+}
+
+.queue-label {
+  font-weight: bold;
+}
+
+#refreshButton {
+  background-color: #457b9d;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 3px;
+}
+
+#refreshButton:hover {
+  background-color: #1d3557;
+}
+
+#refreshButton:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(69, 123, 157, 0.5);
+}
+
+#refreshButton:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+header {
+  background-color: #1d3557;
+  color: white;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-size: 1.8rem;
 }
 
 footer {
-  background-color: #333;
+  background-color: #1d3557;
   color: white;
+  padding: 1.5rem;
   text-align: center;
-  padding: 1rem;
-  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  margin-top: auto;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #1d3557;
+  margin-bottom: 1rem;
+}
+
+#queueType,
+#tier,
+#rank,
+#leaguePoints,
+#wins,
+#losses {
+  font-weight: bold;
 }

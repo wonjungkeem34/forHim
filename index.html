@@ -5,24 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Riot API Example</title>
     <link rel="stylesheet" href="./styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <header>
-      <h1>소환사 정보</h1>
+      <h1></h1>
     </header>
     <div class="container">
-      <div class="content">
+      <div class="side-info">
         <div class="box" id="summoner-info">
-          <h2>소환사 정보</h2>
-          <p class="title">랭크: <p id="tier"></p><p id="rank"></p></p>
-          <p class="title">리그 포인트: <span id="leaguePoints"></span></p>
-          <p class="title">승리 수: <span id="wins"></span></p>
-          <p class="title">패배 수: <span id="losses"></span></p>
+          <div class="profile-icon">
+            <img
+              id="profileIcon"
+              src="https://pbs.twimg.com/media/GY928sCbAAIfTYH?format=png&name=small"
+            />
+          </div>
+          <div class="user-info">
+            <p id="gameName"></p>
+
+            <p id="tagLine"></p>
+
+            <div
+              id="countdown"
+              style="font-size: 0.7rem; color: red; display: none"
+            ></div>
+
+            <button id="refreshButton">전적 갱신</button>
+
+            <hr />
+            <div class="rank-info">
+              <p>
+                <span class="queue-label"></span>
+                <span id="queueType"></span>
+              </p>
+              <p>
+                <span class="queue-label"></span> <span id="tier"></span>
+                <span id="rank"></span>
+              </p>
+              <p>
+                <span class="queue-label"></span>
+                <span id="leaguePoints"></span>LP
+              </p>
+              <p>
+                <span class="queue-label"></span>
+                <span id="wins"></span>승 <span id="losses"></span>패
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="box" id="recent-matches">
+          <h2>최근 전적</h2>
+          <p>전적 내용이 여기에 표시됩니다.</p>
         </div>
       </div>
     </div>
     <footer>
-      <p>&copy; 2024 게임 전적 사이트</p>
+      <p>&copy; 29999992sbak</p>
     </footer>
     <script type="module" src="./main.js"></script>
   </body>
