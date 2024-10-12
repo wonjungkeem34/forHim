@@ -1,3 +1,9 @@
+@import "./styles/_container.css";
+@import "./styles/_footer.css";
+@import "./styles/_header.css";
+@import "./styles/_match.css";
+@import "./styles/_rank.css";
+
 body {
   background-color: #eef2f5;
   display: flex;
@@ -6,73 +12,34 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
-.container {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.side-info {
-  flex: 1;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-direction: column;
-}
-
-.main-content {
-  flex: 2;
-  padding-left: 20px;
-  margin-right: 20px;
-}
-
 .box {
-  background-color: #ffffff;
+  background-color: white;
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  width: 400px;
+  height: 100%;
 }
 
-#summoner-info {
-  width: 200px;
+.profile-icon {
+  position: relative;
+  display: inline-block; /* 기존 레이아웃 유지 */
 }
 
-#recent-matches {
-  display: flex;
-  flex-direction: column;
-}
-
-.match-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-}
-
-.match-item p {
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.win {
-  background-color: rgba(76, 175, 80, 0.3); /* 투명한 초록색 */
-}
-
-.lose {
-  background-color: rgba(244, 67, 54, 0.3); /* 투명한 빨강색 */
-}
-
-.profile-icon img {
-  margin-left: 10px;
+#profileIcon {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   border: 4px solid #457b9d;
+}
+.profile-icon img {
+  /* margin-left: 10px; */
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #457b9d;
+  position: relative;
 }
 
 .user-info {
@@ -81,7 +48,6 @@ body {
 
 .user-info p {
   display: flex;
-  gap: 5px;
   align-items: center;
 }
 
@@ -123,7 +89,9 @@ body {
 #refreshButton:hover {
   background-color: #1d3557;
 }
-
+#summoner-info {
+  width: 200px;
+}
 #refreshButton:focus {
   outline: none;
   box-shadow: 0 0 5px rgba(69, 123, 157, 0.5);
@@ -135,35 +103,33 @@ body {
   cursor: not-allowed;
 }
 
-header {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  background-color: #1d3557;
-  color: white;
-  padding: 1rem;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-}
-
-footer {
-  background-color: #1d3557;
-  color: white;
-  padding: 1.5rem;
-  text-align: center;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  margin-top: auto;
-}
-
 h3 {
   font-size: 1.2rem;
   color: #1d3557;
   margin-bottom: 1rem;
 }
+.win {
+  background-color: rgba(76, 175, 80, 0.3);
+  border-left: 5px solid #4caf50;
+}
 
+.lose {
+  background-color: rgba(244, 67, 54, 0.3);
+  border-left: 5px solid #f44336;
+}
+#summonerLevel {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-40%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  border: 1px solid #457b9d;
+  z-index: 10;
+}
 #queueType,
 #tier,
 #rank,

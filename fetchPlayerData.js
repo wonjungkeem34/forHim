@@ -1,6 +1,8 @@
 // fetchPlayerData.js
 import { QUEUETYPE, QueueKo } from "./data/const/queueTypes";
 import { MAPTYPE, MapKo } from "./data/const/mapTypes";
+import { GAME_MODES } from "./data/const/gameModes";
+import { findPlayerTeam } from "./checkTeamStatus";
 const api_key = import.meta.env.VITE_RIOT_API_KEY;
 
 const REQUEST_HEADERS = {
@@ -57,6 +59,7 @@ export async function fetchPlayerData() {
   }
 
   const player = await playerResponse.json();
+  console.log(player);
   const profileIconId = player["profileIconId"];
   const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/${version}/img/profileicon/${profileIconId}.png`;
 
@@ -87,7 +90,7 @@ export async function fetchPlayerData() {
   const wins = playerInfo[0]?.wins || 0;
   const losses = playerInfo[0]?.losses || 0;
   const queueType = playerInfo[0]?.queueType || "";
-
+  const summonerLevel = player["summonerLevel"];
   const rankImagePath = `./data/img/rank/Rank=${tier}.png`;
   const rankImageElement = document.getElementById("rankImage");
 
@@ -109,7 +112,7 @@ export async function fetchPlayerData() {
   document.getElementById("leaguePoints").innerText = leaguePoints;
   document.getElementById("wins").innerText = wins;
   document.getElementById("losses").innerText = losses;
-
+  document.getElementById("summonerLevel").innerText = summonerLevel;
   document.querySelector(".rank-info p:nth-child(2)").style.display = "block"; // 티어와 랭크
   document.querySelector(".rank-info p:nth-child(3)").style.display = "block"; // LP
   document.querySelector(".rank-info p:nth-child(4)").style.display = "block"; // 승, 패
@@ -164,25 +167,25 @@ export async function fetchPlayerData() {
       const matchResult = await matchDetailResponse.json();
       recentMatches.push(matchResult);
     }
-
+    console.log(recentMatches);
     const recentMatchesContainer = document.getElementById("recent-matches");
     recentMatchesContainer.innerHTML = "";
 
     recentMatches.forEach((match) => {
+      const teamInfo = findPlayerTeam(match, puuid);
       const matchDiv = document.createElement("div");
       matchDiv.className = "match-item";
-      matchDiv.classList.add(match.info.teams[0].win ? "win" : "lose");
+      matchDiv.classList.add(teamInfo.win ? "win" : "lose");
 
       matchDiv.innerHTML = `
-        <p>게임 모드: ${match.info.gameMode}</p>
-        <p>결과: ${match.info.teams[0].win ? "승리" : "패배"}</p>
-        <p>지속 시간: ${Math.floor(match.info.gameDuration / 60)}분 ${
+      <p>게임 모드: ${GAME_MODES[match.info.gameMode]}</p>
+      <p>${teamInfo.win ? "승리" : "패배"}</p>
+      <p>지속 시간: ${Math.floor(match.info.gameDuration / 60)}분 ${
         match.info.gameDuration % 60
       }초</p>
-        <p>${QueueKo[QUEUETYPE[match.info.queueId]]}</p>
-        <p>${MapKo[MAPTYPE[match.info.mapId]]}</p>
-      `;
-
+      <p>${QueueKo[QUEUETYPE[match.info.queueId]]}</p>
+      <p>${MapKo[MAPTYPE[match.info.mapId]]}</p>
+    `;
       recentMatchesContainer.appendChild(matchDiv);
     });
   } else {

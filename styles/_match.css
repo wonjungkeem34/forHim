@@ -1,0 +1,39 @@
+#recent-matches {
+  display: flex;
+  flex-direction: column;
+}
+
+.match-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.match-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  flex: 1;
+  text-align: center;
+}
+
+.match-item p:first-child {
+  flex: 2;
+  text-align: left;
+}
+
+.match-item p:nth-child(2) {
+  font-weight: bold;
+}
+
+.win {
+  background-color: var(--light-green);
+  border-left: 5px solid #4caf50;
+}
+
+.lose {
+  background-color: var(--light-red);
+  border-left: 5px solid #f44336;
+}
