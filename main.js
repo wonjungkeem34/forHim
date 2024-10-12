@@ -3,9 +3,6 @@ import { fetchPlayerData } from "./fetchPlayerData.js";
 let cooldown = false;
 const countdownElement = document.getElementById("countdown");
 
-document.getElementById("gameName").innerText = "전세민";
-document.getElementById("tagLine").innerText = "KR1";
-
 fetchPlayerData();
 
 refreshButton.addEventListener("click", async () => {

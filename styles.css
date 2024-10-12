@@ -30,13 +30,10 @@ body {
 
 .box {
   background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
-  transition: box-shadow 0.3s ease;
-  display: flex;
-  flex-direction: column;
 }
 
 #summoner-info {
@@ -44,8 +41,30 @@ body {
 }
 
 #recent-matches {
-  width: 100%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.match-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.match-item p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.win {
+  background-color: rgba(76, 175, 80, 0.3); /* 투명한 초록색 */
+}
+
+.lose {
+  background-color: rgba(244, 67, 54, 0.3); /* 투명한 빨강색 */
 }
 
 .profile-icon img {
@@ -117,12 +136,16 @@ body {
 }
 
 header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   background-color: #1d3557;
   color: white;
-  padding: 1.5rem;
+  padding: 1rem;
   text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-size: 1.8rem;
+  margin-bottom: 10px;
 }
 
 footer {
@@ -135,8 +158,8 @@ footer {
   margin-top: auto;
 }
 
-h2 {
-  font-size: 1.5rem;
+h3 {
+  font-size: 1.2rem;
   color: #1d3557;
   margin-bottom: 1rem;
 }

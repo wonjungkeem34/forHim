@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Riot API Example</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="/assets/index-BkC1shkD.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BfVIZCzI.css">
+  </head>
+  <body>
+    <header>
+      <img id="rankImage" alt="Rank 이미지" width="80" height="80" />
+    </header>
+    <div class="container">
+      <div class="side-info">
+        <div class="box" id="summoner-info">
+          <div class="profile-icon">
+            <img
+              id="profileIcon"
+              src="https://pbs.twimg.com/media/GY928sCbAAIfTYH?format=png&name=small"
+              alt=""
+            />
+          </div>
+          <div class="user-info">
+            <p id="gameName"></p>
+
+            <p id="tagLine"></p>
+
+            <div
+              id="countdown"
+              style="font-size: 0.7rem; color: red; display: none"
+            ></div>
+
+            <button id="refreshButton">전적 갱신</button>
+
+            <hr />
+            <div class="rank-info">
+              <p>
+                <span class="queue-label"></span>
+                <span id="queueType"></span>
+              </p>
+              <p>
+                <span class="queue-label"></span> <span id="tier"></span>
+                <span id="rank"></span>
+              </p>
+
+              <p>
+                <span class="queue-label"></span>
+                <span id="leaguePoints"></span>LP
+              </p>
+              <p>
+                <span class="queue-label"></span>
+                <span id="wins"></span>승 <span id="losses"></span>패
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main-content">
+        <div class="box" id="recent-matches">
+          <h2>최근 전적</h2>
+          <p id="matchId"></p>
+          <p id="gameMode"></p>
+          <p id="endOfGameResult"></p>
+          <p id="gameDuration"></p>
+          <p id="mapId"></p>
+          <h3>참가자 목록:</h3>
+          <ul id="participantsList"></ul>
+          <!-- 참가자 목록 -->
+        </div>
+      </div>
+    </div>
+    <footer>
+      <p>&copy; 29999992sbak</p>
+    </footer>
+  </body>
+</html>

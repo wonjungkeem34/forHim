@@ -1,4 +1,6 @@
 // fetchPlayerData.js
+import { QUEUETYPE, QueueKo } from "./data/const/queueTypes";
+import { MAPTYPE, MapKo } from "./data/const/mapTypes";
 const api_key = import.meta.env.VITE_RIOT_API_KEY;
 
 const REQUEST_HEADERS = {
@@ -13,6 +15,8 @@ const REQUEST_HEADERS = {
 const userNickname = "전세민";
 const tagLine = "KR1";
 const encodedName = encodeURIComponent(userNickname);
+document.getElementById("gameName").innerText = userNickname;
+document.getElementById("tagLine").innerText = tagLine;
 
 export async function fetchPlayerData() {
   console.log("전적 데이터를 가져옵니다.");
@@ -38,7 +42,7 @@ export async function fetchPlayerData() {
   const puuid = player_id["puuid"];
 
   const playerResponse = await fetch(
-    `id/lol/summoner/v4/summoners/by-puuid/${puuid}`,
+    `/id/lol/summoner/v4/summoners/by-puuid/${puuid}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
@@ -61,7 +65,7 @@ export async function fetchPlayerData() {
   profileIconElement.alt = "Profile Icon";
 
   const leagueResponse = await fetch(
-    `id/lol/league/v4/entries/by-summoner/${player["id"]}`,
+    `/id/lol/league/v4/entries/by-summoner/${player["id"]}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
@@ -76,27 +80,39 @@ export async function fetchPlayerData() {
   }
 
   const playerInfo = await leagueResponse.json();
-  const tier = playerInfo[0].tier;
-  const rank = playerInfo[0].rank;
-  const leaguePoints = playerInfo[0].leaguePoints;
-  const wins = playerInfo[0].wins;
-  const losses = playerInfo[0].losses;
-  const queueId = playerInfo[0].queueType;
 
-  const rankImagePath = `shared/img/rank/Rank=${tier}.png`;
+  const tier = playerInfo[0]?.tier || "Unranked";
+  const rank = playerInfo[0]?.rank || "";
+  const leaguePoints = playerInfo[0]?.leaguePoints || 0;
+  const wins = playerInfo[0]?.wins || 0;
+  const losses = playerInfo[0]?.losses || 0;
+  const queueType = playerInfo[0]?.queueType || "";
+
+  const rankImagePath = `./data/img/rank/Rank=${tier}.png`;
   const rankImageElement = document.getElementById("rankImage");
-  rankImageElement.src = rankImagePath; // 이미지 경로 설정
+
+  rankImageElement.src = rankImagePath;
   rankImageElement.alt = `${tier} ${rank} 이미지`;
+
+  rankImageElement.onload = () => {
+    rankImageElement.style.display = "block";
+  };
 
   rankImageElement.onerror = () => {
     console.error("이미지를 로드하는데 실패했습니다:", rankImagePath);
+    rankImageElement.style.display = "none";
   };
-  document.getElementById("queueType").innerText = queueId;
+
+  document.getElementById("queueType").innerText = queueType;
   document.getElementById("tier").innerText = tier;
   document.getElementById("rank").innerText = rank;
   document.getElementById("leaguePoints").innerText = leaguePoints;
   document.getElementById("wins").innerText = wins;
   document.getElementById("losses").innerText = losses;
+
+  document.querySelector(".rank-info p:nth-child(2)").style.display = "block"; // 티어와 랭크
+  document.querySelector(".rank-info p:nth-child(3)").style.display = "block"; // LP
+  document.querySelector(".rank-info p:nth-child(4)").style.display = "block"; // 승, 패
 
   const totalGames = wins + losses;
   const r = Math.floor(totalGames / 100);
@@ -122,40 +138,53 @@ export async function fetchPlayerData() {
     }
 
     const tmpGamesID = await matchResponse.json();
-    allGamesID.push(...tmpGamesID); // 기존 배열에 추가
+    allGamesID.push(...tmpGamesID);
   }
 
-  console.log(allGamesID); // 가져온 매치 ID 출력
   if (allGamesID.length > 0) {
-    const matchDetailResponse = await fetch(
-      `/puuid/lol/match/v5/matches/${allGamesID[0]}`,
-      {
-        headers: REQUEST_HEADERS,
-      }
-    );
+    const recentMatches = [];
+    for (let i = 0; i < Math.min(5, allGamesID.length); i++) {
+      const matchDetailResponse = await fetch(
+        `/puuid/lol/match/v5/matches/${allGamesID[i]}`,
+        {
+          headers: REQUEST_HEADERS,
+        }
+      );
 
-    if (!matchDetailResponse.ok) {
-      console.log("Match Detail Response status:", matchDetailResponse.status);
-      const errorText = await matchDetailResponse.text();
-      console.error("Error response:", errorText);
-      throw new Error(errorText);
+      if (!matchDetailResponse.ok) {
+        console.log(
+          "Match Detail Response status:",
+          matchDetailResponse.status
+        );
+        const errorText = await matchDetailResponse.text();
+        console.error("Error response:", errorText);
+        continue;
+      }
+
+      const matchResult = await matchDetailResponse.json();
+      recentMatches.push(matchResult);
     }
 
-    const matchResult = await matchDetailResponse.json();
-    console.log("Recent Match Result:", matchResult);
-    document.getElementById(
-      "matchId"
-    ).innerText = `Match ID: ${matchResult.metadata.matchId}`;
-    document.getElementById(
-      "gameMode"
-    ).innerText = `게임 모드: ${matchResult.info.gameMode}`;
-    document.getElementById("endOfGameResult").innerText = `결과: ${
-      matchResult.info.teams[0].win ? "승리" : "패배"
-    }`;
-    document.getElementById(
-      "gameDuration"
-    ).innerText = `지속 시간: ${matchResult.info.gameDuration}초`;
-    document.getElementById("mapId").innerText = `맵`;
+    const recentMatchesContainer = document.getElementById("recent-matches");
+    recentMatchesContainer.innerHTML = "";
+
+    recentMatches.forEach((match) => {
+      const matchDiv = document.createElement("div");
+      matchDiv.className = "match-item";
+      matchDiv.classList.add(match.info.teams[0].win ? "win" : "lose");
+
+      matchDiv.innerHTML = `
+        <p>게임 모드: ${match.info.gameMode}</p>
+        <p>결과: ${match.info.teams[0].win ? "승리" : "패배"}</p>
+        <p>지속 시간: ${Math.floor(match.info.gameDuration / 60)}분 ${
+        match.info.gameDuration % 60
+      }초</p>
+        <p>${QueueKo[QUEUETYPE[match.info.queueId]]}</p>
+        <p>${MapKo[MAPTYPE[match.info.mapId]]}</p>
+      `;
+
+      recentMatchesContainer.appendChild(matchDiv);
+    });
   } else {
     console.log("No matches found.");
   }
