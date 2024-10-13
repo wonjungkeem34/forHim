@@ -1,3 +1,4 @@
+// checkTeamStatus.js
 export function findPlayerTeam(matchData, targetPuuid) {
   const participant = matchData.info.participants.find(
     (p) => p.puuid === targetPuuid
@@ -18,8 +19,6 @@ export function findPlayerTeam(matchData, targetPuuid) {
   return {
     teamId: team.teamId,
     win: team.win,
-    participants: matchData.info.participants.filter(
-      (p) => p.teamId === teamId
-    ),
+    participant: participant,
   };
 }

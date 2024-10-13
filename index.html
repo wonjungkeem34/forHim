@@ -23,8 +23,8 @@
       </div>
     </header>
     <div class="container">
-      <div class="side-info">
-        <div class="box" id="summoner-info">
+      <div class="side-info" id="summoner-info">
+        <div class="profile-top">
           <div class="profile-icon">
             <img
               id="profileIcon"
@@ -33,45 +33,49 @@
             />
             <div id="summonerLevel"></div>
           </div>
-          <div class="user-info">
+          <div>
             <p id="gameName"></p>
-
             <p id="tagLine"></p>
-
-            <div
-              id="countdown"
-              style="font-size: 0.7rem; color: red; display: none"
-            ></div>
-
-            <button id="refreshButton">전적 갱신</button>
-
-            <hr />
-            <div class="rank-info">
-              <p>
-                <span class="queue-label"></span>
-                <span id="queueType"></span>
-              </p>
-              <p style="display: none">
-                <span class="queue-label"></span> <span id="tier"></span>
-                <span id="rank"></span>
-              </p>
-              <p style="display: none">
-                <span class="queue-label"></span>
-                <span id="leaguePoints"></span>LP
-              </p>
-              <p style="display: none">
-                <span class="queue-label"></span>
-                <span id="wins"></span>승 <span id="losses"></span>패
-              </p>
-            </div>
+          </div>
+          <div
+            id="countdown"
+            style="
+              font-size: 0.7rem;
+              color: red;
+              display: none;
+              margin-bottom: 0;
+            "
+          ></div>
+          <button id="refreshButton">전적 갱신</button>
+        </div>
+        <div class="user-info">
+          <hr />
+          <div class="rank-info">
+            <p>
+              <span class="queue-label"></span>
+              <span id="queueType"></span>
+            </p>
+            <p style="display: none">
+              <span class="queue-label"></span> <span id="tier"></span>
+              <span id="rank"></span>
+            </p>
+            <p style="display: none">
+              <span class="queue-label"></span>
+              <span id="leaguePoints"></span> LP
+            </p>
+            <p style="display: none">
+              <span class="queue-label"></span>
+              <span id="wins"></span> 승 <span id="losses"></span> 패
+            </p>
           </div>
         </div>
       </div>
-
       <div class="main-content">
         <div class="box">
           <h3>최근 전적</h3>
-          <div id="recent-matches"></div>
+          <div id="recent-matches">
+            <div id="match-item" style="display: none"></div>
+          </div>
         </div>
       </div>
     </div>

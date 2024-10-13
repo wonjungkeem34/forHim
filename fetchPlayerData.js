@@ -3,6 +3,8 @@ import { QUEUETYPE, QueueKo } from "./data/const/queueTypes";
 import { MAPTYPE, MapKo } from "./data/const/mapTypes";
 import { GAME_MODES } from "./data/const/gameModes";
 import { findPlayerTeam } from "./checkTeamStatus";
+import { findChampionImg } from "./findChampion";
+import { getLatestPatchVersion } from "./getLatestPatchVersion";
 const api_key = import.meta.env.VITE_RIOT_API_KEY;
 
 const REQUEST_HEADERS = {
@@ -59,7 +61,6 @@ export async function fetchPlayerData() {
   }
 
   const player = await playerResponse.json();
-  console.log(player);
   const profileIconId = player["profileIconId"];
   const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/${version}/img/profileicon/${profileIconId}.png`;
 
@@ -167,40 +168,43 @@ export async function fetchPlayerData() {
       const matchResult = await matchDetailResponse.json();
       recentMatches.push(matchResult);
     }
-    console.log(recentMatches);
+
     const recentMatchesContainer = document.getElementById("recent-matches");
     recentMatchesContainer.innerHTML = "";
 
-    recentMatches.forEach((match) => {
+    recentMatches.forEach((match, index) => {
       const teamInfo = findPlayerTeam(match, puuid);
+
       const matchDiv = document.createElement("div");
       matchDiv.className = "match-item";
       matchDiv.classList.add(teamInfo.win ? "win" : "lose");
 
+      // 매치 아이템 HTML
       matchDiv.innerHTML = `
-      <p>게임 모드: ${GAME_MODES[match.info.gameMode]}</p>
-      <p>${teamInfo.win ? "승리" : "패배"}</p>
-      <p>지속 시간: ${Math.floor(match.info.gameDuration / 60)}분 ${
+              <img
+          id="championIcon-${index}"  // 고유 ID 생성
+          alt="${teamInfo.participant.championName} Icon"
+        />
+        <p>게임 모드: ${GAME_MODES[match.info.gameMode]}</p>
+        <p>${teamInfo.win ? "승리" : "패배"}</p>
+        <p>지속 시간: ${Math.floor(match.info.gameDuration / 60)}분 ${
         match.info.gameDuration % 60
       }초</p>
-      <p>${QueueKo[QUEUETYPE[match.info.queueId]]}</p>
-      <p>${MapKo[MAPTYPE[match.info.mapId]]}</p>
-    `;
+        <p>${QueueKo[QUEUETYPE[match.info.queueId]]}</p>
+        <p>${MapKo[MAPTYPE[match.info.mapId]]}</p>
+        <p>Champion: ${teamInfo.participant.championName}</p>
+        <p>Kills: ${teamInfo.participant.kills}</p>
+        <p>Deaths: ${teamInfo.participant.deaths}</p>
+        <p>Assists: ${teamInfo.participant.assists}</p>
+        <p>Gold Earned: ${teamInfo.participant.goldEarned}</p>
+
+      `;
+
       recentMatchesContainer.appendChild(matchDiv);
+
+      findChampionImg(teamInfo.participant.championName, index);
     });
   } else {
     console.log("No matches found.");
   }
-}
-
-// 최신 패치 버전을 가져오는 함수
-async function getLatestPatchVersion() {
-  const response = await fetch(
-    "https://ddragon.leagueoflegends.com/api/versions.json"
-  );
-  if (!response.ok) {
-    throw new Error("Failed to fetch the latest patch version");
-  }
-  const versions = await response.json();
-  return versions[0];
 }
