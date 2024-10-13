@@ -1,7 +1,4 @@
-import { getLatestPatchVersion } from "./getLatestPatchVersion";
-
-export async function findChampionImg(championName, index) {
-  const version = await getLatestPatchVersion();
+export async function findChampionImg(championName, index, version) {
   const response = await fetch(
     `https://ddragon.leagueoflegends.com/cdn/${version}/data/ko_KR/champion.json`
   );

@@ -1,42 +1,29 @@
-const QUEUETYPE = {
-  400: "norm", //Normal Draft Pick
-  420: "solo",
-  430: "norm",
-  440: "flex",
-  450: "aram",
-  700: "clash",
-  800: "ai", // Deprecated
-  810: "ai", // Deprecated
-  820: "ai", // Deprecated
-  830: "ai",
-  840: "ai",
-  850: "ai",
-  900: "urf",
-  920: "poro",
-  1020: "ofa",
-  1300: "nbg",
-  1400: "usb", // Ultimate Spellbook
-  2000: "tut",
-  2010: "tut",
-  2020: "tut",
-};
-
 const QueueKo = {
-  solo: "솔랭",
-  norm: "일반",
-  aram: "칼바람",
-  flex: "자랭",
-  nbg: "돌넥",
-  usb: "궁주문서",
-  urf: "URF",
-  ofa: "단일",
-  ai: "AI대전",
-  poro: "포로왕",
-  tut: "튜토리얼",
-  etc: "기타",
-  clash: "격전",
+  "Custom games": "커스텀 게임",
+  "Normal (Quickplay)": "일반",
+  "5v5 Draft Pick games": "일반",
+  "5v5 Blind Pick games": "일반",
+  "5v5 Ranked Solo games": "솔로 랭크",
+  "5v5 ARAM games": "칼바람",
+  "5v5 Ranked Flex games": "자유 랭크",
+  "Summoner's Rift Clash games": "격전",
+  "ARAM Clash games": "격전",
+  "Co-op vs. AI Intermediate Bot games": "AI",
+  "Co-op vs. AI Intro Bot games": "AI",
+  "Co-op vs. AI Beginner Bot games": "AI",
+  "Co-op vs. AI Intro Bot games": "AI",
+  "Co-op vs. AI Beginner Bot games": "AI",
+  "Co-op vs. AI Intermediate Bot games": "AI",
+  "Co-op vs. AI Intro Bot games": "AI",
+  "ARURF games": "URF",
+  "Legend of the Poro King games": "포로왕",
+  "Tutorial 1": "튜토리얼",
+  "Tutorial 2": "튜토리얼",
+  "Tutorial 3": "튜토리얼",
+  "One for All games": "단일",
+  "Nexus Blitz games": "돌격 넥서스",
 };
 
-export { QUEUETYPE, QueueKo };
+export { QueueKo };
 //Reference
 //https://blog.uniony.me/lol/queue-id/

@@ -1,10 +1,11 @@
 // fetchPlayerData.js
-import { QUEUETYPE, QueueKo } from "./data/const/queueTypes";
-import { MAPTYPE, MapKo } from "./data/const/mapTypes";
-import { GAME_MODES } from "./data/const/gameModes";
+
 import { findPlayerTeam } from "./checkTeamStatus";
 import { findChampionImg } from "./findChampion";
 import { getLatestPatchVersion } from "./getLatestPatchVersion";
+import { findItemImg } from "./findItem";
+import { findQueueName, findMapName } from "./findQueueMap";
+
 const api_key = import.meta.env.VITE_RIOT_API_KEY;
 
 const REQUEST_HEADERS = {
@@ -128,7 +129,7 @@ export async function fetchPlayerData() {
     const count = i !== r ? 100 : other;
 
     const matchResponse = await fetch(
-      `/puuid/lol/match/v5/matches/by-puuid/${puuid}/ids?type=ranked&start=${start}&count=${count}`,
+      `/puuid/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}`,
       {
         headers: REQUEST_HEADERS,
       }
@@ -146,52 +147,59 @@ export async function fetchPlayerData() {
   }
 
   if (allGamesID.length > 0) {
-    const recentMatches = [];
-    for (let i = 0; i < Math.min(5, allGamesID.length); i++) {
+    // 5개의 최근 매치 정보를 병렬로 가져오기
+    const recentMatchesPromises = allGamesID.slice(0, 5).map(async (gameId) => {
       const matchDetailResponse = await fetch(
-        `/puuid/lol/match/v5/matches/${allGamesID[i]}`,
+        `/puuid/lol/match/v5/matches/${gameId}`,
         {
           headers: REQUEST_HEADERS,
         }
       );
 
       if (!matchDetailResponse.ok) {
-        console.log(
-          "Match Detail Response status:",
-          matchDetailResponse.status
-        );
+        // console.log(
+        //   "Match Detail Response status:",
+        //   matchDetailResponse.status
+        // );
         const errorText = await matchDetailResponse.text();
         console.error("Error response:", errorText);
-        continue;
+        return null;
       }
 
-      const matchResult = await matchDetailResponse.json();
-      recentMatches.push(matchResult);
-    }
+      return await matchDetailResponse.json();
+    });
 
+    // 병렬로 요청을 처리한 결과를 기다림
+
+    const recentMatches = await Promise.all(recentMatchesPromises);
+
+    // 유효한 매치들만 필터링
+    const validMatches = recentMatches.filter((match) => match !== null);
+    console.log(validMatches);
     const recentMatchesContainer = document.getElementById("recent-matches");
     recentMatchesContainer.innerHTML = "";
 
-    recentMatches.forEach((match, index) => {
+    validMatches.forEach(async (match, index) => {
       const teamInfo = findPlayerTeam(match, puuid);
 
       const matchDiv = document.createElement("div");
       matchDiv.className = "match-item";
       matchDiv.classList.add(teamInfo.win ? "win" : "lose");
+      const queueName = await findQueueName(match.info.queueId);
+      const mapName = await findMapName(match.info.mapId);
 
       // 매치 아이템 HTML
       matchDiv.innerHTML = `
-              <img
+                    <img
           id="championIcon-${index}"  // 고유 ID 생성
           alt="${teamInfo.participant.championName} Icon"
         />
-        <p>게임 모드: ${GAME_MODES[match.info.gameMode]}</p>
+        <p>${queueName}</p>
         <p>${teamInfo.win ? "승리" : "패배"}</p>
         <p>지속 시간: ${Math.floor(match.info.gameDuration / 60)}분 ${
         match.info.gameDuration % 60
       }초</p>
-        <p>${QueueKo[QUEUETYPE[match.info.queueId]]}</p>
-        <p>${MapKo[MAPTYPE[match.info.mapId]]}</p>
+        <p>${mapName}</p>
         <p>Champion: ${teamInfo.participant.championName}</p>
         <p>Kills: ${teamInfo.participant.kills}</p>
         <p>Deaths: ${teamInfo.participant.deaths}</p>
@@ -199,10 +207,17 @@ export async function fetchPlayerData() {
         <p>Gold Earned: ${teamInfo.participant.goldEarned}</p>
 
       `;
+      findChampionImg(teamInfo.participant.championName, index, version);
+
+      Array.from({ length: 6 }).forEach((_, i) => {
+        matchDiv.innerHTML += `<img id="ItemIcon-${index}_${i}" alt="Item ${i}" />`;
+      });
 
       recentMatchesContainer.appendChild(matchDiv);
 
-      findChampionImg(teamInfo.participant.championName, index);
+      Array.from({ length: 6 }).forEach((_, i) => {
+        findItemImg(teamInfo.participant[`item${i}`], index, i, version);
+      });
     });
   } else {
     console.log("No matches found.");
