@@ -38,17 +38,17 @@ header {
 
 .container {
   display: flex;
-  padding: 2vh 10%;
+  padding: 2vh 20%;
   max-width: 100%;
   height: 100vh;
   flex-direction: row;
   justify-content: flex-start;
   overflow-y: auto; /* 세로 스크롤 활성화 */
+  scrollbar-color: transparent transparent;
 }
 
 .side-info {
   margin-top: 1vw;
-  margin-right: 2vw;
   border-radius: 8px;
   background-color: rgb(34, 34, 44);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -61,6 +61,9 @@ header {
   padding: 2vh 2%;
   position: sticky;
   top: 0;
+  width: 250px; /* 원하는 고정 너비 설정 */
+  max-width: 100%; /* 화면 크기에 따라 최대 너비 설정 */
+  box-sizing: border-box;
 }
 
 .main-content {
@@ -83,7 +86,7 @@ header {
 .queueWinLose {
   display: flex;
   flex-direction: column;
-  margin-right: 1vw;
+  margin-right: 2vw;
 }
 @keyframes fadeIn {
   from {
@@ -183,7 +186,36 @@ header {
   animation-delay: 0.5s; /* 딜레이 추가 */
   transform-origin: center;
 }
+.kda {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.2vw 2vw;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5vw;
+  margin-left: auto;
+  font-size: 1.2rem;
+  font-family: "Arial", sans-serif;
+  letter-spacing: 0.05em;
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+.kda:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
 
+.kda span {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.kda .separator {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: normal;
+}
 /* 호버 상태 */
 #refreshButton:hover {
   background-image: url("./data/img/refreshButton/button-replay-hover.png"); /* 호버 상태 이미지 */
@@ -219,16 +251,41 @@ header {
   border: 1px solid #555555;
   z-index: 10;
 }
+.Top-matchInfo {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%; /* 전체 너비를 사용하도록 설정 */
+}
+.result-box {
+  padding: 6px 15px; /* 여백 추가 */
+  border-radius: 5px; /* 둥글게 처리 */
+  text-align: center; /* 중앙 정렬 */
+  margin-left: 10px; /* 좌측 여백 추가 */
+}
+
+.result-box.win {
+  background-color: #4caf50; /* 초록색 배경 */
+  color: white; /* 텍스트 색상 */
+}
+
+.result-box.lose {
+  background-color: #f44336; /* 빨간색 배경 */
+  color: white; /* 텍스트 색상 */
+}
+
 .champProfileBox {
   margin: 0;
   display: flex;
   flex-direction: column;
   justify-self: flex-start;
   align-items: center;
+  margin-right: 1vw;
 }
 .item-container {
   display: flex; /* Flexbox 사용 */
-  justify-content: center; /* 중앙 정렬 */
+  justify-content: flex-start; /* 중앙 정렬 */
   gap: 10px; /* 아이템 간격 조절 */
   flex-wrap: wrap; /* 줄 바꿈 허용 */
 }
@@ -240,13 +297,17 @@ header {
 .matchInfo-box {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between; /* 내부 요소들을 양 끝으로 정렬 */
   align-items: center;
-  gap: 2vw;
+  margin-bottom: 0.5vw;
+  width: 100%; /* 전체 너비를 사용하도록 설정 */
 }
+
 .textInfo-box {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  flex-grow: 1; /* 남은 공간을 채우도록 설정 */
 }
 .time-box {
   font-size: 0.8rem;
@@ -262,7 +323,7 @@ header {
 #recent-matches {
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: max-content;
   padding: 3px;
   max-height: 50%; /* 원하는 최대 높이 설정 */
   overflow-y: auto; /* 세로 스크롤 활성화 */
@@ -280,16 +341,11 @@ header {
   transition: background-color 0.3s ease;
   opacity: 0; /* 초기 투명도 설정 */
   animation: fadeIn 0.5s forwards; /* 애니메이션 추가 */
-  animation-delay: 0.2s; /* 딜레이 추가 */
+  animation-delay: 1s; /* 딜레이 추가 */
 }
 
 .match-item + .match-item {
   margin-top: 15px; /* 다음 항목과의 간격 추가 */
-}
-
-.match-details.open {
-  background-color: #333333;
-  border-width: 0;
 }
 
 .match-details {
@@ -309,6 +365,8 @@ header {
 
 .match-details.open {
   display: block;
+  background-color: #333333;
+  border-width: 0;
   max-height: 800px; /* 충분히 큰 값으로 설정하여 펼칠 때 공간을 차지하도록 */
   padding: 15px; /* 펼칠 때 패딩을 추가하여 내용을 돋보이게 함 */
 }
@@ -319,24 +377,26 @@ header {
   border-radius: 4px;
 }
 
-.matchChampLevel {
+.matchChampLevel,
+.timestamp {
   color: #949494;
 }
+
 .toggle-details {
   margin-top: 0.2vw;
-  background-color: #54708d; /* 버튼 배경색 */
+  background-color: #54708d2f; /* 버튼 배경색 */
   color: white; /* 글자색 */
   border: none; /* 테두리 없애기 */
   border-radius: 5px; /* 모서리 둥글게 */
   padding: 5px 10px; /* 여백 */
-  font-size: 10px; /* 글자 크기 */
+  font-size: 15px; /* 글자 크기 */
   cursor: pointer; /* 마우스 커서 모양 변경 */
   transition: background-color 0.3s, transform 0.2s; /* 배경색과 크기 변화 애니메이션 */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 }
 
 .toggle-details:hover {
-  background-color: #435a72; /* 호버 시 배경색 변화 */
+  background-color: #212427; /* 호버 시 배경색 변화 */
 }
 
 .toggle-details:active {
@@ -404,6 +464,20 @@ header {
   color: #b0b0b0;
 }
 
+.SR-container {
+  display: flex;
+  flex-direction: row;
+  margin-right: 3vw;
+  padding-bottom: 1vw;
+}
+.summoner-container {
+  display: flex;
+  flex-direction: column;
+}
+.rune-container {
+  display: flex;
+  flex-direction: column;
+}
 /* Responsive styles */
 @media (max-width: 768px) {
   .box {
@@ -413,8 +487,7 @@ header {
   }
 
   .profile-top {
-    width: 100%;
-    justify-content: flex-start;
+    width: 60%;
   }
 
   #refreshButton {
@@ -423,6 +496,7 @@ header {
   #recent-matches {
     display: block;
     max-height: 120vw;
+    width: 100%;
   }
   .match-item {
     flex-direction: column;
@@ -443,6 +517,7 @@ header {
     padding: 2vh 3%;
     overflow: hidden;
   }
+
   .side-info {
     flex-direction: row;
     width: 100%;
@@ -459,5 +534,35 @@ header {
     height: max-content;
     padding-left: 0;
     text-align: center;
+  }
+
+  .kda {
+    margin-left: auto;
+    padding: 1vw 5vw;
+  }
+}
+@media (max-width: 480px) {
+  .container {
+    padding: 1vh 2%;
+  }
+
+  #profileIcon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .match-item {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .match-item-content {
+    padding-left: 0;
+    text-align: center;
+  }
+  #recent-matches {
+    display: block;
+    max-height: 200vw;
+    width: 100%;
   }
 }

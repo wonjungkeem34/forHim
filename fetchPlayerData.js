@@ -10,6 +10,8 @@ import { rankKo } from "./data/const/rankTypes";
 import { calculateGameEndTime } from "./calculateGameEndTime";
 import { calculateWinRate } from "./calculateWinRate";
 import { tierProcessing } from "./tierProcessing";
+import { findSummonerImg } from "./findSummoner";
+import { findRuneImg } from "./findRune";
 const api_key = import.meta.env.VITE_RIOT_API_KEY;
 
 const REQUEST_HEADERS = {
@@ -161,24 +163,22 @@ export async function fetchPlayerData() {
 
   if (allGamesID.length > 0) {
     // 10개의 최근 매치 정보를 병렬로 가져오기
-    const recentMatchesPromises = allGamesID
-      .slice(0, 10)
-      .map(async (gameId) => {
-        const matchDetailResponse = await fetch(
-          `/puuid/lol/match/v5/matches/${gameId}`,
-          {
-            headers: REQUEST_HEADERS,
-          }
-        );
-
-        if (!matchDetailResponse.ok) {
-          const errorText = await matchDetailResponse.text();
-          console.error("Error response:", errorText);
-          return null;
+    const recentMatchesPromises = allGamesID.slice(0, 6).map(async (gameId) => {
+      const matchDetailResponse = await fetch(
+        `/puuid/lol/match/v5/matches/${gameId}`,
+        {
+          headers: REQUEST_HEADERS,
         }
+      );
 
-        return await matchDetailResponse.json();
-      });
+      if (!matchDetailResponse.ok) {
+        const errorText = await matchDetailResponse.text();
+        console.error("Error response:", errorText);
+        return null;
+      }
+
+      return await matchDetailResponse.json();
+    });
 
     // 병렬로 요청을 처리한 결과를 기다림
     const recentMatches = await Promise.all(recentMatchesPromises);
@@ -198,54 +198,68 @@ export async function fetchPlayerData() {
       }
 
       const participant = teamInfo.participant;
+      console.log(participant);
       const matchDiv = document.createElement("div");
       matchDiv.className = "match-item";
+
       const queueName = await findQueueName(match.info.queueId);
       const mapName = await findMapName(match.info.mapId);
 
       const gameEndTime = calculateGameEndTime(match.info.gameEndTimestamp);
 
       // 매치 아이템 HTML
+      // 매치 아이템 HTML
       matchDiv.innerHTML = `
-      <div>
-       <div class="time-box">
+ <div >
+
+  <div class="Top-matchInfo">
+    <div class="time-box">
       ${gameEndTime}
     </div>
-
-      <div class="matchInfo-box">
-       
-        <div class="champProfileBox">
-          <img
-          id="championIcon-${index}"  // 고유 ID 생성
-          alt="${participant.championName} Icon"
-        />
+       <div class="result-box ${teamInfo.win ? "win" : "lose"}">
+        <p>${teamInfo.win ? "승리" : "패배"}</p>
+      </div>
+          </div>
+    <div class="matchInfo-box">
+      <div class="champProfileBox">
+        <img id="championIcon-${index}" alt="${
+        participant.championName
+      } Icon" />
         <p class="matchChampLevel">Level : ${participant.champLevel}</p>
-        </div>
-
-        <div class="textInfo-box">
+      </div>
+      <div class="textInfo-box">
         <div class="queueWinLose">
-        <p>${queueName}</p>
-        <p style="color: ${teamInfo.win ? "green" : "red"};">
-        ${teamInfo.win ? "승리" : "패배"}
-        </p>
-        </div>
-        <p>지속 시간: ${Math.floor(match.info.gameDuration / 60)}분 ${
+          <p>${queueName}</p>
+          <p style="color: ${
+            teamInfo.win ? "green" : "red"
+          }; font-weight:"bold"">
+            ${teamInfo.win ? "승리" : "패배"}
+       <p class="timestamp">
+  ${String(Math.floor(match.info.gameDuration / 60)).padStart(2, "0")}:${String(
         match.info.gameDuration % 60
-      }초</p>
-     
-        <p>${mapName}</p>
-        <p>Champion: ${participant.championName}</p>
-        <p>K ${participant.kills}</p>
-        <p>D ${participant.deaths}</p>
-        <p>A ${participant.assists}</p>
-        <p>Gold ${participant.goldEarned}</p>
+      ).padStart(2, "0")}
+</p>
+
         </div>
+   
+        <!--<p>${mapName}</p>-->
+        <div class="kda">
+        <p>${participant.kills}</p>
+        <p>/</p>
+        <p>${participant.deaths}</p>
+           <p>/</p>
+        <p>${participant.assists}</p>
+        </div>
+         <!-- <p>Gold ${participant.goldEarned}</p>-->
       </div>
     </div>
-      `;
+  </div>
+`;
 
+      // 챔피언 이미지 추가
       findChampionImg(participant.championName, index, version);
 
+      // 아이템 컨테이너 생성
       const itemContainer = document.createElement("div");
       itemContainer.className = "item-container"; // 클래스 이름 추가
       for (let i = 0; i < 6; i++) {
@@ -255,15 +269,78 @@ export async function fetchPlayerData() {
         itemContainer.appendChild(itemImg);
       }
       matchDiv.appendChild(itemContainer);
+
+      // recentMatchesContainer에 matchDiv 추가
       recentMatchesContainer.appendChild(matchDiv);
 
+      // 아이템 이미지 업데이트
       for (let i = 0; i < 6; i++) {
         await findItemImg(participant[`item${i}`], index, i, version);
       }
+
+      // Summoner and Rune Container 생성
+      const summonerAndRuneContainer = document.createElement("div");
+      summonerAndRuneContainer.className = "SR-container";
+
+      // SummonerContainer 생성
+      const summonerContainer = document.createElement("div");
+      summonerContainer.className = "summoner-container";
+
+      // 주문 이미지 추가
+      for (let i = 0; i < 2; i++) {
+        const summonerImg = document.createElement("img");
+        summonerImg.id = `SummonerIcon-${index}_${i}`;
+        summonerImg.alt = `Summoner ${i + 1}`; // alt 텍스트 수정
+        summonerContainer.appendChild(summonerImg);
+      }
+
+      // 룬 컨테이너 생성
+      const runeContainer = document.createElement("div");
+      runeContainer.className = "rune-container";
+
+      // 룬 이미지 추가
+      for (let i = 0; i < 2; i++) {
+        const runeImg = document.createElement("img");
+        runeImg.id = `RuneIcon-${index}_${i}-${i === 0 ? "main" : "sub"}`;
+        runeImg.alt = `Rune ${i === 0 ? "Main" : "Sub"}`; // alt 텍스트 수정
+        runeContainer.appendChild(runeImg);
+      }
+
+      // summonerAndRuneContainer에 summonerContainer와 runeContainer 추가
+      summonerAndRuneContainer.appendChild(summonerContainer);
+      summonerAndRuneContainer.appendChild(runeContainer);
+
+      // matchInfo-box에 summonerAndRuneContainer 추가
+      const matchInfoBox = matchDiv.querySelector(".matchInfo-box");
+      const champProfileBox = matchDiv.querySelector(".champProfileBox");
+      matchInfoBox.insertBefore(
+        summonerAndRuneContainer,
+        champProfileBox.nextSibling
+      );
+
+      // 주문 이미지 업데이트
+      for (let i = 0; i < 2; i++) {
+        await findSummonerImg(
+          participant[`summoner${i + 1}Id`],
+          index,
+          i,
+          version
+        );
+      }
+
+      // 룬 이미지 업데이트
+      const firstStyle = participant.perks.styles[0].selections[0].perk;
+      const secondStyle = participant.perks.styles[1].style;
+      await findRuneImg(firstStyle, index, 0, version);
+      await findRuneImg(secondStyle, index, 1, version);
+
       matchDiv.innerHTML += `
-      <button class="toggle-details">펼치기</button>
+      <div>
+        <div style="text-align: right;">
+        <button class="toggle-details">open</button>
+    </div>
       <div class="match-details" style="display: none;">
-          <p class="bold">상세 전적 정보</p> 
+          <p class="bold" style="text-align:left">상세 전적 정보</p> 
           <p>포지션 : ${participant.teamPosition}</p>
           <p>챔피언 경험치 : ${participant.champExperience} </p>
           <p>제어 와드 설치 : ${participant.detectorWardsPlaced} 🛡️</p>
@@ -309,6 +386,7 @@ export async function fetchPlayerData() {
           <p>최장 생존 시간 : ${participant.longestTimeSpentLiving} 초 ⏱️</p>
           <p>팀 승리 여부: ${participant.win ? "🏆 승리" : "💔 패배"}</p>
       </div>
+      </div>
   `;
     });
   }
@@ -321,21 +399,17 @@ document.addEventListener("DOMContentLoaded", function () {
   // matchDiv 각각에 대해 버튼 클릭 시 토글 기능을 추가
   recentMatchesContainer.addEventListener("click", function (event) {
     if (event.target.classList.contains("toggle-details")) {
-      // 토글 버튼 클릭 시 작동
-      const matchDetailsDiv = event.target.nextElementSibling;
+      // 클릭된 버튼의 가장 가까운 부모 matchDiv에서 .match-details를 찾음
+      const matchDetailsDiv = event.target.closest("div").nextElementSibling;
 
       if (matchDetailsDiv.classList.contains("open")) {
         matchDetailsDiv.classList.remove("open"); // 상세 정보 숨기기
-        event.target.textContent = "펼치기"; // 버튼 텍스트 변경
+        event.target.textContent = "open"; // 버튼 텍스트 변경
+        matchDetailsDiv.style.display = "none"; // 숨길 때 display를 none으로 변경
       } else {
         matchDetailsDiv.classList.add("open"); // 상세 정보 펼치기
-        event.target.textContent = "접기"; // 버튼 텍스트 변경
-      }
-
-      if (matchDetailsDiv.classList.contains("open")) {
+        event.target.textContent = "close"; // 버튼 텍스트 변경
         matchDetailsDiv.style.display = "block"; // 펼칠 때 display를 block으로 변경
-      } else {
-        matchDetailsDiv.style.display = "none"; // 숨길 때 display를 none으로 변경
       }
     }
   });

@@ -16,7 +16,7 @@ const handleRefreshButtonClick = async () => {
 
   await fetchPlayerData(); // 데이터 새로 고침
 
-  let countdown = 5; // 카운트다운 시간 (초)
+  let countdown = 10; // 카운트다운 시간 (초)
   countdownElement.style.display = "block";
   countdownElement.innerText = `재시도 가능: ${countdown}초`;
 
