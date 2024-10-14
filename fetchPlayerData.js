@@ -8,6 +8,8 @@ import { findItemImg } from "./findItem";
 import { findQueueName, findMapName } from "./findQueueMap";
 import { rankKo } from "./data/const/rankTypes";
 import { calculateGameEndTime } from "./calculateGameEndTime";
+import { calculateWinRate } from "./calculateWinRate";
+import { tierProcessing } from "./tierProcessing";
 const api_key = import.meta.env.VITE_RIOT_API_KEY;
 
 const REQUEST_HEADERS = {
@@ -90,26 +92,33 @@ export async function fetchPlayerData() {
   const playerInfo = await leagueResponse.json();
 
   // Consolidate tier and rank fetching
-  const tier = playerInfo[0]?.tier || "Unranked";
-  const rank = playerInfo[0]?.rank || "";
+  const tier = playerInfo[0].tier || "unranked";
+  const [, color] = tierProcessing(tier, playerInfo[0].rank) || "";
   const leaguePoints = playerInfo[0]?.leaguePoints || 0;
   const wins = playerInfo[0]?.wins || 0;
   const losses = playerInfo[0]?.losses || 0;
+  const winRate = calculateWinRate(wins, losses);
   const queueType = rankKo[playerInfo[0]?.queueType] || "";
   const summonerLevel = player["summonerLevel"];
 
-  document.getElementById("queueType").innerText = queueType;
-  document.getElementById("tier").innerText = tier;
-  document.getElementById("rank").innerText = rank;
-  document.getElementById("leaguePoints").innerText = leaguePoints;
-  document.getElementById("wins").innerText = wins;
-  document.getElementById("losses").innerText = losses;
-  document.getElementById("summonerLevel").innerText = summonerLevel;
-  document.querySelector(".rank-info p:nth-child(2)").style.display = "block"; // 티어와 랭크
-  document.querySelector(".rank-info p:nth-child(3)").style.display = "block"; // LP
-  document.querySelector(".rank-info p:nth-child(4)").style.display = "block"; // 승, 패
-  document.querySelector("#summonerLevel").style.display = "block";
+  const tierElement = document.getElementById("tier");
+  const rankElement = document.getElementById("rank");
+  tierElement.style.color = color;
+  rankElement.style.color = color;
+
   const rankImagePath = `./data/img/rank/Rank=${tier}.png`;
+
+  document.getElementById("queueType").innerText = queueType;
+  tierElement.innerText = tier;
+  rankElement.innerText = playerInfo[0].rank;
+  document.getElementById("leaguePoints").innerText = leaguePoints + "LP";
+  document.getElementById("wins").innerText = wins + " 승";
+  document.getElementById("losses").innerText = losses + " 패";
+  document.getElementById("winRate").innerText = winRate + "%";
+  document.getElementById("summonerLevel").innerText = summonerLevel;
+  document.querySelector(".rank-info p:nth-child(1)").style.display = "block"; // 티어와 랭크, LP
+  document.querySelector(".rank-info p:nth-child(2)").style.display = "block"; // 승률
+  document.querySelector("#summonerLevel").style.display = "block";
 
   profileIconElement.addEventListener("mouseover", () => {
     profileIconElement.classList.add("hovered");
@@ -151,23 +160,25 @@ export async function fetchPlayerData() {
   }
 
   if (allGamesID.length > 0) {
-    // 5개의 최근 매치 정보를 병렬로 가져오기
-    const recentMatchesPromises = allGamesID.slice(0, 5).map(async (gameId) => {
-      const matchDetailResponse = await fetch(
-        `/puuid/lol/match/v5/matches/${gameId}`,
-        {
-          headers: REQUEST_HEADERS,
+    // 10개의 최근 매치 정보를 병렬로 가져오기
+    const recentMatchesPromises = allGamesID
+      .slice(0, 10)
+      .map(async (gameId) => {
+        const matchDetailResponse = await fetch(
+          `/puuid/lol/match/v5/matches/${gameId}`,
+          {
+            headers: REQUEST_HEADERS,
+          }
+        );
+
+        if (!matchDetailResponse.ok) {
+          const errorText = await matchDetailResponse.text();
+          console.error("Error response:", errorText);
+          return null;
         }
-      );
 
-      if (!matchDetailResponse.ok) {
-        const errorText = await matchDetailResponse.text();
-        console.error("Error response:", errorText);
-        return null;
-      }
-
-      return await matchDetailResponse.json();
-    });
+        return await matchDetailResponse.json();
+      });
 
     // 병렬로 요청을 처리한 결과를 기다림
     const recentMatches = await Promise.all(recentMatchesPromises);
@@ -236,6 +247,7 @@ export async function fetchPlayerData() {
       findChampionImg(participant.championName, index, version);
 
       const itemContainer = document.createElement("div");
+      itemContainer.className = "item-container"; // 클래스 이름 추가
       for (let i = 0; i < 6; i++) {
         const itemImg = document.createElement("img");
         itemImg.id = `ItemIcon-${index}_${i}`;

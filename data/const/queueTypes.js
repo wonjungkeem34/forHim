@@ -4,7 +4,7 @@ const QueueKo = {
   "5v5 Draft Pick games": "일반",
   "5v5 Blind Pick games": "일반",
   "5v5 Ranked Solo games": "솔로 랭크",
-  "5v5 ARAM games": "칼바람",
+  "5v5 ARAM games": "무작위 총력전",
   "5v5 Ranked Flex games": "자유 랭크",
   "Summoner's Rift Clash games": "격전",
   "ARAM Clash games": "격전",

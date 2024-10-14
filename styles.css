@@ -1,5 +1,6 @@
 body {
-  background-color: #f0f0f0;
+  background-color: #1e1e1e;
+  color: #f5f5f5;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -9,11 +10,9 @@ body {
 .box {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+
   border-radius: 10px;
-  background-color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   flex-shrink: 0;
   opacity: 0; /* 초기 투명도 설정 */
@@ -21,22 +20,20 @@ body {
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background: linear-gradient(
     to right,
-    #5eafe7 0%,
-    #5eafe7 49%,
-    #c9122d 51%,
-    #c9122d 100%
+    #1e1e1e 0%,
+    #24608a 49%,
+    #24608a 51%,
+    #1e1e1e 100%
   );
-  color: white;
+  color: #f5f5f5;
+  margin: 0;
   padding: 1vw 2vw;
   text-align: center;
   font-size: 1rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
-  border-radius: 8px; /* 모서리 둥글게 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8); /* 그림자 어둡게 */
+  border-radius: 8px;
 }
 
 .container {
@@ -51,8 +48,12 @@ header {
 
 .side-info {
   margin-top: 1vw;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  background-color: white;
+  margin-right: 2vw;
+  border-radius: 8px;
+  background-color: rgb(34, 34, 44);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid #444444;
+  color: #f5f5f5;
   display: flex;
   height: max-content;
   flex-direction: column;
@@ -106,14 +107,15 @@ header {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 6px solid #dfdfdf;
+  border: 3px solid #747474;
+  margin-bottom: 1vw;
 }
 
 #profileIcon.hovered {
   border-radius: 50%;
-  background: white;
-  border-width: 6px;
-  border-color: #dfdfdf;
+  background: rgba(255, 255, 255, 0.116);
+  border-width: 3px;
+  border-color: #747474;
 }
 
 .profile-icon img {
@@ -125,11 +127,13 @@ header {
 }
 
 .user-info {
-  background-color: #ffffff;
-  border-radius: 10px;
   padding: 20px;
 }
-
+.rank-info hr {
+  border: none;
+  border-top: 1px solid #ffffff;
+  margin: 10px 0;
+}
 .user-info p {
   display: flex;
   align-items: center;
@@ -139,7 +143,7 @@ header {
   margin: auto 0;
   font-size: 1.2rem;
   margin-right: 2px;
-  color: #003366;
+  color: #f5f5f5;
   font-weight: bold;
   display: inline;
 }
@@ -147,19 +151,18 @@ header {
 #tagLine {
   margin: auto 0;
   font-size: 1.2rem;
-  color: #949494;
+  color: #b0b0b0;
   display: inline;
 }
-
 #queueType {
   font-weight: normal;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
-
-.queue-label {
-  font-weight: bold;
+#winRate {
+  font-size: 1.1rem;
+  color: #4caf50; /* Green color for win rate */
+  margin-right: 0.5vw;
 }
-
 #refreshButton {
   background-image: url("./data/img/refreshButton/button-replay-normal.png"); /* 기본 상태 이미지 */
   background-size: contain; /* 이미지가 버튼 크기에 맞춰 조정되도록 설정 */
@@ -202,13 +205,6 @@ header {
   color: #666666; /* 비활성 텍스트 색상 */
   cursor: not-allowed; /* 비활성 시 커서 변경 */
 }
-
-h3 {
-  font-size: 1.2rem;
-  color: #003366;
-  margin-bottom: 1rem;
-}
-
 #summonerLevel {
   position: absolute;
   bottom: 0;
@@ -216,22 +212,35 @@ h3 {
   transform: translateX(-50%) translateY(-40%);
   background-color: rgba(0, 51, 102, 0.8);
   color: white;
+
   padding: 2px 8px;
   border-radius: 10px;
   font-size: 0.8rem;
-  border: 1px solid #bbbbbb;
+  border: 1px solid #555555;
   z-index: 10;
 }
 .champProfileBox {
   margin: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-self: flex-start;
   align-items: center;
+}
+.item-container {
+  display: flex; /* Flexbox 사용 */
+  justify-content: center; /* 중앙 정렬 */
+  gap: 10px; /* 아이템 간격 조절 */
+  flex-wrap: wrap; /* 줄 바꿈 허용 */
+}
+
+.item-container img {
+  width: 30px; /* 아이템 이미지 크기 */
+  height: 30px; /* 아이템 이미지 크기 */
 }
 .matchInfo-box {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   align-items: center;
   gap: 2vw;
 }
@@ -242,7 +251,7 @@ h3 {
 .time-box {
   font-size: 0.8rem;
   opacity: 0.5;
-  width: 6rem;
+  width: max-content;
   text-align: center;
   color: gray;
   padding: 8px 3px;
@@ -250,21 +259,12 @@ h3 {
   margin-bottom: 10px; /* 아래 요소와의 간격을 위해 */
 }
 
-#queueType,
-#tier,
-#rank,
-#leaguePoints,
-#wins,
-#losses {
-  font-weight: bold;
-}
-
 #recent-matches {
   display: flex;
   flex-direction: column;
   width: 90%;
   padding: 3px;
-  max-height: 80vw; /* 원하는 최대 높이 설정 */
+  max-height: 50%; /* 원하는 최대 높이 설정 */
   overflow-y: auto; /* 세로 스크롤 활성화 */
   margin-top: 10px; /* 상단 여백 추가 */
   scrollbar-color: transparent transparent;
@@ -272,26 +272,28 @@ h3 {
 
 .match-item {
   display: block;
-  margin-bottom: 10px; /* 전적 항목 간격 조정 */
   padding: 15px;
   border-radius: 8px;
-  background-color: #ffffff; /* 항목 배경색 */
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* 항목 그림자 */
+  background-color: #2c2c2c;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  border: 2px solid #444444;
+  transition: background-color 0.3s ease;
   opacity: 0; /* 초기 투명도 설정 */
   animation: fadeIn 0.5s forwards; /* 애니메이션 추가 */
   animation-delay: 0.2s; /* 딜레이 추가 */
-  border: 1px solid #e0e0e0; /* 경계선 추가 */
 }
+
 .match-item + .match-item {
   margin-top: 15px; /* 다음 항목과의 간격 추가 */
 }
 
 .match-details.open {
-  background-color: #f9f9f9; /* 펼쳐질 때 배경색 변경 */
+  background-color: #333333;
+  border-width: 0;
 }
 
 .match-details {
-  background-color: #f9f9f9; /* 배경 색 */
+  background-color: #333333;
   border: 1px solid #ddd; /* 테두리 */
   border-radius: 8px; /* 모서리 둥글게 */
   padding: 15px; /* 내부 여백 */
@@ -305,9 +307,6 @@ h3 {
   margin: 5px 0; /* 단락 간격 */
 }
 
-.match-details p.bold {
-  font-weight: bold; /* 강조할 부분 */
-}
 .match-details.open {
   display: block;
   max-height: 800px; /* 충분히 큰 값으로 설정하여 펼칠 때 공간을 차지하도록 */
@@ -324,19 +323,20 @@ h3 {
   color: #949494;
 }
 .toggle-details {
-  background-color: #007bff; /* 버튼 배경색 */
+  margin-top: 0.2vw;
+  background-color: #54708d; /* 버튼 배경색 */
   color: white; /* 글자색 */
   border: none; /* 테두리 없애기 */
   border-radius: 5px; /* 모서리 둥글게 */
-  padding: 8px 15px; /* 여백 */
-  font-size: 13px; /* 글자 크기 */
+  padding: 5px 10px; /* 여백 */
+  font-size: 10px; /* 글자 크기 */
   cursor: pointer; /* 마우스 커서 모양 변경 */
   transition: background-color 0.3s, transform 0.2s; /* 배경색과 크기 변화 애니메이션 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
 }
 
 .toggle-details:hover {
-  background-color: #0056b3; /* 호버 시 배경색 변화 */
+  background-color: #435a72; /* 호버 시 배경색 변화 */
 }
 
 .toggle-details:active {
@@ -358,9 +358,6 @@ h3 {
   text-align: center;
 }
 
-.match-item p:nth-child(2) {
-  font-weight: bold;
-}
 .nav {
   display: flex;
   gap: 15px;
@@ -373,8 +370,38 @@ h3 {
   transition: color 0.3s ease;
 }
 
-.nav a:hover {
-  color: #e60012;
+.rank-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.rank {
+  margin: 5px 0;
+  display: flex;
+  align-items: center;
+}
+.rank-value {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #f5f5f5;
+}
+#tier,
+#rank {
+  font-size: 1.4rem; /* 티어와 랭크 강조 */
+  font-weight: 700; /* 두꺼운 폰트 */
+}
+#leaguePoints {
+  font-size: 0.9rem; /* 작은 글씨 */
+  font-weight: normal;
+  color: #a0a0a0; /* 연한 색상 */
+  margin-top: 5px;
+}
+
+#wins,
+#losses {
+  font-size: 0.8rem; /* 작은 글씨로 조정 */
+  color: #b0b0b0;
 }
 
 /* Responsive styles */
@@ -387,25 +414,41 @@ h3 {
 
   .profile-top {
     width: 100%;
-    margin-bottom: 10px;
+    justify-content: flex-start;
   }
 
   #refreshButton {
     width: 70%;
   }
   #recent-matches {
-    max-height: 60vw;
+    display: block;
+    max-height: 120vw;
   }
   .match-item {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .container {
-    flex-direction: column;
-    padding: 2vh 3%;
+  #profileIcon {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #747474;
+    margin-bottom: 1vw;
   }
 
+  .container {
+    flex-direction: column;
+    align-items: center;
+    padding: 2vh 3%;
+    overflow: hidden;
+  }
+  .side-info {
+    flex-direction: row;
+    width: 100%;
+    margin: 0;
+    padding: 10px 0 0 0;
+  }
   .main-content {
     width: 100%;
     max-width: none;
@@ -413,6 +456,7 @@ h3 {
   }
 
   .match-item-content {
+    height: max-content;
     padding-left: 0;
     text-align: center;
   }
