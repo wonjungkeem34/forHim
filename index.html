@@ -12,20 +12,11 @@
   </head>
   <body>
     <header>
-      <div class="rank-container">
-        <img
-          id="rankImage"
-          alt="Rank"
-          width="80"
-          height="80"
-          style="display: none"
-        />
-      </div>
       <nav class="nav">
-        <a href="#home">홈</a>
-        <a href="#about">소개</a>
-        <a href="#matches">전적</a>
+        <a href="#home">  <img src="./data/img/nav-icon-collections.svg" alt="홈 아이콘" /></a>
+        <a href="#about">  <img src="./data/img/nav-icon-profile.svg" alt="프로필아이콘" /></a>
       </nav>
+      
     </header>
     <div class="container">
       <div class="side-info" id="summoner-info">
@@ -33,10 +24,11 @@
           <div class="profile-icon">
             <img
               id="profileIcon"
-              src="https://pbs.twimg.com/media/GY928sCbAAIfTYH?format=png&name=small"
-              alt=""
+              alt="Profile Icon"
+              src="./data/img/empty-icon.png"
             />
-            <div id="summonerLevel"></div>
+
+            <div id="summonerLevel" style="display: none"></div>
           </div>
           <div>
             <p id="gameName"></p>
@@ -51,42 +43,45 @@
               margin-bottom: 0;
             "
           ></div>
-          <button id="refreshButton">전적 갱신</button>
+          <button id="refreshButton">
+            <span class="button-image"></span>
+          </button>
         </div>
         <div class="user-info">
           <hr />
           <div class="rank-info">
-            <p>
+            <p class="rank">
               <span class="queue-label"></span>
-              <span id="queueType"></span>
+              <span id="queueType" class="rank-value"></span>
             </p>
-            <p style="display: none">
-              <span class="queue-label"></span> <span id="tier"></span>
-              <span id="rank"></span>
-            </p>
-            <p style="display: none">
+            <p class="rank">
               <span class="queue-label"></span>
-              <span id="leaguePoints"></span> LP
+              <span id="tier" class="rank-value"></span>
+              <span id="rank" class="rank-value"></span>
             </p>
-            <p style="display: none">
+            <p class="rank">
+              <span class="queue-label">LP</span>
+              <span id="leaguePoints" class="rank-value"></span>
+            </p>
+            <p class="rank">
               <span class="queue-label"></span>
-              <span id="wins"></span> 승 <span id="losses"></span> 패
+              <span id="wins" class="rank-value"></span> 승
+              <span id="losses" class="rank-value"></span> 패
             </p>
           </div>
         </div>
+        
       </div>
       <div class="main-content">
         <div class="box">
           <h3>최근 전적</h3>
+
           <div id="recent-matches">
-            <div id="match-item" style="display: none"></div>
-          </div>
+            
         </div>
       </div>
     </div>
-    <footer>
-      <p>&copy; wonjungkeem34</p>
-    </footer>
+
     <script type="module" src="./main.js"></script>
   </body>
 </html>

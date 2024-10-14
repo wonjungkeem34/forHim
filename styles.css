@@ -11,106 +11,55 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   flex-shrink: 0;
+  opacity: 0; /* 초기 투명도 설정 */
+  animation: fadeIn 0.5s forwards; /* 애니메이션 추가 */
 }
 
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #003366; /* Darker blue from the logo 003366 */
+  background: linear-gradient(
+    to right,
+    #5eafe7 0%,
+    #5eafe7 49%,
+    #c9122d 51%,
+    #c9122d 100%
+  );
   color: white;
   padding: 1vw 2vw;
   text-align: center;
   font-size: 1rem;
-}
-
-.rank-info {
-  width: 100%;
-}
-
-.rank-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  position: relative;
-}
-
-.rank-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 50%;
-  border: 6px solid transparent;
-  background: linear-gradient(
-      to bottom,
-      #5eafe7 0%,
-      #5eafe7 49%,
-      #c9122d 51%,
-      #c9122d 100%
-    )
-    border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-}
-
-.rank-container:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-.rank-container img {
-  width: 80%;
-  height: auto;
-  border-radius: 50%;
-  object-fit: cover;
-  border-radius: 50%;
-  background-color: rgba(85, 85, 85, 0.267);
-}
-
-footer {
-  background-color: #003366; /* Darker blue from the logo */
-  color: white;
-  padding: 2% 1vw;
-  text-align: center;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  margin-top: auto;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+  border-radius: 8px; /* 모서리 둥글게 */
 }
 
 .container {
   display: flex;
-  padding: 2vh 15%;
+  padding: 2vh 10%;
   max-width: 100%;
   height: 100vh;
-  overflow: hidden;
   flex-direction: row;
   justify-content: flex-start;
+  overflow-y: auto; /* 세로 스크롤 활성화 */
 }
 
 .side-info {
+  margin-top: 1vw;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   background-color: white;
   display: flex;
+  height: max-content;
   flex-direction: column;
   flex-shrink: 0;
-  padding: 2vh 5%;
+  padding: 2vh 2%;
   position: sticky;
   top: 0;
-  overflow-y: auto;
 }
 
 .main-content {
@@ -119,48 +68,66 @@ footer {
   margin-right: 1vw;
   margin-top: 1vw;
   max-width: calc(100% - 250px);
-  overflow-y: auto;
 }
 
-.main-content::-webkit-scrollbar {
-  width: 0;
-}
-
-.main-content::-webkit-scrollbar-thumb {
-  background: transparent;
-}
-/* User profile styles */
 .profile-top {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  opacity: 0; /* 초기 투명도 설정 */
+  animation: fadeIn 0.5s forwards; /* 애니메이션 추가 */
+  animation-delay: 0.3s; /* 딜레이 추가 */
+}
+.queueWinLose {
+  display: flex;
+  flex-direction: column;
+  margin-right: 1vw;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px); /* 아래에서 올라오는 효과 */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .profile-icon {
   position: relative;
   display: inline-block;
+  overflow: hidden;
+  background-color: transparent;
 }
 
 #profileIcon {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 4px solid #709ab8; /* Red border to match the logo */
+  border: 6px solid #dfdfdf;
+}
+
+#profileIcon.hovered {
+  border-radius: 50%;
+  background: white;
+  border-width: 6px;
+  border-color: #dfdfdf;
 }
 
 .profile-icon img {
-  width: 120px;
-  height: 120px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
   border-radius: 50%;
-  position: relative;
+  background-color: rgba(255, 255, 255, 0.062);
 }
 
 .user-info {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
 }
 
 .user-info p {
@@ -172,7 +139,7 @@ footer {
   margin: auto 0;
   font-size: 1.2rem;
   margin-right: 2px;
-  color: #003366; /* Darker blue from the logo */
+  color: #003366;
   font-weight: bold;
   display: inline;
 }
@@ -180,7 +147,7 @@ footer {
 #tagLine {
   margin: auto 0;
   font-size: 1.2rem;
-  color: #949494; /* Red color from the logo */
+  color: #949494;
   display: inline;
 }
 
@@ -194,47 +161,52 @@ footer {
 }
 
 #refreshButton {
-  background-color: #5eafe7; /* Red color from the logo */
-  color: white;
-  border: none;
-  width: 70%;
-  padding: 8px 15px;
-  margin-top: 10px;
-  border-radius: 3px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  background-image: url("./data/img/refreshButton/button-replay-normal.png"); /* 기본 상태 이미지 */
+  background-size: contain; /* 이미지가 버튼 크기에 맞춰 조정되도록 설정 */
+  background-repeat: no-repeat; /* 이미지 반복 방지 */
+  background-position: center; /* 이미지 중앙 정렬 */
+  background-color: transparent; /* 배경색 투명하게 설정 */
+  color: white; /* 텍스트 색상 */
+  border: none; /* 테두리 제거 */
+  width: 40px; /* 버튼 너비 */
+  height: 40px; /* 버튼 높이 조정 */
+  padding: 0; /* 패딩 제거 */
+  border-radius: 3px; /* 둥근 모서리 */
+  font-size: 0.8rem; /* 폰트 크기 */
+  cursor: pointer; /* 커서 변경 */
+  transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+  opacity: 0; /* 초기 투명도 설정 */
+  animation: fadeIn 0.5s forwards; /* 애니메이션 추가 */
+  animation-delay: 0.5s; /* 딜레이 추가 */
+  transform-origin: center;
 }
 
+/* 호버 상태 */
 #refreshButton:hover {
-  background-color: #003366; /* Darker blue from the logo */
+  background-image: url("./data/img/refreshButton/button-replay-hover.png"); /* 호버 상태 이미지 */
 }
 
+/* 클릭 상태 */
+#refreshButton:active {
+  background-image: url("./data/img/refreshButton/button-replay-click.png"); /* 클릭 상태 이미지 */
+}
+
+/* 포커스 상태 */
 #refreshButton:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(230, 0, 18, 0.5); /* Red shadow */
+  outline: none; /* 포커스 아웃라인 제거 */
 }
 
+/* 비활성 상태 */
 #refreshButton:disabled {
-  background-color: #cccccc;
-  color: #666666;
-  cursor: not-allowed;
+  background-image: url("./data/img/refreshButton/button-replay-disabled.png"); /* 비활성 상태 이미지 */
+  color: #666666; /* 비활성 텍스트 색상 */
+  cursor: not-allowed; /* 비활성 시 커서 변경 */
 }
 
 h3 {
   font-size: 1.2rem;
-  color: #003366; /* Darker blue from the logo */
+  color: #003366;
   margin-bottom: 1rem;
-}
-
-.win {
-  background-color: rgba(103, 190, 76, 0.3); /* Light blue background */
-  border-left: 5px solid #003366; /* Darker blue border */
-}
-
-.lose {
-  background-color: rgba(230, 0, 18, 0.3); /* Light red background */
-  border-left: 5px solid #e60012; /* Red border */
 }
 
 #summonerLevel {
@@ -242,13 +214,40 @@ h3 {
   bottom: 0;
   left: 50%;
   transform: translateX(-50%) translateY(-40%);
-  background-color: rgba(0, 51, 102, 0.8); /* Darker blue background */
+  background-color: rgba(0, 51, 102, 0.8);
   color: white;
   padding: 2px 8px;
   border-radius: 10px;
   font-size: 0.8rem;
-  border: 1px solid #bbbbbb; /* Red border */
+  border: 1px solid #bbbbbb;
   z-index: 10;
+}
+.champProfileBox {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.matchInfo-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2vw;
+}
+.textInfo-box {
+  display: flex;
+  flex-direction: row;
+}
+.time-box {
+  font-size: 0.8rem;
+  opacity: 0.5;
+  width: 6rem;
+  text-align: center;
+  color: gray;
+  padding: 8px 3px;
+  border-radius: 5px;
+  margin-bottom: 10px; /* 아래 요소와의 간격을 위해 */
 }
 
 #queueType,
@@ -260,36 +259,88 @@ h3 {
   font-weight: bold;
 }
 
-/* Match styles */
 #recent-matches {
   display: flex;
   flex-direction: column;
   width: 90%;
   padding: 3px;
-  flex-shrink: 0;
-  overflow: hidden;
+  max-height: 80vw; /* 원하는 최대 높이 설정 */
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+  margin-top: 10px; /* 상단 여백 추가 */
+  scrollbar-color: transparent transparent;
 }
 
 .match-item {
-  display: flex;
-  margin-bottom: 20px;
+  display: block;
+  margin-bottom: 10px; /* 전적 항목 간격 조정 */
   padding: 15px;
   border-radius: 8px;
-  /* background-color: #f1f1f1; */
-  position: relative;
-  overflow: hidden;
-  height: auto;
-  max-width: 100%;
-  flex-shrink: 0; /* 추가: match-item 크기가 줄어들지 않도록 설정 */
-  box-sizing: border-box; /* 추가: 내부 패딩을 포함한 크기 계산 */
-  overflow: hidden; /* 추가: 내부 콘텐츠가 넘치지 않도록 설정 */
+  background-color: #ffffff; /* 항목 배경색 */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* 항목 그림자 */
+  opacity: 0; /* 초기 투명도 설정 */
+  animation: fadeIn 0.5s forwards; /* 애니메이션 추가 */
+  animation-delay: 0.2s; /* 딜레이 추가 */
+  border: 1px solid #e0e0e0; /* 경계선 추가 */
+}
+.match-item + .match-item {
+  margin-top: 15px; /* 다음 항목과의 간격 추가 */
 }
 
+.match-details.open {
+  background-color: #f9f9f9; /* 펼쳐질 때 배경색 변경 */
+}
+
+.match-details {
+  background-color: #f9f9f9; /* 배경 색 */
+  border: 1px solid #ddd; /* 테두리 */
+  border-radius: 8px; /* 모서리 둥글게 */
+  padding: 15px; /* 내부 여백 */
+  margin-top: 10px; /* 위쪽 여백 */
+  font-family: "Arial", sans-serif; /* 폰트 스타일 */
+  font-size: 14px; /* 폰트 크기 */
+  line-height: 1.6; /* 줄 간격 */
+}
+
+.match-details p {
+  margin: 5px 0; /* 단락 간격 */
+}
+
+.match-details p.bold {
+  font-weight: bold; /* 강조할 부분 */
+}
+.match-details.open {
+  display: block;
+  max-height: 800px; /* 충분히 큰 값으로 설정하여 펼칠 때 공간을 차지하도록 */
+  padding: 15px; /* 펼칠 때 패딩을 추가하여 내용을 돋보이게 함 */
+}
 .match-item img {
   max-width: 70px;
   max-height: 70px;
   object-fit: cover;
   border-radius: 4px;
+}
+
+.matchChampLevel {
+  color: #949494;
+}
+.toggle-details {
+  background-color: #007bff; /* 버튼 배경색 */
+  color: white; /* 글자색 */
+  border: none; /* 테두리 없애기 */
+  border-radius: 5px; /* 모서리 둥글게 */
+  padding: 8px 15px; /* 여백 */
+  font-size: 13px; /* 글자 크기 */
+  cursor: pointer; /* 마우스 커서 모양 변경 */
+  transition: background-color 0.3s, transform 0.2s; /* 배경색과 크기 변화 애니메이션 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+}
+
+.toggle-details:hover {
+  background-color: #0056b3; /* 호버 시 배경색 변화 */
+}
+
+.toggle-details:active {
+  transform: scale(0.95); /* 클릭 시 크기 감소 */
 }
 
 .match-item-content {
@@ -307,15 +358,9 @@ h3 {
   text-align: center;
 }
 
-.match-item p:first-child {
-  flex: 2;
-  text-align: left;
-}
-
 .match-item p:nth-child(2) {
   font-weight: bold;
 }
-
 .nav {
   display: flex;
   gap: 15px;
@@ -329,7 +374,7 @@ h3 {
 }
 
 .nav a:hover {
-  color: #e60012; /* Red color from the logo */
+  color: #e60012;
 }
 
 /* Responsive styles */
@@ -348,7 +393,9 @@ h3 {
   #refreshButton {
     width: 70%;
   }
-
+  #recent-matches {
+    max-height: 60vw;
+  }
   .match-item {
     flex-direction: column;
     align-items: flex-start;
@@ -368,10 +415,5 @@ h3 {
   .match-item-content {
     padding-left: 0;
     text-align: center;
-  }
-
-  .rank-container {
-    width: 50px;
-    height: 50px;
   }
 }
