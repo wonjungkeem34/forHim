@@ -138,8 +138,7 @@ export async function fetchPlayerData() {
 
   profileIconElement.addEventListener("mouseover", () => {
     profileIconElement.classList.add("hovered");
-    profileIconElement.src =
-      "https://github.com/wonjungkeem34/forHim/blob/release/data/img/34.jpg";
+    profileIconElement.src = "./data/img/34_.png";
   });
 
   profileIconElement.addEventListener("mouseout", () => {
