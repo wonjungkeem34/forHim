@@ -729,7 +729,6 @@ header {
 
   #recent-matches {
     display: block;
-    max-height: 120vw;
     width: 100%;
   }
   .match-item {
@@ -828,7 +827,6 @@ header {
   #recent-matches {
     overflow-y: hidden;
     display: block;
-    max-height: 200vw;
     width: 100%;
   }
   .side-banner {
