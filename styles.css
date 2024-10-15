@@ -798,6 +798,9 @@ header {
     font-size: 0.6rem; /* 작은 글씨 */
     font-weight: lighter;
   }
+  #recent-matches {
+    overflow-y: hidden;
+  }
 }
 @media (max-width: 480px) {
   .container {
@@ -818,6 +821,7 @@ header {
     text-align: center;
   }
   #recent-matches {
+    overflow-y: hidden;
     display: block;
     max-height: 200vw;
     width: 100%;
