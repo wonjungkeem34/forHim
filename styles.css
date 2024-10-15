@@ -19,6 +19,24 @@ body {
   opacity: 0; /* 초기 투명도 설정 */
   animation: fadeIn 0.5s forwards; /* 애니메이션 추가 */
 }
+#rankImageContainer {
+  width: 100px; /* Desired width */
+  height: 70px; /* Desired height */
+  overflow: hidden; /* Hide overflow */
+  position: relative; /* Positioning context for absolute positioning */
+  display: inline-block;
+}
+
+#rankImage {
+  width: 100%; /* Adjust width to container */
+  height: 100%; /* Adjust height to container */
+  object-fit: cover; /* Maintain aspect ratio, filling the container */
+  position: absolute; /* Absolute positioning to fill the container */
+  top: 0; /* Align to the top */
+  left: 0; /* Align to the left */
+  transform: scale(2.5) translateY(-6%);
+  transform-origin: center; /* 이미지를 중심을 기준으로 확대 */
+}
 
 header {
   background: linear-gradient(
@@ -113,7 +131,6 @@ header {
   height: 120px;
   border-radius: 50%;
   border: 3px solid #747474;
-  margin-bottom: 1vw;
 }
 
 #profileIcon.hovered {
@@ -132,7 +149,7 @@ header {
 }
 
 .user-info {
-  padding: 20px;
+  padding: 10px;
   height: max-content;
 }
 .rank-info hr {
@@ -161,6 +178,7 @@ header {
   display: inline;
 }
 #queueType {
+  align-self: flex-end;
   font-weight: normal;
   font-size: 0.8rem;
 }
@@ -177,11 +195,14 @@ header {
   background-color: transparent; /* 배경색 투명하게 설정 */
   color: white; /* 텍스트 색상 */
   border: none; /* 테두리 제거 */
-  width: 40px; /* 버튼 너비 */
-  height: 40px; /* 버튼 높이 조정 */
+  width: 50px; /* 버튼 너비 */
+  height: 50px; /* 버튼 높이 조정 */
   padding: 0; /* 패딩 제거 */
+  margin-right: 0;
   border-radius: 3px; /* 둥근 모서리 */
   font-size: 0.8rem; /* 폰트 크기 */
+  margin-left: 30px;
+
   cursor: pointer; /* 커서 변경 */
   transition: background-color 0.3s ease; /* 배경색 전환 효과 */
   opacity: 0; /* 초기 투명도 설정 */
@@ -191,7 +212,7 @@ header {
 }
 #summonerLevel {
   position: absolute;
-  bottom: 10%;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%) translateY(-40%);
   background-color: rgba(0, 51, 102, 0.8);
@@ -474,6 +495,7 @@ header {
 .rank {
   margin: 5px 0;
   display: flex;
+
   align-items: center;
   width: max-content;
 }
@@ -669,9 +691,14 @@ header {
   .matchInfo-box {
     align-items: flex-end;
   }
+  .rank-info {
+    align-items: flex-start;
+    margin-top: 2vw;
+  }
 
   .profile-top {
-    width: 50%;
+    margin-right: 4vw;
+    width: 40%;
     height: max-content;
   }
   #gameName {
@@ -688,11 +715,13 @@ header {
     font-size: 0.8rem;
   }
   #refreshButton {
-    width: 40px; /* 버튼 너비 */
-    height: 40px; /* 버튼 높이 조정 */
+    width: 30px; /* 버튼 너비 */
+    height: 30px; /* 버튼 높이 조정 */
+    margin-left: 20px;
   }
 
   #summonerLevel {
+    transform: translateX(-50%) translateY(-10%);
     font-size: 0.5rem;
     bottom: 0;
   }
@@ -710,12 +739,9 @@ header {
   #profileIcon {
     width: 60px;
     height: 60px;
-    border-radius: 50%;
-    border: 3px solid #747474;
-    margin-bottom: 1vw;
   }
   .user-info {
-    padding: 10px;
+    padding: 0;
     height: max-content;
   }
 
@@ -752,6 +778,26 @@ header {
   .ad-banner {
     display: none;
   }
+  #rankImageContainer {
+    width: 40px; /* Desired width */
+    height: 30px; /* Desired height */
+    position: relative;
+  }
+
+  #rankImage {
+    position: absolute;
+    z-index: 9999;
+    transform: scale(3) translateY(-1%);
+  }
+  #wins,
+  #losses {
+    font-size: 0.6rem; /* 작은 글씨로 조정 */
+    color: #b0b0b0;
+  }
+  #leaguePoints {
+    font-size: 0.6rem; /* 작은 글씨 */
+    font-weight: lighter;
+  }
 }
 @media (max-width: 480px) {
   .container {
@@ -761,6 +807,10 @@ header {
   .match-item {
     flex-direction: column;
     align-items: center;
+  }
+  .rank-info {
+    align-items: flex-start;
+    margin-top: 5vw;
   }
 
   .match-item-content {
