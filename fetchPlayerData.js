@@ -10,12 +10,12 @@ import { tierProcessing } from "./tierProcessing";
 import { findSummonerImg } from "./findSummoner";
 import { findRuneImg } from "./findRune";
 const api_key = import.meta.env.VITE_RIOT_API_KEY;
-const kr = "https://kr.api.riotgames.com/";
-const asia = "https://asia.api.riotgames.com/";
-// const asia = "/api";
-// const kr = "/krapi";
-const PROXY_SERVER = "https://cors-anywhere.herokuapp.com/";
-// const PROXY_SERVER = "";
+// const kr = "https://kr.api.riotgames.com/";
+// const asia = "https://asia.api.riotgames.com/";
+const asia = "/api";
+const kr = "/krapi";
+//const PROXY_SERVER = "https://cors-anywhere.herokuapp.com/";
+const PROXY_SERVER = "";
 
 const REQUEST_HEADERS = {
   "User-Agent":
@@ -111,6 +111,18 @@ export async function fetchPlayerData() {
   rankElement.style.color = color;
 
   const rankImagePath = `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier.toLowerCase()}.png`;
+
+  const imgElement = document.createElement("img");
+  imgElement.id = "rankImage";
+  imgElement.src = rankImagePath;
+  imgElement.alt = `${tier} emblem`;
+
+  const rankImageContainer = document.getElementById("rankImageContainer");
+  if (rankImageContainer) {
+    rankImageContainer.appendChild(imgElement);
+  } else {
+    console.error("Rank image container not found");
+  }
 
   document.getElementById("queueType").innerText = queueType;
   tierElement.innerText = tier;
@@ -343,7 +355,7 @@ export async function fetchPlayerData() {
       const secondStyle = participant.perks.styles[1].style;
       await findRuneImg(firstStyle, index, 0, version);
       await findRuneImg(secondStyle, index, 1, version);
-
+      document.getElementById("refreshButton").style.display = "inline-block";
       matchDiv.innerHTML += `
       <div>
         <div style="text-align: right;">

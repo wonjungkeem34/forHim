@@ -1,7 +1,6 @@
 {
   "name": "forHim",
   "version": "1.0.0",
-  "homepage": "https://wonjungkeem34.github.io/forHim/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

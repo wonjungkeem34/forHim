@@ -53,7 +53,8 @@
             />
             <div id="summonerLevel" style="display: none"></div>
           </div>
-          <div>
+          <span id="rankImageContainer"> </span>
+          <div style="margin-top: 10px; transform: translateY(-40%)">
             <p id="gameName"></p>
             <p id="tagLine"></p>
           </div>
@@ -66,19 +67,21 @@
               margin-bottom: 0;
             "
           ></div>
-          <button id="refreshButton">
-            <span class="button-image"></span>
-          </button>
         </div>
         <div class="user-info">
           <p class="rank">
-            <span id="queueType" class="rank-value"></span>
+            <span id="queueType" class="rank-value"> </span>
+            <button id="refreshButton" style="display: none">
+              <span class="button-image"></span>
+            </button>
           </p>
           <hr />
+
           <div class="rank-info">
             <p class="rank" style="gap: 0.5vw">
               <span id="tier" class="rank-value"> </span>
               <span id="rank" class="rank-value"></span>
+
               <span id="leaguePoints" class="rank-value"></span>
             </p>
             <p class="rank">
