@@ -14,7 +14,7 @@ export async function findSummonerImg(SummonerNum, index, i, version) {
 
   // SummonerNum이 0이면 빈 아이콘 설정
   if (SummonerNum === 0) {
-    recentUseSummonerElement.src = "../data/img/empty/empty-icon.png"; // 빈 네모 이미지 경로 설정
+    recentUseSummonerElement.src = require(`./data/img/empty/empty-icon.png`);
     recentUseSummonerElement.alt = "get Summoner error";
     return;
   }
@@ -36,12 +36,14 @@ export async function findSummonerImg(SummonerNum, index, i, version) {
       recentUseSummonerElement.alt = `${SummonerInfo.name} Icon`;
     } else {
       console.error(`Summoner spell not found for SummonerNum ${SummonerNum}`);
-      recentUseSummonerElement.src = "../data/img/empty/empty-icon.png";
+      recentUseSummonerElement.src =
+        "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/empty-icon.png";
       recentUseSummonerElement.alt = "get Summoner error";
     }
   } catch (error) {
     console.error("Error fetching summoner spell data:", error);
-    recentUseSummonerElement.src = "../data/img/empty/empty-icon.png";
+    recentUseSummonerElement.src =
+      "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/empty-icon.png";
     recentUseSummonerElement.alt = "get Summoner error";
   }
 }

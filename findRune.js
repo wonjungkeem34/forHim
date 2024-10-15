@@ -13,7 +13,7 @@ export async function findRuneImg(runNum, index, i, version) {
 
   // runNum이 0이면 빈 아이콘 설정
   if (runNum === 0 || runNum === "undefined") {
-    recentUseRuneElement.src = "../data/img/empty/empty-icon.png"; // 빈 네모 이미지 경로 설정
+    recentUseRuneElement.src = "/data/img/empty/empty-icon.png"; // 빈 네모 이미지 경로 설정
     recentUseRuneElement.alt = "get Rune error";
     return;
   }
@@ -48,12 +48,14 @@ export async function findRuneImg(runNum, index, i, version) {
       recentUseRuneElement.alt = `${runeInfo.name} Icon`;
     } else {
       console.error(`Rune not found for runNum ${runNum}`);
-      recentUseRuneElement.src = "../data/img/empty/empty-icon.png";
+      recentUseRuneElement.src =
+        "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/empty-icon.png";
       recentUseRuneElement.alt = "get Rune error";
     }
   } catch (error) {
     console.error("Error fetching rune data:", error);
-    recentUseRuneElement.src = "../data/img/empty/empty-icon.png";
+    recentUseRuneElement.src =
+      "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/empty-icon.png";
     recentUseRuneElement.alt = "get Rune error";
   }
 }

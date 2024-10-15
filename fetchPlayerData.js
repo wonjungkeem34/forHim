@@ -10,12 +10,12 @@ import { tierProcessing } from "./tierProcessing";
 import { findSummonerImg } from "./findSummoner";
 import { findRuneImg } from "./findRune";
 const api_key = import.meta.env.VITE_RIOT_API_KEY;
-// const kr = "https://kr.api.riotgames.com/";
-// const asia = "https://asia.api.riotgames.com/";
-const asia = "/api";
-const kr = "/krapi";
-// const PROXY_SERVER = "https://cors-anywhere.herokuapp.com/";
-const PROXY_SERVER = "";
+const kr = "https://kr.api.riotgames.com/";
+const asia = "https://asia.api.riotgames.com/";
+// const asia = "/api";
+// const kr = "/krapi";
+const PROXY_SERVER = "https://cors-anywhere.herokuapp.com/";
+// const PROXY_SERVER = "";
 
 const REQUEST_HEADERS = {
   "User-Agent":
@@ -39,7 +39,7 @@ export async function fetchPlayerData() {
 
   const response = await fetch(
     // 요청할 URL을 콘솔에 출력
-    `${asia}/riot/account/v1/accounts/by-riot-id/${encodedName}/${tagLine}`,
+    `${PROXY_SERVER}${asia}/riot/account/v1/accounts/by-riot-id/${encodedName}/${tagLine}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
@@ -57,7 +57,7 @@ export async function fetchPlayerData() {
   const puuid = player_id["puuid"];
 
   const playerResponse = await fetch(
-    `${kr}/lol/summoner/v4/summoners/by-puuid/${puuid}`,
+    `${PROXY_SERVER}${kr}/lol/summoner/v4/summoners/by-puuid/${puuid}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
@@ -80,7 +80,7 @@ export async function fetchPlayerData() {
   document.querySelector("#profileIcon").style.display = "block";
 
   const leagueResponse = await fetch(
-    `${kr}/lol/league/v4/entries/by-summoner/${player["id"]}`,
+    `${PROXY_SERVER}${kr}/lol/league/v4/entries/by-summoner/${player["id"]}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
@@ -110,7 +110,7 @@ export async function fetchPlayerData() {
   tierElement.style.color = color;
   rankElement.style.color = color;
 
-  const rankImagePath = `./data/img/rank/Rank=${tier}.png`;
+  const rankImagePath = `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier.toLowerCase()}.png`;
 
   document.getElementById("queueType").innerText = queueType;
   tierElement.innerText = tier;
@@ -146,7 +146,7 @@ export async function fetchPlayerData() {
     const count = i !== r ? 100 : other;
 
     const matchResponse = await fetch(
-      `${asia}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}`,
+      `${PROXY_SERVER}${asia}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}`,
       {
         headers: REQUEST_HEADERS,
       }
@@ -167,7 +167,7 @@ export async function fetchPlayerData() {
     // 6개의 최근 매치 정보를 병렬로 가져오기
     const recentMatchesPromises = allGamesID.slice(0, 6).map(async (gameId) => {
       const matchDetailResponse = await fetch(
-        `${asia}/lol/match/v5/matches/${gameId}`,
+        `${PROXY_SERVER}${asia}/lol/match/v5/matches/${gameId}`,
         {
           headers: REQUEST_HEADERS,
         }
@@ -352,106 +352,90 @@ export async function fetchPlayerData() {
       <div class="match-details" style="display: none;">
    <p style="text-align:left; margin-top: 1vw; font-size: 1.5em; ">상세 전적 정보</p>
   <table class="match-info-table">
-  <tr><td class="header">포지션</td><td class="note-info-td">${
+  <tr><td>포지션</td><td class="note-info-td">${
     participant.teamPosition
   }</td></tr>
-  <tr><td class="header">챔피언 경험치</td><td class="value">${
+  <tr><td>챔피언 경험치</td><td class="value">${
     participant.champExperience
   }</td></tr>
-  <tr><td class="header">제어 와드 설치</td><td class="value">${
+  <tr><td>제어 와드 설치</td><td class="value">${
     participant.detectorWardsPlaced
   }</td></tr>
-  <tr><td class="header">골드 획득</td><td class="value">${
-    participant.goldEarned
-  }</td></tr>
-  <tr><td class="header">골드 사용</td><td class="value">${
-    participant.goldSpent
-  }</td></tr>
-  <tr><td class="header">아이템 구매</td><td class="value">${
+  <tr><td>골드 획득</td><td class="value">${participant.goldEarned}</td></tr>
+  <tr><td >골드 사용</td><td class="value">${participant.goldSpent}</td></tr>
+  <tr><td>아이템 구매</td><td class="value">${
     participant.itemsPurchased
   }</td></tr>
-  <tr><td class="header">스킬 사용 횟수</td><td class="value">${
+  <tr><td>스킬 사용 횟수</td><td class="value">${
     participant.spell1Casts +
     participant.spell2Casts +
     participant.spell3Casts +
     participant.spell4Casts
   }</td></tr>
-  <tr><td class="header">학살중입니다 콜 횟수</td><td class="value">${
+  <tr><td >학살중입니다 콜 횟수</td><td class="value">${
     participant.killingSprees
   }</td></tr>
-  <tr><td class="header">최대 연속 처치</td><td class="value">${
+  <tr><td >최대 연속 처치</td><td class="value">${
     participant.largestKillingSpree
   }</td></tr>
-  <tr><td class="header">입힌 데미지 총합</td><td class="value">${
+  <tr><td >입힌 데미지 총합</td><td class="value">${
     participant.totalDamageDealt
   }</td></tr>
-  <tr><td class="header">챔피언에게 입힌 데미지</td><td class="value">${
+  <tr><td >챔피언에게 입힌 데미지</td><td class="value">${
     participant.totalDamageDealtToChampions
   }</td></tr>
-  <tr><td class="header">받은 데미지 총합</td><td class="value">${
+  <tr><td >받은 데미지 총합</td><td class="value">${
     participant.totalDamageTaken
   }</td></tr>
-  <tr><td class="header">마법 피해 총량</td><td class="value">${
+  <tr><td>마법 피해 총량</td><td class="value">${
     participant.magicDamageDealt
   }</td></tr>
-  <tr><td class="header">챔피언에게 입힌 마법 피해</td><td class="value">${
+  <tr><td>챔피언에게 입힌 마법 피해</td><td class="value">${
     participant.magicDamageDealtToChampions
   }</td></tr>
-  <tr><td class="header">입은 마법 피해</td><td class="value">${
+  <tr><td  >입은 마법 피해</td><td class="value">${
     participant.magicDamageTaken
   }</td></tr>
-  <tr><td class="header">힐 총합</td><td class="value">${
-    participant.totalHeal
-  }</td></tr>
-  <tr><td class="header">팀원에게 힐 총합</td><td class="value">${
+  <tr><td  >힐 총합</td><td class="value">${participant.totalHeal}</td></tr>
+  <tr><td  >팀원에게 힐 총합</td><td class="value">${
     participant.totalHealsOnTeammates
   }</td></tr>
-  <tr><td class="header">총 미니언 처치 수</td><td class="value">${
+  <tr><td  >총 미니언 처치 수</td><td class="value">${
     participant.totalMinionsKilled
   }</td></tr>
-  <tr><td class="header">첫 킬 어시스트</td><td class="value">${
+  <tr><td  >첫 킬 어시스트</td><td class="value">${
     participant.firstKillAssist ? "예" : "아니오"
   }</td></tr>
-  <tr><td class="header">FirstBlood</td><td class="value">${
+  <tr><td  >FirstBlood</td><td class="value">${
     participant.firstBlood ? "예" : "아니오"
   }</td></tr>
-  <tr><td class="header">킬</td><td class="note-info-td" >${
-    participant.kills
-  }</td></tr>
-  <tr><td class="header">죽음</td><td class="note-info-td">${
-    participant.deaths
-  }</td></tr>
-  <tr><td class="header">드래곤 킬</td><td class="value">${
-    participant.dragonKills
-  }</td></tr>
-  <tr><td class="header">바론 킬</td><td class="value">${
-    participant.baronKills
-  }</td></tr>
-  <tr><td class="header">포탑 킬</td><td class="value">${
-    participant.turretKills
-  }</td></tr>
-  <tr><td class="header">첫 포탑킬</td><td class="value">${
+  <tr><td  >킬</td><td class="note-info-td" >${participant.kills}</td></tr>
+  <tr><td  >죽음</td><td class="note-info-td">${participant.deaths}</td></tr>
+  <tr><td  >드래곤 킬</td><td class="value">${participant.dragonKills}</td></tr>
+  <tr><td  >바론 킬</td><td class="value">${participant.baronKills}</td></tr>
+  <tr><td  >포탑 킬</td><td class="value">${participant.turretKills}</td></tr>
+  <tr><td  >첫 포탑킬</td><td class="value">${
     participant.firstTowerKill
   }</td></tr>
-  <tr><td class="header">첫 포탑킬 어시스트</td><td class="value">${
+  <tr><td  >첫 포탑킬 어시스트</td><td class="value">${
     participant.firstTowerAssist
   }</td></tr>
-  <tr><td class="header">총 어시스트</td><td class="note-info-td">${
+  <tr><td  >총 어시스트</td><td class="note-info-td">${
     participant.assists
   }</td></tr>
-  <tr><td class="header">최대 치명타</td><td class="value">${
+  <tr><td  >최대 치명타</td><td class="value">${
     participant.largestCriticalStrike
   }</td></tr>
-  <tr><td class="header">최대 연속 킬 횟수</td><td class="value">${
+  <tr><td  >최대 연속 킬 횟수</td><td class="value">${
     participant.largestKillingSpree
   }</td></tr>
-  <tr><td class="header">최대 다중 킬</td><td class="value">${
+  <tr><td  >최대 다중 킬</td><td class="value">${
     participant.largestMultiKill
   }</td></tr>
-  <tr><td class="header">최장 생존 시간</td><td class="value">${
+  <tr><td  >최장 생존 시간</td><td class="value">${
     participant.longestTimeSpentLiving
   }</td></tr>
-  <tr><td class="header">팀 승리 여부</td><td class="note-info-td">${
+  <tr><td>팀 승리 여부</td><td class="note-info-td">${
     participant.win ? "승리" : "패배"
   }</td></tr>
 </table>
