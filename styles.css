@@ -65,6 +65,7 @@ header {
   justify-content: flex-start;
   overflow-y: auto; /* 세로 스크롤 활성화 */
   scrollbar-color: transparent transparent;
+  max-height: max-content;
 }
 
 .side-info {
