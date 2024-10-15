@@ -752,6 +752,7 @@ header {
     padding: 2vh 3%;
     overflow: hidden;
     max-height: max-content;
+    height: max-content;
   }
 
   .side-info {
@@ -808,6 +809,7 @@ header {
   .container {
     padding: 1vh 2%;
     max-height: max-content;
+    height: max-content;
   }
 
   .match-item {
