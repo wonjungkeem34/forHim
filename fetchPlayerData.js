@@ -10,10 +10,10 @@ import { tierProcessing } from "./tierProcessing";
 import { findSummonerImg } from "./findSummoner";
 import { findRuneImg } from "./findRune";
 const api_key = import.meta.env.VITE_RIOT_API_KEY;
-const kr = "https://kr.api.riotgames.com/";
-const asia = "https://asia.api.riotgames.com/";
-// const asia = "/api";
-// const kr = "/krapi";
+// const kr = "https://kr.api.riotgames.com/";
+// const asia = "https://asia.api.riotgames.com/";
+const asia = "/api";
+const kr = "/krapi";
 //const PROXY_SERVER = "https://34gg-wonjungkeem34s-projects.vercel.app/";
 const PROXY_SERVER = "";
 
