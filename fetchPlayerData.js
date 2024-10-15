@@ -138,7 +138,8 @@ export async function fetchPlayerData() {
 
   profileIconElement.addEventListener("mouseover", () => {
     profileIconElement.classList.add("hovered");
-    profileIconElement.src = "./data/img/34_.png";
+    profileIconElement.src =
+      "https://file.giantsclub.com/upload2014/2023/08/16/230816-SSG%EC%A0%84-67-%EA%B9%80%EC%9B%90%EC%A4%91100%EC%84%B8%EC%9D%B4%EB%B8%8C%EC%9C%84%ED%95%B4%20%EB%93%B1%ED%8C%90KCH39434.jpg";
   });
 
   profileIconElement.addEventListener("mouseout", () => {
