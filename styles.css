@@ -5,6 +5,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   font-family: "Roboto", sans-serif;
+  margin: 0;
 }
 
 .box {
@@ -35,7 +36,6 @@ header {
   flex-direction: row;
   align-items: flex-end;
   justify-content: flex-end;
-  border-radius: 8px;
 }
 
 .container {
@@ -133,6 +133,7 @@ header {
 
 .user-info {
   padding: 20px;
+  height: max-content;
 }
 .rank-info hr {
   border: none;
@@ -187,6 +188,17 @@ header {
   animation: fadeIn 0.5s forwards; /* 애니메이션 추가 */
   animation-delay: 0.5s; /* 딜레이 추가 */
   transform-origin: center;
+}
+#summonerLevel {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-40%);
+  background-color: rgba(0, 51, 102, 0.8);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
 }
 .kda {
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -252,20 +264,7 @@ header {
   color: #666666; /* 비활성 텍스트 색상 */
   cursor: not-allowed; /* 비활성 시 커서 변경 */
 }
-#summonerLevel {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%) translateY(-40%);
-  background-color: rgba(0, 51, 102, 0.8);
-  color: white;
 
-  padding: 2px 8px;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  border: 1px solid #555555;
-  z-index: 10;
-}
 .Top-matchInfo {
   display: flex;
   flex-direction: row;
@@ -489,6 +488,7 @@ header {
   font-weight: 700; /* 두꺼운 폰트 */
 }
 #leaguePoints {
+  margin-left: 3px;
   font-size: 0.9rem; /* 작은 글씨 */
   font-weight: normal;
   color: #a0a0a0; /* 연한 색상 */
@@ -535,12 +535,19 @@ header {
   line-height: 0.5;
   text-align: center;
 }
+.ad-banner p img {
+  transform: translateY(5px); /* 원하는 만큼 아래로 이동, 여기서는 5px */
+}
 .highlight {
   color: #ffcc00; /* 강조할 색상, 예: 밝은 노란색 */
   font-weight: bold; /* 두껍게 */
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* 그림자 효과 추가 */
   border-radius: 4px; /* 모서리를 둥글게 */
   padding: 2px 4px; /* 약간의 패딩 추가 */
+  overflow: hidden;
+}
+.highlight.red {
+  color: #ff401f; /* 강조할 색상, 예: 밝은 노란색 */
 }
 .close-ad {
   position: absolute;
@@ -653,7 +660,11 @@ header {
   .box {
     flex-direction: column;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 0;
+  }
+  .header {
+    padding: 4vw 2vw;
+    font-size: 1.5rem;
   }
   .matchInfo-box {
     align-items: flex-end;
@@ -661,11 +672,31 @@ header {
 
   .profile-top {
     width: 50%;
+    height: max-content;
+  }
+  #gameName {
+    font-size: 0.8rem;
+  }
+  #tagLine {
+    font-size: 0.8rem;
+  }
+  #tier,
+  #rank {
+    font-size: 1.2rem; /* 티어와 랭크 강조 */
+  }
+  #winRate {
+    font-size: 0.8rem;
+  }
+  #refreshButton {
+    width: 40px; /* 버튼 너비 */
+    height: 40px; /* 버튼 높이 조정 */
   }
 
-  #refreshButton {
-    width: 70%;
+  #summonerLevel {
+    font-size: 0.5rem;
+    bottom: 0;
   }
+
   #recent-matches {
     display: block;
     max-height: 120vw;
@@ -677,11 +708,15 @@ header {
   }
 
   #profileIcon {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     border: 3px solid #747474;
     margin-bottom: 1vw;
+  }
+  .user-info {
+    padding: 10px;
+    height: max-content;
   }
 
   .container {
@@ -693,9 +728,10 @@ header {
 
   .side-info {
     flex-direction: row;
-    width: 60%;
+    width: 50%;
     margin: 0;
     padding: 10px 10px 10px 15px;
+    flex: none;
   }
   .main-content {
     width: 100%;
@@ -722,11 +758,6 @@ header {
     padding: 1vh 2%;
   }
 
-  #profileIcon {
-    width: 80px;
-    height: 80px;
-  }
-
   .match-item {
     flex-direction: column;
     align-items: center;
@@ -746,5 +777,12 @@ header {
   }
   .ad-banner {
     display: none;
+  }
+  #tier,
+  #rank {
+    font-size: 1rem; /* 티어와 랭크 강조 */
+  }
+  #winRate {
+    font-size: 0.7rem;
   }
 }

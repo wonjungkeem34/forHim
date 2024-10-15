@@ -1,18 +1,17 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/forHim/",
   server: {
     proxy: {
-      "/puuid": {
+      "/api": {
         target: "https://asia.api.riotgames.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/puuid/, ""),
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
-      "/id": {
+      "/krapi": {
         target: "https://kr.api.riotgames.com",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/id/, ""),
+        rewrite: (path) => path.replace(/^\/krapi/, ""),
       },
     },
   },

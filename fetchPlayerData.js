@@ -1,5 +1,3 @@
-// fetchPlayerData.js
-
 import { USERNICKNAME, TAGLINE } from "./input";
 import { findPlayerTeam } from "./checkTeamStatus";
 import { findChampionImg } from "./findChampion";
@@ -12,6 +10,12 @@ import { tierProcessing } from "./tierProcessing";
 import { findSummonerImg } from "./findSummoner";
 import { findRuneImg } from "./findRune";
 const api_key = import.meta.env.VITE_RIOT_API_KEY;
+// const kr = "https://kr.api.riotgames.com/";
+// const asia = "https://asia.api.riotgames.com/";
+const asia = "/api";
+const kr = "/krapi";
+// const PROXY_SERVER = "https://cors-anywhere.herokuapp.com/";
+const PROXY_SERVER = "";
 
 const REQUEST_HEADERS = {
   "User-Agent":
@@ -34,7 +38,8 @@ export async function fetchPlayerData() {
   const version = await getLatestPatchVersion();
 
   const response = await fetch(
-    `/puuid/riot/account/v1/accounts/by-riot-id/${encodedName}/${tagLine}`,
+    // 요청할 URL을 콘솔에 출력
+    `${asia}/riot/account/v1/accounts/by-riot-id/${encodedName}/${tagLine}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
@@ -52,7 +57,7 @@ export async function fetchPlayerData() {
   const puuid = player_id["puuid"];
 
   const playerResponse = await fetch(
-    `/id/lol/summoner/v4/summoners/by-puuid/${puuid}`,
+    `${kr}/lol/summoner/v4/summoners/by-puuid/${puuid}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
@@ -74,9 +79,8 @@ export async function fetchPlayerData() {
   profileIconElement.alt = "Profile Icon";
   document.querySelector("#profileIcon").style.display = "block";
 
-  // Fetch league information
   const leagueResponse = await fetch(
-    `/id/lol/league/v4/entries/by-summoner/${player["id"]}`,
+    `${kr}/lol/league/v4/entries/by-summoner/${player["id"]}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
@@ -92,7 +96,6 @@ export async function fetchPlayerData() {
 
   const playerInfo = await leagueResponse.json();
 
-  // Consolidate tier and rank fetching
   const tier = playerInfo[0].tier || "unranked";
   const [, color] = tierProcessing(tier, playerInfo[0].rank) || "";
   const leaguePoints = playerInfo[0]?.leaguePoints || 0;
@@ -143,7 +146,7 @@ export async function fetchPlayerData() {
     const count = i !== r ? 100 : other;
 
     const matchResponse = await fetch(
-      `/puuid/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}`,
+      `${asia}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}`,
       {
         headers: REQUEST_HEADERS,
       }
@@ -164,7 +167,7 @@ export async function fetchPlayerData() {
     // 6개의 최근 매치 정보를 병렬로 가져오기
     const recentMatchesPromises = allGamesID.slice(0, 6).map(async (gameId) => {
       const matchDetailResponse = await fetch(
-        `/puuid/lol/match/v5/matches/${gameId}`,
+        `${asia}/lol/match/v5/matches/${gameId}`,
         {
           headers: REQUEST_HEADERS,
         }
@@ -205,9 +208,6 @@ export async function fetchPlayerData() {
       const mapName = await findMapName(match.info.mapId);
 
       const gameEndTime = calculateGameEndTime(match.info.gameEndTimestamp);
-
-      // 매치 아이템 HTML
-      // 매치 아이템 HTML
       matchDiv.innerHTML = `
  <div >
 
