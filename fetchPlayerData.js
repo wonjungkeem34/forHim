@@ -356,12 +356,6 @@ export async function fetchPlayerData() {
       await findRuneImg(firstStyle, index, 0, version);
       await findRuneImg(secondStyle, index, 1, version);
 
-      const RefreshContainer = document.getElementById("rankImageContainer");
-      if (RefreshContainer) {
-        RefreshContainer.style.display = "block";
-      } else {
-        console.error("refresh container not found");
-      }
       matchDiv.innerHTML += `
       <div>
         <div style="text-align: right;">
