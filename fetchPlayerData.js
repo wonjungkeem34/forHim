@@ -14,8 +14,8 @@ const kr = "https://kr.api.riotgames.com/";
 const asia = "https://asia.api.riotgames.com/";
 // const asia = "/api";
 // const kr = "/krapi";
-const PROXY_SERVER = "https://34gg-wonjungkeem34s-projects.vercel.app/";
-// const PROXY_SERVER = "";
+//const PROXY_SERVER = "https://34gg-wonjungkeem34s-projects.vercel.app/";
+const PROXY_SERVER = "";
 
 const REQUEST_HEADERS = {
   "User-Agent":
