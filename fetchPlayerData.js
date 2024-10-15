@@ -110,19 +110,6 @@ export async function fetchPlayerData() {
   tierElement.style.color = color;
   rankElement.style.color = color;
 
-  const rankImagePath = `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier.toLowerCase()}.png`;
-
-  const imgElement = document.createElement("img");
-  imgElement.id = "rankImage";
-  imgElement.src = rankImagePath;
-  imgElement.alt = `${tier} emblem`;
-
-  const rankImageContainer = document.getElementById("rankImageContainer");
-  if (rankImageContainer) {
-    rankImageContainer.appendChild(imgElement);
-  } else {
-    console.error("Rank image container not found");
-  }
   document.getElementById("queueType").innerText = queueType;
   tierElement.innerText = tier;
   rankElement.innerText = playerInfo[0].rank;
@@ -456,4 +443,18 @@ export async function fetchPlayerData() {
   `;
     });
   }
+  document.addEventListener("DOMContentLoaded", () => {
+    const rankImagePath = `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier.toLowerCase()}.png`;
+    const imgElement = document.createElement("img");
+    imgElement.id = "rankImage";
+    imgElement.src = rankImagePath;
+    imgElement.alt = `${tier} emblem`;
+
+    const rankImageContainer = document.getElementById("rankImageContainer");
+    if (rankImageContainer) {
+      rankImageContainer.appendChild(imgElement);
+    } else {
+      console.error("Rank image container not found");
+    }
+  });
 }
