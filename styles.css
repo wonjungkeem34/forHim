@@ -52,6 +52,7 @@ header {
 .side-info {
   margin-top: 1vw;
   border-radius: 8px;
+  flex: 1;
   background-color: rgb(34, 34, 44);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   border: 1px solid #444444;
@@ -68,7 +69,7 @@ header {
 }
 
 .main-content {
-  flex: 1;
+  flex: 2;
   padding-left: 1vw;
   margin-right: 1vw;
   margin-top: 1vw;
@@ -336,7 +337,7 @@ header {
 #recent-matches {
   display: flex;
   flex-direction: column;
-  width: 50vw;
+  width: 45vw;
   padding: 3px;
   max-height: 50%; /* 원하는 최대 높이 설정 */
   overflow-y: auto; /* 세로 스크롤 활성화 */
@@ -513,6 +514,140 @@ header {
   display: flex;
   flex-direction: column;
 }
+.ad-banner {
+  position: relative; /* 버튼을 배너 안에서 고정하기 위해 relative로 설정 */
+  padding: 20px;
+  background-color: yellow;
+  background-size: cover;
+  background-position: center;
+  color: #4b4b4b;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+}
+
+.ad-banner p {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1f1f1f;
+  text-shadow: 1px 1px 2px rgba(163, 163, 163, 0.8);
+  line-height: 0.5;
+  text-align: center;
+}
+.highlight {
+  color: #ffcc00; /* 강조할 색상, 예: 밝은 노란색 */
+  font-weight: bold; /* 두껍게 */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* 그림자 효과 추가 */
+  border-radius: 4px; /* 모서리를 둥글게 */
+  padding: 2px 4px; /* 약간의 패딩 추가 */
+}
+.close-ad {
+  position: absolute;
+  top: 10px !important; /* 상단에서 10px */
+  right: 10px !important; /* 우측에서 10px */
+  background-color: rgba(100, 68, 68, 0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 10; /* 다른 요소보다 위에 표시되도록 설정 */
+}
+
+.close-ad:hover {
+  background-color: rgba(255, 0, 0, 1);
+}
+.side-banner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 15px 25px;
+  border-radius: 10px;
+  background-color: #f9f9f9; /* 부드럽고 얌전한 회색 배경 */
+  background-image: url("https://file.giantsclub.com/upload2014/Player/62528_m.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 30% 40%;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 더 부드러운 그림자 */
+  font-family: "Arial", sans-serif;
+  text-align: right; /* 텍스트를 오른쪽으로 정렬 */
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.side-banner::before {
+  content: "AD";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, 0.7); /* 더 연한 배경 */
+  color: #555; /* 더 부드러운 텍스트 색상 */
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+}
+.logo {
+  font-size: 1.5rem; /* 로고 폰트 크기 */
+  font-weight: bold; /* 두껍게 */
+  color: #333; /* 텍스트 색상 */
+  margin-left: 20px; /* 아이콘과 로고 사이의 간격 */
+  font-family: "Arial", sans-serif; /* 폰트 패밀리 */
+  margin-right: auto;
+}
+
+.side-banner p {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: normal; /* 좀 더 얌전한 폰트 굵기 */
+  color: #4b4b4b; /* 차분한 텍스트 색상 */
+  text-shadow: none; /* 텍스트 그림자를 제거 */
+  line-height: 1.4;
+  z-index: 2;
+}
+
+.side-banner .cta-button {
+  background-color: #6c757d; /* 차분한 회색 버튼 */
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: normal;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.side-banner .cta-button:hover {
+  background-color: #5a6268; /* 마우스 오버 시 살짝 어두워지는 효과 */
+}
+
+.side-banner:hover {
+  transform: scale(1.02); /* 살짝 확대되는 효과 */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* 확대 시 그림자 효과 */
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.side-banner {
+  animation: pulse 2s infinite;
+}
 /* Responsive styles */
 @media (max-width: 768px) {
   .box {
@@ -560,7 +695,7 @@ header {
     flex-direction: row;
     width: 60%;
     margin: 0;
-    padding: 10px 0 10px 0;
+    padding: 10px 10px 10px 15px;
   }
   .main-content {
     width: 100%;
@@ -574,6 +709,12 @@ header {
   }
   .kda {
     padding: 1vw 5vw;
+  }
+  .side-banner {
+    display: none;
+  }
+  .ad-banner {
+    display: none;
   }
 }
 @media (max-width: 480px) {
@@ -599,5 +740,11 @@ header {
     display: block;
     max-height: 200vw;
     width: 100%;
+  }
+  .side-banner {
+    display: none;
+  }
+  .ad-banner {
+    display: none;
   }
 }

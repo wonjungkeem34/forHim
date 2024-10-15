@@ -161,9 +161,8 @@ export async function fetchPlayerData() {
   }
 
   if (allGamesID.length > 0) {
-    // 10개의 최근 매치 정보를 병렬로 가져오기
+    // 6개의 최근 매치 정보를 병렬로 가져오기
     const recentMatchesPromises = allGamesID.slice(0, 6).map(async (gameId) => {
-      console.log(gameId);
       const matchDetailResponse = await fetch(
         `/puuid/lol/match/v5/matches/${gameId}`,
         {
@@ -180,12 +179,12 @@ export async function fetchPlayerData() {
       return await matchDetailResponse.json();
     });
 
-    // 병렬로 요청을 처리한 결과를 기다림
+    // 병렬로 요청 처리결과
     const recentMatches = await Promise.all(recentMatchesPromises);
 
     // 유효한 매치들만 필터링
     const validMatches = recentMatches.filter((match) => match !== null);
-    console.log(validMatches);
+
     const recentMatchesContainer = document.getElementById("recent-matches");
     recentMatchesContainer.innerHTML = "";
 
@@ -198,7 +197,7 @@ export async function fetchPlayerData() {
       }
 
       const participant = teamInfo.participant;
-      console.log(participant);
+
       const matchDiv = document.createElement("div");
       matchDiv.className = "match-item";
 
@@ -463,43 +462,3 @@ export async function fetchPlayerData() {
     });
   }
 }
-
-// 페이지가 로드된 후 이벤트 리스너 등록
-document.addEventListener("DOMContentLoaded", function () {
-  const recentMatchesContainer = document.getElementById("recent-matches");
-
-  // matchDiv 각각에 대해 버튼 클릭 시 토글 기능을 추가
-  recentMatchesContainer.addEventListener("click", function (event) {
-    if (event.target.classList.contains("toggle-details")) {
-      // 클릭된 버튼의 가장 가까운 부모 matchDiv에서 .match-details를 찾음
-      const matchDetailsDiv = event.target.closest("div").nextElementSibling;
-
-      if (matchDetailsDiv.classList.contains("open")) {
-        matchDetailsDiv.classList.remove("open"); // 상세 정보 숨기기
-        event.target.textContent = "open"; // 버튼 텍스트 변경
-        matchDetailsDiv.style.display = "none"; // 숨길 때 display를 none으로 변경
-      } else {
-        matchDetailsDiv.classList.add("open"); // 상세 정보 펼치기
-        event.target.textContent = "close"; // 버튼 텍스트 변경
-        matchDetailsDiv.style.display = "block"; // 펼칠 때 display를 block으로 변경
-      }
-    }
-  });
-  document.addEventListener("click", function (event) {
-    // .toggle-details 버튼이나 .match-details 안이 아닌 곳을 클릭했을 때만 실행
-    if (
-      !event.target.closest(".toggle-details") &&
-      !event.target.closest(".match-details")
-    ) {
-      const openDetailsDivs = document.querySelectorAll(".match-details.open");
-
-      openDetailsDivs.forEach((div) => {
-        div.classList.remove("open");
-        div.previousElementSibling.querySelector(
-          ".toggle-details"
-        ).textContent = "open";
-        div.style.display = "none";
-      });
-    }
-  });
-});
