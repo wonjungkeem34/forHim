@@ -27,18 +27,20 @@ header {
     #24608a 51%,
     #1e1e1e 100%
   );
-  color: #f5f5f5;
-  margin: 0;
+
   padding: 1vw 2vw;
-  text-align: center;
   font-size: 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8); /* 그림자 어둡게 */
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
   border-radius: 8px;
 }
 
 .container {
   display: flex;
-  padding: 2vh 20%;
+  padding: 2vh 15%;
   max-width: 100%;
   height: 100vh;
   flex-direction: row;
@@ -57,12 +59,11 @@ header {
   display: flex;
   height: max-content;
   flex-direction: column;
-  flex-shrink: 0;
+  min-width: max-content;
   padding: 2vh 2%;
   position: sticky;
   top: 0;
-  width: 250px; /* 원하는 고정 너비 설정 */
-  max-width: 100%; /* 화면 크기에 따라 최대 너비 설정 */
+
   box-sizing: border-box;
 }
 
@@ -71,7 +72,6 @@ header {
   padding-left: 1vw;
   margin-right: 1vw;
   margin-top: 1vw;
-  max-width: calc(100% - 250px);
 }
 
 .profile-top {
@@ -86,7 +86,8 @@ header {
 .queueWinLose {
   display: flex;
   flex-direction: column;
-  margin-right: 2vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 @keyframes fadeIn {
   from {
@@ -188,11 +189,12 @@ header {
 }
 .kda {
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.2vw 2vw;
+  padding: 0.2vw 1.3vw;
   border-radius: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   gap: 0.5vw;
   margin-left: auto;
   font-size: 1.2rem;
@@ -200,6 +202,7 @@ header {
   letter-spacing: 0.05em;
   background-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 10vw;
   transition: all 0.3s ease;
 }
 .kda:hover {
@@ -215,6 +218,17 @@ header {
 .kda .separator {
   color: rgba(255, 255, 255, 0.5);
   font-weight: normal;
+}
+.kda-per {
+  color: #94949471;
+  font-weight: 0.5rem;
+}
+
+.kda-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 /* 호버 상태 */
 #refreshButton:hover {
@@ -298,7 +312,7 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between; /* 내부 요소들을 양 끝으로 정렬 */
-  align-items: center;
+  align-items: flex-end;
   margin-bottom: 0.5vw;
   width: 100%; /* 전체 너비를 사용하도록 설정 */
 }
@@ -306,7 +320,6 @@ header {
 .textInfo-box {
   display: flex;
   flex-direction: row;
-  align-items: center;
   flex-grow: 1; /* 남은 공간을 채우도록 설정 */
 }
 .time-box {
@@ -323,7 +336,7 @@ header {
 #recent-matches {
   display: flex;
   flex-direction: column;
-  width: max-content;
+  width: 50vw;
   padding: 3px;
   max-height: 50%; /* 원하는 최대 높이 설정 */
   overflow-y: auto; /* 세로 스크롤 활성화 */
@@ -349,26 +362,49 @@ header {
 }
 
 .match-details {
-  background-color: #333333;
+  background-color: #535353;
   border: 1px solid #ddd; /* 테두리 */
   border-radius: 8px; /* 모서리 둥글게 */
   padding: 15px; /* 내부 여백 */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   margin-top: 10px; /* 위쪽 여백 */
   font-family: "Arial", sans-serif; /* 폰트 스타일 */
   font-size: 14px; /* 폰트 크기 */
-  line-height: 1.6; /* 줄 간격 */
+  text-align: left;
+  line-height: 1.5; /* 줄 간격 */
+}
+.match-info-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2vw 0;
+  font-size: 14px;
+  text-align: left;
+}
+.note-info-td {
+  background-color: #2c2c2c;
+}
+.match-info-table td {
+  padding: 10px;
+  border: 3px solid rgba(0, 0, 0, 0.1); /* 테두리 색상 투명도 높은 회색 */
+  border-right: none;
+  border-left: none;
+  max-width: 30px; /* 셀의 최대 너비 제한 */
+  word-wrap: break-word; /* 텍스트 줄바꿈 처리 */
 }
 
 .match-details p {
-  margin: 5px 0; /* 단락 간격 */
+  font-size: 5rem;
 }
 
 .match-details.open {
   display: block;
   background-color: #333333;
+
   border-width: 0;
-  max-height: 800px; /* 충분히 큰 값으로 설정하여 펼칠 때 공간을 차지하도록 */
-  padding: 15px; /* 펼칠 때 패딩을 추가하여 내용을 돋보이게 함 */
+  max-height: max-content; /* 충분히 큰 값으로 설정하여 펼칠 때 공간을 차지하도록 */
+  padding: 1vw 5vw; /* 펼칠 때 패딩을 추가하여 내용을 돋보이게 함 */
+  display: flex;
+  flex-direction: row;
 }
 .match-item img {
   max-width: 70px;
@@ -414,7 +450,6 @@ header {
 .match-item p {
   margin: 0;
   font-size: 0.9rem;
-  flex: 1;
   text-align: center;
 }
 
@@ -440,6 +475,7 @@ header {
   margin: 5px 0;
   display: flex;
   align-items: center;
+  width: max-content;
 }
 .rank-value {
   font-size: 1rem;
@@ -467,7 +503,6 @@ header {
 .SR-container {
   display: flex;
   flex-direction: row;
-  margin-right: 3vw;
   padding-bottom: 1vw;
 }
 .summoner-container {
@@ -485,9 +520,12 @@ header {
     width: 100%;
     margin-top: 20px;
   }
+  .matchInfo-box {
+    align-items: flex-end;
+  }
 
   .profile-top {
-    width: 60%;
+    width: 50%;
   }
 
   #refreshButton {
@@ -504,8 +542,8 @@ header {
   }
 
   #profileIcon {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     border: 3px solid #747474;
     margin-bottom: 1vw;
@@ -520,14 +558,13 @@ header {
 
   .side-info {
     flex-direction: row;
-    width: 100%;
+    width: 60%;
     margin: 0;
-    padding: 10px 0 0 0;
+    padding: 10px 0 10px 0;
   }
   .main-content {
     width: 100%;
     max-width: none;
-    padding-left: 0;
   }
 
   .match-item-content {
@@ -535,9 +572,7 @@ header {
     padding-left: 0;
     text-align: center;
   }
-
   .kda {
-    margin-left: auto;
     padding: 1vw 5vw;
   }
 }

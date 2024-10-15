@@ -7,8 +7,7 @@ import { getLatestPatchVersion } from "./getLatestPatchVersion";
 import { findItemImg } from "./findItem";
 import { findQueueName, findMapName } from "./findQueueMap";
 import { rankKo } from "./data/const/rankTypes";
-import { calculateGameEndTime } from "./calculateGameEndTime";
-import { calculateWinRate } from "./calculateWinRate";
+import { calculateGameEndTime, calculateWinRate } from "./calculator";
 import { tierProcessing } from "./tierProcessing";
 import { findSummonerImg } from "./findSummoner";
 import { findRuneImg } from "./findRune";
@@ -164,6 +163,7 @@ export async function fetchPlayerData() {
   if (allGamesID.length > 0) {
     // 10개의 최근 매치 정보를 병렬로 가져오기
     const recentMatchesPromises = allGamesID.slice(0, 6).map(async (gameId) => {
+      console.log(gameId);
       const matchDetailResponse = await fetch(
         `/puuid/lol/match/v5/matches/${gameId}`,
         {
@@ -229,7 +229,7 @@ export async function fetchPlayerData() {
       </div>
       <div class="textInfo-box">
         <div class="queueWinLose">
-          <p>${queueName}</p>
+          <p >${queueName}</p>
           <p style="color: ${
             teamInfo.win ? "green" : "red"
           }; font-weight:"bold"">
@@ -243,13 +243,24 @@ export async function fetchPlayerData() {
         </div>
    
         <!--<p>${mapName}</p>-->
-        <div class="kda">
+        <div class="kda-box">
+        <div class ="kda">
         <p>${participant.kills}</p>
         <p>/</p>
         <p>${participant.deaths}</p>
            <p>/</p>
         <p>${participant.assists}</p>
         </div>
+        
+       <p class="kda-per" >( ${
+         participant.deaths > 0
+           ? (
+               (participant.kills + participant.assists) /
+               participant.deaths
+             ).toFixed(2)
+           : "Perfect KDA"
+       }:1 )</p> 
+</div>
          <!-- <p>Gold ${participant.goldEarned}</p>-->
       </div>
     </div>
@@ -340,51 +351,112 @@ export async function fetchPlayerData() {
         <button class="toggle-details">open</button>
     </div>
       <div class="match-details" style="display: none;">
-          <p class="bold" style="text-align:left">상세 전적 정보</p> 
-          <p>포지션 : ${participant.teamPosition}</p>
-          <p>챔피언 경험치 : ${participant.champExperience} </p>
-          <p>제어 와드 설치 : ${participant.detectorWardsPlaced} 🛡️</p>
-          <p>골드 획득 : ${participant.goldEarned} 💰</p>
-          <p>골드 사용 : ${participant.goldSpent} 💸</p>
-          <p>아이템 구매 : ${participant.itemsPurchased} 🛒</p>
-          <p>스킬 사용 횟수 : ${
-            participant.spell1Casts +
-            participant.spell2Casts +
-            participant.spell3Casts +
-            participant.spell4Casts
-          } 🔮</p>
-          <p>학살중입니다 콜 횟수 : ${participant.killingSprees} 💀</p>
-          <p>최대 연속 처치 : ${participant.largestKillingSpree} 🥇</p>
-          <p>입힌 데미지 총합 : ${participant.totalDamageDealt} ⚔️</p>
-          <p>챔피언에게 입힌 데미지 : ${
-            participant.totalDamageDealtToChampions
-          } 🎯</p>
-          <p>받은 데미지 총합 : ${participant.totalDamageTaken} 🛡️</p>
-          <p>마법 피해 총량 : ${participant.magicDamageDealt} 🔮</p>
-          <p>챔피언에게 입힌 마법 피해 : ${
-            participant.magicDamageDealtToChampions
-          } ✨</p>
-          <p>입은 마법 피해 : ${participant.magicDamageTaken} 💔</p>
-          <p>힐 총합 : ${participant.totalHeal} 💖</p>
-          <p>팀원에게 힐 총합 : ${participant.totalHealsOnTeammates} 🤝</p>
-          <p>총 미니언 처치 수 : ${participant.totalMinionsKilled} 🐭</p>
-          <p>첫 킬 어시스트 : ${
-            participant.firstKillAssist ? "예" : "아니오"
-          } 🔗</p>
-          <p>FirstBlood : ${participant.firstBlood ? "예" : "아니오"} 🩸</p>
-          <p>킬 : ${participant.kills} ⚔️</p>
-          <p>죽음 : ${participant.deaths} 💀</p>
-          <p>드래곤 킬 : ${participant.dragonKills} 🐉</p>
-          <p>바론 킬 : ${participant.baronKills} 👑</p>
-          <p>포탑 킬 : ${participant.turretKills} 🏰</p>
-          <p>첫 포탑킬 : ${participant.firstTowerKill} 🚩</p>
-          <p>첫 포탑킬 어시스트 : ${participant.firstTowerAssist} 🤝</p>
-          <p>총 어시스트 : ${participant.assists} 🌟</p>
-          <p>최대 치명타: ${participant.largestCriticalStrike} 💥</p>
-          <p>최대 연속 킬 횟수 : ${participant.largestKillingSpree} 🥇</p>
-          <p>최대 다중 킬 : ${participant.largestMultiKill} 🔥</p>
-          <p>최장 생존 시간 : ${participant.longestTimeSpentLiving} 초 ⏱️</p>
-          <p>팀 승리 여부: ${participant.win ? "🏆 승리" : "💔 패배"}</p>
+   <p style="text-align:left; margin-top: 1vw; font-size: 1.5em; ">상세 전적 정보</p>
+  <table class="match-info-table">
+  <tr><td class="header">포지션</td><td class="note-info-td">${
+    participant.teamPosition
+  }</td></tr>
+  <tr><td class="header">챔피언 경험치</td><td class="value">${
+    participant.champExperience
+  }</td></tr>
+  <tr><td class="header">제어 와드 설치</td><td class="value">${
+    participant.detectorWardsPlaced
+  }</td></tr>
+  <tr><td class="header">골드 획득</td><td class="value">${
+    participant.goldEarned
+  }</td></tr>
+  <tr><td class="header">골드 사용</td><td class="value">${
+    participant.goldSpent
+  }</td></tr>
+  <tr><td class="header">아이템 구매</td><td class="value">${
+    participant.itemsPurchased
+  }</td></tr>
+  <tr><td class="header">스킬 사용 횟수</td><td class="value">${
+    participant.spell1Casts +
+    participant.spell2Casts +
+    participant.spell3Casts +
+    participant.spell4Casts
+  }</td></tr>
+  <tr><td class="header">학살중입니다 콜 횟수</td><td class="value">${
+    participant.killingSprees
+  }</td></tr>
+  <tr><td class="header">최대 연속 처치</td><td class="value">${
+    participant.largestKillingSpree
+  }</td></tr>
+  <tr><td class="header">입힌 데미지 총합</td><td class="value">${
+    participant.totalDamageDealt
+  }</td></tr>
+  <tr><td class="header">챔피언에게 입힌 데미지</td><td class="value">${
+    participant.totalDamageDealtToChampions
+  }</td></tr>
+  <tr><td class="header">받은 데미지 총합</td><td class="value">${
+    participant.totalDamageTaken
+  }</td></tr>
+  <tr><td class="header">마법 피해 총량</td><td class="value">${
+    participant.magicDamageDealt
+  }</td></tr>
+  <tr><td class="header">챔피언에게 입힌 마법 피해</td><td class="value">${
+    participant.magicDamageDealtToChampions
+  }</td></tr>
+  <tr><td class="header">입은 마법 피해</td><td class="value">${
+    participant.magicDamageTaken
+  }</td></tr>
+  <tr><td class="header">힐 총합</td><td class="value">${
+    participant.totalHeal
+  }</td></tr>
+  <tr><td class="header">팀원에게 힐 총합</td><td class="value">${
+    participant.totalHealsOnTeammates
+  }</td></tr>
+  <tr><td class="header">총 미니언 처치 수</td><td class="value">${
+    participant.totalMinionsKilled
+  }</td></tr>
+  <tr><td class="header">첫 킬 어시스트</td><td class="value">${
+    participant.firstKillAssist ? "예" : "아니오"
+  }</td></tr>
+  <tr><td class="header">FirstBlood</td><td class="value">${
+    participant.firstBlood ? "예" : "아니오"
+  }</td></tr>
+  <tr><td class="header">킬</td><td class="note-info-td" >${
+    participant.kills
+  }</td></tr>
+  <tr><td class="header">죽음</td><td class="note-info-td">${
+    participant.deaths
+  }</td></tr>
+  <tr><td class="header">드래곤 킬</td><td class="value">${
+    participant.dragonKills
+  }</td></tr>
+  <tr><td class="header">바론 킬</td><td class="value">${
+    participant.baronKills
+  }</td></tr>
+  <tr><td class="header">포탑 킬</td><td class="value">${
+    participant.turretKills
+  }</td></tr>
+  <tr><td class="header">첫 포탑킬</td><td class="value">${
+    participant.firstTowerKill
+  }</td></tr>
+  <tr><td class="header">첫 포탑킬 어시스트</td><td class="value">${
+    participant.firstTowerAssist
+  }</td></tr>
+  <tr><td class="header">총 어시스트</td><td class="note-info-td">${
+    participant.assists
+  }</td></tr>
+  <tr><td class="header">최대 치명타</td><td class="value">${
+    participant.largestCriticalStrike
+  }</td></tr>
+  <tr><td class="header">최대 연속 킬 횟수</td><td class="value">${
+    participant.largestKillingSpree
+  }</td></tr>
+  <tr><td class="header">최대 다중 킬</td><td class="value">${
+    participant.largestMultiKill
+  }</td></tr>
+  <tr><td class="header">최장 생존 시간</td><td class="value">${
+    participant.longestTimeSpentLiving
+  }</td></tr>
+  <tr><td class="header">팀 승리 여부</td><td class="note-info-td">${
+    participant.win ? "승리" : "패배"
+  }</td></tr>
+</table>
+
       </div>
       </div>
   `;
@@ -411,6 +483,23 @@ document.addEventListener("DOMContentLoaded", function () {
         event.target.textContent = "close"; // 버튼 텍스트 변경
         matchDetailsDiv.style.display = "block"; // 펼칠 때 display를 block으로 변경
       }
+    }
+  });
+  document.addEventListener("click", function (event) {
+    // .toggle-details 버튼이나 .match-details 안이 아닌 곳을 클릭했을 때만 실행
+    if (
+      !event.target.closest(".toggle-details") &&
+      !event.target.closest(".match-details")
+    ) {
+      const openDetailsDivs = document.querySelectorAll(".match-details.open");
+
+      openDetailsDivs.forEach((div) => {
+        div.classList.remove("open");
+        div.previousElementSibling.querySelector(
+          ".toggle-details"
+        ).textContent = "open";
+        div.style.display = "none";
+      });
     }
   });
 });
