@@ -3,7 +3,6 @@ import { fetchPlayerData } from "./fetchPlayerData.js";
 let cooldown = false;
 const countdownElement = document.getElementById("countdown");
 const refreshButton = document.getElementById("refreshButton");
-const buttonImage = refreshButton.querySelector(".button-image");
 
 // 초기 데이터 로딩
 fetchPlayerData();
@@ -37,6 +36,4 @@ const handleRefreshButtonClick = async () => {
 refreshButton.addEventListener("click", handleRefreshButtonClick);
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded and parsed");
-  const refreshButton = document.getElementById("refreshButton");
-  refreshButton.style.display = "block";
 });
