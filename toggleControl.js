@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
   const recentMatchesContainer = document.getElementById("recent-matches");
-  const openTriangleUrl = "./data/img/down.png"; // Use a string for the URL
-  const closeTriangleUrl = "./data/img/up.png"; // Use a string for the URL
 
   recentMatchesContainer.addEventListener("click", function (event) {
     if (event.target.classList.contains("toggle-details")) {
@@ -15,12 +13,12 @@ document.addEventListener("DOMContentLoaded", function () {
           if (matchDetailsDiv.classList.contains("open")) {
             matchDetailsDiv.classList.remove("open");
             // 버튼의 배경 이미지를 열기 이미지로 변경
-            event.target.style.backgroundImage = `url(${openTriangleUrl})`; // Use backticks for template literals
+            event.target.style.backgroundImage = `./data/img/down.png`; // Use backticks for template literals
             matchDetailsDiv.style.display = "none";
           } else {
             matchDetailsDiv.classList.add("open");
             // 버튼의 배경 이미지를 닫기 이미지로 변경
-            event.target.style.backgroundImage = `url(${closeTriangleUrl})`; // Use backticks for template literals
+            event.target.style.backgroundImage = `./data/img/up.png`; // Use backticks for template literals
             matchDetailsDiv.style.display = "block";
           }
         }
@@ -48,7 +46,7 @@ document.addEventListener("click", function (event) {
         matchDetailsDiv.previousElementSibling.querySelector(".toggle-details");
       if (toggleButton) {
         // 버튼의 배경 이미지를 열기 이미지로 변경
-        toggleButton.style.backgroundImage = `url(${openTriangleUrl})`; // Use backticks for template literals
+        toggleButton.style.backgroundImage = `./data/img/down.png`; // Use backticks for template literals
         toggleButton.style.display = "block";
       }
     });
