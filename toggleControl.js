@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
         div.previousElementSibling.querySelector(
           ".toggle-details"
         ).style.backgroundImage = `url(${openTriangleUrl})`; // 열기 이미지로 변경
-        div.style.display = "none";
       });
     }
   });

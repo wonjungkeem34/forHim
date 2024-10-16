@@ -19,6 +19,16 @@ body {
   opacity: 0; /* 초기 투명도 설정 */
   animation: fadeIn 0.5s forwards; /* 애니메이션 추가 */
 }
+#showNum {
+  text-align: center;
+  align-self: flex-start;
+  margin-left: 1vw;
+  margin-bottom: 0;
+  opacity: 0; /* 초기 투명도 설정 */
+  animation: fadeIn 0.5s forwards; /* 애니메이션 추가 */
+  animation-delay: 0.5s; /* 딜레이 추가 */
+}
+
 #rankImageContainer {
   width: 100px; /* Desired width */
   height: 70px; /* Desired height */
@@ -380,12 +390,14 @@ header {
 #recent-matches {
   display: flex;
   flex-direction: column;
-  width: 45vw;
+  width: 50vw;
   padding: 3px;
   max-height: 50%; /* 원하는 최대 높이 설정 */
   overflow-y: auto; /* 세로 스크롤 활성화 */
   margin-top: 10px; /* 상단 여백 추가 */
   scrollbar-color: transparent transparent;
+  justify-content: center; /* 수평 중앙 정렬 */
+  align-items: center; /* 수직 중앙 정렬 */
 }
 
 .match-item {

@@ -28,6 +28,7 @@ const tagLine = TAGLINE;
 const encodedName = encodeURIComponent(userNickname);
 document.getElementById("gameName").innerText = userNickname;
 document.getElementById("tagLine").innerText = tagLine;
+
 const nameandtagContainer = document.querySelector(".nameandtag");
 if (nameandtagContainer) {
   nameandtagContainer.style.display = "block";
@@ -35,7 +36,6 @@ if (nameandtagContainer) {
   console.error("name and tag dosen't exist");
 }
 export async function fetchPlayerData() {
-  document.getElementById("showNum").style.display = "block";
   console.log("전적 데이터를 가져옵니다.");
 
   const version = await getLatestPatchVersion();
@@ -73,7 +73,6 @@ export async function fetchPlayerData() {
     console.error("Error response:", errorText);
     throw new Error(errorText);
   }
-  document.getElementById("showNum").style.display = "none";
 
   const player = await playerResponse.json();
   const profileIconId = player["profileIconId"];
@@ -160,6 +159,7 @@ export async function fetchPlayerData() {
   const other = totalGames % 100;
 
   const allGamesID = [];
+
   for (let i = 0; i <= r; i++) {
     const start = i * 100;
     const count = i !== r ? 100 : other;
@@ -395,8 +395,11 @@ export async function fetchPlayerData() {
       await findRuneImg(secondStyle, index, 1, version);
 
       document.querySelector(".side-banner").style.display = "block";
+      document.getElementById("showNum").style.display = "block";
+
       const matchInfo = document.getElementById("recent-matches");
       matchInfo.style.display = "block";
+
       matchDiv.innerHTML += `
   
       <div class="match-details" style="display: none;">
