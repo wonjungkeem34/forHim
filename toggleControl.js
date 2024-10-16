@@ -11,14 +11,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (matchDetailsDiv) {
           if (matchDetailsDiv.classList.contains("open")) {
+            // matchDetailsDiv가 열려있을 때
             matchDetailsDiv.classList.remove("open");
             // 버튼의 배경 이미지를 열기 이미지로 변경
-            event.target.style.backgroundImage = `./data/img/toggle/toggledown.png`; // Use backticks for template literals
+            event.target.style.backgroundImage = `url('./data/img/toggle/toggledown.png')`; // 닫을 때 down 이미지로 변경
             matchDetailsDiv.style.display = "none";
           } else {
+            // matchDetailsDiv가 닫혀있을 때
             matchDetailsDiv.classList.add("open");
             // 버튼의 배경 이미지를 닫기 이미지로 변경
-            event.target.style.backgroundImage = `./data/img/toggle/toggleup.png`; // Use backticks for template literals
+            event.target.style.backgroundImage = `url('./data/img/toggle/toggleup.png')`; // 열 때 up 이미지로 변경
             matchDetailsDiv.style.display = "block";
           }
         }
@@ -45,8 +47,8 @@ document.addEventListener("click", function (event) {
       const toggleButton =
         matchDetailsDiv.previousElementSibling.querySelector(".toggle-details");
       if (toggleButton) {
-        // 버튼의 배경 이미지를 열기 이미지로 변경
-        toggleButton.style.backgroundImage = `./data/img/toggle/toggledown.png`; // Use backticks for template literals
+        // 버튼의 배경 이미지를 닫기 이미지로 변경
+        toggleButton.style.backgroundImage = `url('./data/img/toggle/toggledown.png')`; // 열기 이미지로 변경
         toggleButton.style.display = "block";
       }
     });
