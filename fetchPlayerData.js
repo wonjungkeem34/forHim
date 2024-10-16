@@ -232,12 +232,12 @@ export async function fetchPlayerData() {
     const recentMatchesContainer = document.getElementById("recent-matches");
     recentMatchesContainer.innerHTML = "";
 
-    validMatches.forEach(async (match, index) => {
+    for (const [index, match] of validMatches.entries()) {
       const teamInfo = findPlayerTeam(match, puuid);
 
       if (!teamInfo) {
         console.log("Participant not found for puuid:", puuid);
-        return;
+        continue;
       }
 
       const participant = teamInfo.participant;
@@ -496,6 +496,6 @@ export async function fetchPlayerData() {
       </div>
     
   `;
-    });
+    }
   }
 }
