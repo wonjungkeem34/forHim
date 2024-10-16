@@ -13,12 +13,12 @@ document.addEventListener("DOMContentLoaded", function () {
           if (matchDetailsDiv.classList.contains("open")) {
             matchDetailsDiv.classList.remove("open");
             // 버튼의 배경 이미지를 열기 이미지로 변경
-            event.target.style.backgroundImage = `./data/img/down.png`; // Use backticks for template literals
+            event.target.style.backgroundImage = `./data/img/toggle/toggledown.png`; // Use backticks for template literals
             matchDetailsDiv.style.display = "none";
           } else {
             matchDetailsDiv.classList.add("open");
             // 버튼의 배경 이미지를 닫기 이미지로 변경
-            event.target.style.backgroundImage = `./data/img/up.png`; // Use backticks for template literals
+            event.target.style.backgroundImage = `./data/img/toggle/toggleup.png`; // Use backticks for template literals
             matchDetailsDiv.style.display = "block";
           }
         }
@@ -46,7 +46,7 @@ document.addEventListener("click", function (event) {
         matchDetailsDiv.previousElementSibling.querySelector(".toggle-details");
       if (toggleButton) {
         // 버튼의 배경 이미지를 열기 이미지로 변경
-        toggleButton.style.backgroundImage = `./data/img/down.png`; // Use backticks for template literals
+        toggleButton.style.backgroundImage = `./data/img/toggle/toggledown.png`; // Use backticks for template literals
         toggleButton.style.display = "block";
       }
     });
