@@ -209,6 +209,10 @@ export async function fetchPlayerData() {
     // 유효한 매치들만 필터링
     const validMatches = recentMatches.filter((match) => match !== null);
 
+    validMatches.sort(
+      (a, b) => b.info.gameEndTimestamp - a.info.gameEndTimestamp
+    );
+
     const recentMatchesContainer = document.getElementById("recent-matches");
     recentMatchesContainer.innerHTML = "";
 
@@ -376,6 +380,8 @@ export async function fetchPlayerData() {
       await findRuneImg(secondStyle, index, 1, version);
 
       document.querySelector(".side-banner").style.display = "block";
+      const matchInfo = document.getElementById("recent-matches");
+      matchInfo.style.display = "block";
       matchDiv.innerHTML += `
   
       <div class="match-details" style="display: none;">
