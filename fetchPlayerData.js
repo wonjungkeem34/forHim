@@ -209,9 +209,14 @@ export async function fetchPlayerData() {
     // 유효한 매치들만 필터링
     const validMatches = recentMatches.filter((match) => match !== null);
 
-    validMatches.sort(
-      (a, b) => b.info.gameEndTimestamp - a.info.gameEndTimestamp
-    );
+    // 한국 시간으로 변환 후 정렬
+    validMatches.sort((a, b) => {
+      const aTimestamp =
+        new Date(a.info.gameEndTimestamp).getTime() + 9 * 60 * 60 * 1000; // UTC에서 KST로 변환
+      const bTimestamp =
+        new Date(b.info.gameEndTimestamp).getTime() + 9 * 60 * 60 * 1000; // UTC에서 KST로 변환
+      return bTimestamp - aTimestamp; // 최신 순으로 정렬
+    });
 
     const recentMatchesContainer = document.getElementById("recent-matches");
     recentMatchesContainer.innerHTML = "";
