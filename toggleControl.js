@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const recentMatchesContainer = document.getElementById("recent-matches");
-  const openTriangleUrl = "./data/img/down.png"; // 열기 삼각형 이미지 URL
-  const closeTriangleUrl = "./data/img/up.png"; // 닫기 삼각형 이미지 URL
+  const openTriangleUrl = `/data/img/down.png`; // 열기 삼각형 이미지 URL
+  const closeTriangleUrl = `/data/img/up.png`; // 닫기 삼각형 이미지 URL
 
   recentMatchesContainer.addEventListener("click", function (event) {
     if (event.target.classList.contains("toggle-details")) {
@@ -47,7 +47,7 @@ document.addEventListener("click", function (event) {
         matchDetailsDiv.previousElementSibling.querySelector(".toggle-details");
       if (toggleButton) {
         // 버튼의 배경 이미지를 열기 이미지로 변경
-        toggleButton.style.backgroundImage = `url(./data/img/down.png)`; // 여기서 경로를 직접 사용
+        toggleButton.style.backgroundImage = `/data/img/down.png`; // 여기서 경로를 직접 사용
         toggleButton.style.display = "block";
       }
     });

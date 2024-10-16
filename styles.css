@@ -478,7 +478,9 @@ header {
   transition: background-color 0.3s, transform 0.2s; /* 배경색과 크기 변화 애니메이션 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 }
-
+.toggle-details:hover {
+  background-color: #1720292f; /* 버튼 배경색 */
+}
 .toggle-box {
   margin-left: auto;
   width: max-content;
