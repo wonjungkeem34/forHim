@@ -636,12 +636,19 @@ header {
   border-radius: 5px;
 }
 .logo {
-  font-size: 1.5rem; /* 로고 폰트 크기 */
+  font-size: 1.5rem; /* 로고 폰트 크기 증가 */
   font-weight: bold; /* 두껍게 */
-  color: #333; /* 텍스트 색상 */
-  margin-left: 20px; /* 아이콘과 로고 사이의 간격 */
-  font-family: "Arial", sans-serif; /* 폰트 패밀리 */
+  color: #fff; /* 텍스트 색상: 흰색으로 변경 */
+  background-color: rgba(66, 66, 66, 0.8); /* 반투명한 배경색 추가 */
+  padding: 5px 20px; /* 패딩 추가로 여백 생성 */
+  border-radius: 5px; /* 모서리를 둥글게 */
   margin-right: auto;
+  font-family: "Arial", sans-serif; /* 폰트 패밀리 */
+  text-align: center; /* 텍스트 중앙 정렬 */
+  text-shadow: 2px 2px 0 rgb(0, 0, 0),
+    /* 오른쪽 아래 검정 그림자 */ -2px -2px 0 rgb(0, 0, 0),
+    /* 왼쪽 위 검정 그림자 */ 1px -1px 0 rgba(255, 255, 255, 0.5),
+    /* 오른쪽 위 흰색 그림자 */ -1px 1px 0 rgba(255, 255, 255, 0.5); /* 왼쪽 아래 흰색 그림자 */
 }
 
 .side-banner p {
@@ -708,8 +715,8 @@ header {
   }
 
   .profile-top {
-    margin-right: 4vw;
-    width: 40%;
+    margin-right: 2vw;
+    width: 50%;
     height: max-content;
   }
   #gameName {
@@ -748,8 +755,8 @@ header {
   }
 
   #profileIcon {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
   }
   hr {
     margin: 0 0;
@@ -758,7 +765,10 @@ header {
     padding: 0;
     height: max-content;
   }
-
+  .countdown {
+    font-size: 0.5rem;
+    width: max-content;
+  }
   .container {
     flex-direction: column;
     align-items: center;
@@ -767,10 +777,13 @@ header {
     max-height: max-content;
     height: max-content;
   }
+  .logo {
+    font-size: 1rem; /* 로고 폰트 크기 증가 */
+  }
 
   .side-info {
     flex-direction: row;
-    width: 30%;
+    width: 100%;
     margin: 0;
     flex: none;
   }
