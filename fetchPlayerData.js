@@ -183,38 +183,49 @@ export async function fetchPlayerData() {
   }
 
   if (allGamesID.length > 0) {
-    // 6개의 최근 매치 정보를 병렬로 가져오기
-    const recentMatchesPromises = allGamesID
-      .slice(0, 10)
-      .map(async (gameId) => {
-        const matchDetailResponse = await fetch(
-          `${asia}/lol/match/v5/matches/${gameId}`,
-          {
-            headers: REQUEST_HEADERS,
-          }
-        );
-
+    const recentMatches = [];
+    const maxConcurrentRequests = 5; // 동시 요청 수 제한
+    const promises = []; // 요청 Promise 배열
+    // 각 매치 정보를 순차적으로 가져오기
+    for (const gameId of allGamesID.slice(0, 5)) {
+      const matchDetailPromise = fetch(
+        `${asia}/lol/match/v5/matches/${gameId}`,
+        {
+          headers: REQUEST_HEADERS,
+        }
+      ).then(async (matchDetailResponse) => {
         if (!matchDetailResponse.ok) {
           const errorText = await matchDetailResponse.text();
           console.error("Error response:", errorText);
-          return null;
+          return null; // 오류가 발생한 경우 null 반환
         }
-
-        return await matchDetailResponse.json();
+        return matchDetailResponse.json(); // 요청 성공 시 JSON 데이터 반환
       });
 
-    // 병렬로 요청 처리결과
-    const recentMatches = await Promise.all(recentMatchesPromises);
+      promises.push(matchDetailPromise);
+
+      // 동시 요청 수가 제한에 도달하면 대기
+      if (promises.length >= maxConcurrentRequests) {
+        const results = await Promise.all(promises);
+        recentMatches.push(...results);
+        promises.length = 0; // 요청 배열 초기화
+      }
+    }
+
+    // 마지막에 남은 요청 처리
+    if (promises.length > 0) {
+      const results = await Promise.all(promises);
+      recentMatches.push(...results);
+    }
 
     // 유효한 매치들만 필터링
     const validMatches = recentMatches.filter((match) => match !== null);
 
-    // 한국 시간으로 변환 후 정렬
     validMatches.sort((a, b) => {
       const aTimestamp =
-        new Date(a.info.gameEndTimestamp).getTime() + 9 * 60 * 60 * 1000; // UTC에서 KST로 변환
+        new Date(a.info.gameEndTimestamp).getTime() + 9 * 60 * 60 * 1000;
       const bTimestamp =
-        new Date(b.info.gameEndTimestamp).getTime() + 9 * 60 * 60 * 1000; // UTC에서 KST로 변환
+        new Date(b.info.gameEndTimestamp).getTime() + 9 * 60 * 60 * 1000;
       return bTimestamp - aTimestamp; // 최신 순으로 정렬
     });
 
@@ -302,7 +313,7 @@ export async function fetchPlayerData() {
       // 아이템 컨테이너 생성
       const itemContainer = document.createElement("div");
       itemContainer.className = "item-container"; // 클래스 이름 추가
-      for (let i = 0; i < 6; i++) {
+      for (let i = 0; i < 5; i++) {
         const itemImg = document.createElement("img");
         itemImg.id = `ItemIcon-${index}_${i}`;
         itemImg.alt = `Item ${i}`;
@@ -313,7 +324,7 @@ export async function fetchPlayerData() {
       toggleBox.className = "toggle-box";
 
       const toggleButton = document.createElement("button");
-      toggleButton.className = "toggle-details"; // CSS 클래스만 추가
+      toggleButton.className = "toggle-details";
 
       toggleBox.appendChild(toggleButton);
       itemContainer.appendChild(toggleBox); // itemContainer 내부에 추가
