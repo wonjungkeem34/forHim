@@ -8,6 +8,5 @@
       "source": "/krapi/:path*",
       "destination": "https://kr.api.riotgames.com/:path*"
     }
-  ],
-  "headers": [{}]
+  ]
 }
