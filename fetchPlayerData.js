@@ -308,8 +308,7 @@ export async function fetchPlayerData() {
       toggleBox.className = "toggle-box";
 
       const toggleButton = document.createElement("button");
-      toggleButton.className = "toggle-details";
-      toggleButton.textContent = "open"; // 버튼 텍스트 설정
+      toggleButton.className = "toggle-details"; // CSS 클래스만 추가
 
       toggleBox.appendChild(toggleButton);
       itemContainer.appendChild(toggleBox); // itemContainer 내부에 추가
