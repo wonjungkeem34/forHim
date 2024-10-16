@@ -417,18 +417,6 @@ header {
   margin-top: 15px; /* 다음 항목과의 간격 추가 */
 }
 
-.match-details {
-  background-color: #535353;
-  border: 1px solid #ddd; /* 테두리 */
-  border-radius: 8px; /* 모서리 둥글게 */
-  padding: 15px; /* 내부 여백 */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-
-  font-family: "Arial", sans-serif; /* 폰트 스타일 */
-  font-size: 14px; /* 폰트 크기 */
-  text-align: left;
-  line-height: 1.5; /* 줄 간격 */
-}
 .match-info-table {
   width: 100%;
   border-collapse: collapse;
@@ -489,10 +477,6 @@ header {
   background-repeat: no-repeat; /* 이미지 반복 방지 */
   transition: background-color 0.3s, transform 0.2s; /* 배경색과 크기 변화 애니메이션 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-}
-
-.toggle-details:hover {
-  background-color: #212427; /* 호버 시 배경색 변화 */
 }
 
 .toggle-box {
