@@ -139,10 +139,13 @@ header {
   border-radius: 50%;
   border: 3px solid #747474;
 }
+
 .detailmatch {
   text-align: left;
   margin-top: 1vw;
   font-size: 1.5em;
+  padding: 10px;
+  border-bottom: 2px solid #ddd; /* 하단 경계선 */
 }
 #profileIcon.hovered {
   border-radius: 50%;
@@ -235,22 +238,24 @@ header {
 }
 .kda {
   border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.2vw 1.3vw;
+  padding: 0.5vw 2vw; /* 패딩을 늘려서 더 넓게 */
   border-radius: 20px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 0.5vw;
+  gap: 1vw; /* 아이템 간격을 조금 더 넓게 */
   margin-left: auto;
   font-size: 1.2rem;
   font-family: "Arial", sans-serif;
   letter-spacing: 0.05em;
   background-color: rgba(0, 0, 0, 0.2);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  max-width: 10vw;
+  /* max-width: 10vw; 제거해서 최대 너비 제한 없앰 */
+  width: auto; /* 너비를 자동으로 조정 */
   transition: all 0.3s ease;
 }
+
 .kda:hover {
   background-color: rgba(0, 0, 0, 0.3);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -265,9 +270,11 @@ header {
   color: rgba(255, 255, 255, 0.5);
   font-weight: normal;
 }
+
 .kda-per {
   color: #94949471;
-  font-weight: 0.5rem;
+  font-size: 0.9rem; /* 글자 크기를 좀 더 작게 */
+  font-weight: 400; /* 보통 두께로 조정 */
 }
 
 .kda-box {
@@ -275,6 +282,8 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 5px;
+  margin-top: 1vw; /* 상단 여백 추가 */
 }
 /* 호버 상태 */
 #refreshButton:hover {
@@ -331,15 +340,18 @@ header {
   margin-right: 1vw;
 }
 .item-container {
+  width: 100%;
   display: flex; /* Flexbox 사용 */
-  justify-content: flex-start; /* 중앙 정렬 */
-  gap: 10px; /* 아이템 간격 조절 */
+  justify-content: flex-start; /* 아이템 정렬 */
   flex-wrap: wrap; /* 줄 바꿈 허용 */
+  transform-origin: top left; /* 축소 기준점을 좌상단으로 설정 */
 }
 
 .item-container img {
-  width: 30px; /* 아이템 이미지 크기 */
-  height: 30px; /* 아이템 이미지 크기 */
+  width: 30px; /* 아이템 이미지 기본 크기 */
+  height: 30px; /* 아이템 이미지 기본 크기 */
+  transform: scale(0.8); /* 이미지를 더 축소 */
+  transition: transform 0.3s ease; /* 마우스 오버 시 부드럽게 확대 */
 }
 .matchInfo-box {
   display: flex;
@@ -361,7 +373,7 @@ header {
   width: max-content;
   text-align: center;
   color: gray;
-  padding: 8px 3px;
+  padding: 0 3px;
   border-radius: 5px;
 }
 
@@ -451,14 +463,18 @@ header {
 }
 
 .toggle-details {
-  margin-top: 0.2vw;
+  margin-top: 1vw;
+  background-image: url("./data/img/down.png"); /* 초기 배경 이미지 설정 */
+  width: 30px; /* 버튼 너비 */
+  height: 20px; /* 버튼 높이 */
   background-color: #54708d2f; /* 버튼 배경색 */
-  color: white; /* 글자색 */
   border: none; /* 테두리 없애기 */
   border-radius: 5px; /* 모서리 둥글게 */
-  padding: 5px 10px; /* 여백 */
-  font-size: 15px; /* 글자 크기 */
+  padding: 5px 0; /* 여백 */
   cursor: pointer; /* 마우스 커서 모양 변경 */
+  background-size: cover; /* 버튼 크기에 맞게 이미지 비율 유지 */
+  background-position: center; /* 이미지 위치를 중앙으로 */
+  background-repeat: no-repeat; /* 이미지 반복 방지 */
   transition: background-color 0.3s, transform 0.2s; /* 배경색과 크기 변화 애니메이션 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
 }
@@ -542,14 +558,19 @@ header {
   flex-direction: row;
   padding-bottom: 1vw;
 }
-.summoner-container {
-  display: flex;
-  flex-direction: column;
-}
+.summoner-container,
 .rune-container {
   display: flex;
   flex-direction: column;
+  max-width: 100%; /* 컨테이너 너비 제한 */
 }
+
+.summoner-container img,
+.rune-container img {
+  width: 80%; /* 이미지 너비를 컨테이너에 맞춰 줄이기 */
+  height: auto; /* 이미지 비율을 유지하면서 크기 조절 */
+}
+
 .ad-banner {
   position: relative; /* 버튼을 배너 안에서 고정하기 위해 relative로 설정 */
   padding: 10px;
@@ -639,16 +660,13 @@ header {
   font-size: 1.5rem; /* 로고 폰트 크기 증가 */
   font-weight: bold; /* 두껍게 */
   color: #fff; /* 텍스트 색상: 흰색으로 변경 */
-  background-color: rgba(66, 66, 66, 0.8); /* 반투명한 배경색 추가 */
   padding: 5px 20px; /* 패딩 추가로 여백 생성 */
   border-radius: 5px; /* 모서리를 둥글게 */
   margin-right: auto;
   font-family: "Arial", sans-serif; /* 폰트 패밀리 */
   text-align: center; /* 텍스트 중앙 정렬 */
   text-shadow: 2px 2px 0 rgb(0, 0, 0),
-    /* 오른쪽 아래 검정 그림자 */ -2px -2px 0 rgb(0, 0, 0),
-    /* 왼쪽 위 검정 그림자 */ 1px -1px 0 rgba(255, 255, 255, 0.5),
-    /* 오른쪽 위 흰색 그림자 */ -1px 1px 0 rgba(255, 255, 255, 0.5); /* 왼쪽 아래 흰색 그림자 */
+    /* 오른쪽 아래 검정 그림자 */ -2px -2px 0 rgb(0, 0, 0);
 }
 
 .side-banner p {
@@ -743,7 +761,9 @@ header {
     font-size: 0.5rem;
     bottom: 0;
   }
-
+  .champProfileBox {
+    margin-right: 0;
+  }
   #recent-matches {
     display: block;
     width: 100%;
@@ -823,6 +843,7 @@ header {
     height: 80px;
     position: relative;
   }
+
   .ad-banner {
     display: none;
   }
@@ -849,6 +870,9 @@ header {
   #recent-matches {
     overflow-y: hidden;
   }
+  .SR-container {
+    transform: scale(0.7); /* 전체 크기를 줄이는 속성 */
+  }
 
   .match-item {
     padding: 5px;
@@ -860,8 +884,8 @@ header {
   }
 
   .match-item img {
-    max-width: 66px;
-    max-height: 66px;
+    max-width: 50px;
+    max-height: 50px;
   }
 
   .textInfo-box {
@@ -870,15 +894,20 @@ header {
   .toggle-box {
     text-align: right;
   }
-  .item-container {
-    gap: 5px; /* 아이템 간격 조절 */
-    margin-bottom: 0;
-  }
   .match-item p {
     font-size: 0.7rem;
   }
   .match-details.open {
     padding: 1vw 5vw;
+  }
+
+  .toggle-details {
+    margin-top: 1vw;
+    background-image: url("./data/img/down.png"); /* 초기 배경 이미지 설정 */
+    width: 20px; /* 버튼 너비 */
+    height: 20px; /* 버튼 높이 */
+
+    padding: 5px 0; /* 여백 */
   }
 }
 @media (max-width: 480px) {

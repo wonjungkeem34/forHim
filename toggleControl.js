@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   const recentMatchesContainer = document.getElementById("recent-matches");
+  const openTriangleUrl = "./data/img/down.png"; // 열기 삼각형 이미지 URL
+  const closeTriangleUrl = "./data/img/up.png"; // 닫기 삼각형 이미지 URL
 
   recentMatchesContainer.addEventListener("click", function (event) {
     if (event.target.classList.contains("toggle-details")) {
@@ -12,11 +14,13 @@ document.addEventListener("DOMContentLoaded", function () {
         if (matchDetailsDiv) {
           if (matchDetailsDiv.classList.contains("open")) {
             matchDetailsDiv.classList.remove("open");
-            event.target.textContent = "open";
+            // 버튼의 배경 이미지를 열기 이미지로 변경
+            event.target.style.backgroundImage = `url(${openTriangleUrl})`;
             matchDetailsDiv.style.display = "none";
           } else {
             matchDetailsDiv.classList.add("open");
-            event.target.textContent = "close";
+            // 버튼의 배경 이미지를 닫기 이미지로 변경
+            event.target.style.backgroundImage = `url(${closeTriangleUrl})`;
             matchDetailsDiv.style.display = "block";
           }
         }
@@ -34,10 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       openDetailsDivs.forEach((div) => {
         div.classList.remove("open");
-        // previousElementSibling의 오타 수정
         div.previousElementSibling.querySelector(
           ".toggle-details"
-        ).textContent = "open";
+        ).style.backgroundImage = `url(${openTriangleUrl})`; // 열기 이미지로 변경
         div.style.display = "none";
       });
     }
