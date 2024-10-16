@@ -41,10 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("click", function (event) {
   // 클릭된 요소가 .toggle-details 또는 .match-details가 아닌 경우
-  if (
-    !event.target.closest(".toggle-details") &&
-    !event.target.closest(".match-details")
-  ) {
+  if (!event.target.closest(".toggle-details")) {
     const openDetailsDivs = document.querySelectorAll(".match-details.open");
 
     openDetailsDivs.forEach((matchDetailsDiv) => {
