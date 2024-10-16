@@ -28,8 +28,14 @@ const tagLine = TAGLINE;
 const encodedName = encodeURIComponent(userNickname);
 document.getElementById("gameName").innerText = userNickname;
 document.getElementById("tagLine").innerText = tagLine;
-
+const nameandtagContainer = document.querySelector(".nameandtag");
+if (nameandtagContainer) {
+  nameandtagContainer.style.display = "block";
+} else {
+  console.error("name and tag dosen't exist");
+}
 export async function fetchPlayerData() {
+  document.getElementById("showNum").style.display = "block";
   console.log("전적 데이터를 가져옵니다.");
 
   const version = await getLatestPatchVersion();
@@ -67,6 +73,7 @@ export async function fetchPlayerData() {
     console.error("Error response:", errorText);
     throw new Error(errorText);
   }
+  document.getElementById("showNum").style.display = "none";
 
   const player = await playerResponse.json();
   const profileIconId = player["profileIconId"];
@@ -109,9 +116,22 @@ export async function fetchPlayerData() {
 
   const rankImagePath = `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier.toLowerCase()}.png`;
 
+  const imgElement = document.createElement("img");
+  imgElement.id = "rankImage";
+  imgElement.src = rankImagePath;
+  imgElement.alt = `${tier} emblem`;
+
+  const rankImageContainer = document.getElementById("rankImageContainer");
+  if (rankImageContainer) {
+    rankImageContainer.appendChild(imgElement);
+    rankImageContainer.style.display = "block";
+  } else {
+    console.error("Rank image container not found");
+  }
   document.getElementById("queueType").innerText = queueType;
   tierElement.innerText = tier;
   rankElement.innerText = playerInfo[0].rank;
+  document.getElementById("refreshButton").style.display = "inline-block";
   document.getElementById("leaguePoints").innerText = leaguePoints + "LP";
   document.getElementById("wins").innerText = wins + " 승";
   document.getElementById("losses").innerText = losses + " 패";
@@ -119,6 +139,7 @@ export async function fetchPlayerData() {
   document.getElementById("summonerLevel").innerText = summonerLevel;
   document.querySelector(".rank-info p:nth-child(1)").style.display = "block"; // 티어와 랭크, LP
   document.querySelector(".rank-info p:nth-child(2)").style.display = "block"; // 승률
+  document.querySelector(".sideinfo-box").style.display = "block";
   document.querySelector("#summonerLevel").style.display = "block";
 
   profileIconElement.addEventListener("mouseover", () => {
@@ -163,22 +184,24 @@ export async function fetchPlayerData() {
 
   if (allGamesID.length > 0) {
     // 6개의 최근 매치 정보를 병렬로 가져오기
-    const recentMatchesPromises = allGamesID.slice(0, 6).map(async (gameId) => {
-      const matchDetailResponse = await fetch(
-        `${asia}/lol/match/v5/matches/${gameId}`,
-        {
-          headers: REQUEST_HEADERS,
+    const recentMatchesPromises = allGamesID
+      .slice(0, 10)
+      .map(async (gameId) => {
+        const matchDetailResponse = await fetch(
+          `${asia}/lol/match/v5/matches/${gameId}`,
+          {
+            headers: REQUEST_HEADERS,
+          }
+        );
+
+        if (!matchDetailResponse.ok) {
+          const errorText = await matchDetailResponse.text();
+          console.error("Error response:", errorText);
+          return null;
         }
-      );
 
-      if (!matchDetailResponse.ok) {
-        const errorText = await matchDetailResponse.text();
-        console.error("Error response:", errorText);
-        return null;
-      }
-
-      return await matchDetailResponse.json();
-    });
+        return await matchDetailResponse.json();
+      });
 
     // 병렬로 요청 처리결과
     const recentMatches = await Promise.all(recentMatchesPromises);
@@ -276,6 +299,16 @@ export async function fetchPlayerData() {
         itemImg.alt = `Item ${i}`;
         itemContainer.appendChild(itemImg);
       }
+
+      const toggleBox = document.createElement("div");
+      toggleBox.className = "toggle-box";
+
+      const toggleButton = document.createElement("button");
+      toggleButton.className = "toggle-details";
+      toggleButton.textContent = "open"; // 버튼 텍스트 설정
+
+      toggleBox.appendChild(toggleButton);
+      itemContainer.appendChild(toggleBox); // itemContainer 내부에 추가
       matchDiv.appendChild(itemContainer);
 
       // recentMatchesContainer에 matchDiv 추가
@@ -341,14 +374,12 @@ export async function fetchPlayerData() {
       const secondStyle = participant.perks.styles[1].style;
       await findRuneImg(firstStyle, index, 0, version);
       await findRuneImg(secondStyle, index, 1, version);
-      document.getElementById("refreshButton").style.display = "inline-block";
+
+      document.querySelector(".side-banner").style.display = "block";
       matchDiv.innerHTML += `
-      <div>
-        <div style="text-align: right;">
-        <button class="toggle-details">open</button>
-    </div>
+  
       <div class="match-details" style="display: none;">
-   <p style="text-align:left; margin-top: 1vw; font-size: 1.5em; ">상세 전적 정보</p>
+   <p class="detailmatch">상세 전적 정보</p>
   <table class="match-info-table">
   <tr><td>포지션</td><td class="note-info-td">${
     participant.teamPosition
@@ -439,7 +470,7 @@ export async function fetchPlayerData() {
 </table>
 
       </div>
-      </div>
+    
   `;
     });
   }

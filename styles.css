@@ -108,6 +108,7 @@ header {
   flex-direction: column;
   margin-left: auto;
   margin-right: auto;
+  gap: 3px;
 }
 @keyframes fadeIn {
   from {
@@ -126,14 +127,23 @@ header {
   overflow: hidden;
   background-color: transparent;
 }
-
+.countdown {
+  font-size: 0.7rem;
+  color: red;
+  display: block;
+  margin-bottom: 0px;
+}
 #profileIcon {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   border: 3px solid #747474;
 }
-
+.detailmatch {
+  text-align: left;
+  margin-top: 1vw;
+  font-size: 1.5em;
+}
 #profileIcon.hovered {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.116);
@@ -221,6 +231,7 @@ header {
   padding: 2px 8px;
   border-radius: 10px;
   font-size: 0.8rem;
+  border: 1px solid #8d8d8d;
 }
 .kda {
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -295,7 +306,7 @@ header {
   width: 100%; /* 전체 너비를 사용하도록 설정 */
 }
 .result-box {
-  padding: 6px 15px; /* 여백 추가 */
+  padding: 6px 20px; /* 여백 추가 */
   border-radius: 5px; /* 둥글게 처리 */
   text-align: center; /* 중앙 정렬 */
   margin-left: 10px; /* 좌측 여백 추가 */
@@ -334,7 +345,7 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: space-between; /* 내부 요소들을 양 끝으로 정렬 */
-  align-items: flex-end;
+  align-items: center;
   margin-bottom: 0.5vw;
   width: 100%; /* 전체 너비를 사용하도록 설정 */
 }
@@ -352,7 +363,6 @@ header {
   color: gray;
   padding: 8px 3px;
   border-radius: 5px;
-  margin-bottom: 10px; /* 아래 요소와의 간격을 위해 */
 }
 
 #recent-matches {
@@ -389,7 +399,7 @@ header {
   border-radius: 8px; /* 모서리 둥글게 */
   padding: 15px; /* 내부 여백 */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  margin-top: 10px; /* 위쪽 여백 */
+
   font-family: "Arial", sans-serif; /* 폰트 스타일 */
   font-size: 14px; /* 폰트 크기 */
   text-align: left;
@@ -399,7 +409,7 @@ header {
   width: 100%;
   border-collapse: collapse;
   margin: 2vw 0;
-  font-size: 14px;
+  font-size: 12px;
   text-align: left;
 }
 .note-info-td {
@@ -421,10 +431,10 @@ header {
 .match-details.open {
   display: block;
   background-color: #333333;
-
+  margin-top: 3vw;
   border-width: 0;
   max-height: max-content; /* 충분히 큰 값으로 설정하여 펼칠 때 공간을 차지하도록 */
-  padding: 1vw 5vw; /* 펼칠 때 패딩을 추가하여 내용을 돋보이게 함 */
+  padding: 1vw 3vw;
   display: flex;
   flex-direction: row;
 }
@@ -460,7 +470,10 @@ header {
 .toggle-details:active {
   transform: scale(0.95); /* 클릭 시 크기 감소 */
 }
-
+.toggle-box {
+  margin-left: auto;
+  width: max-content;
+}
 .match-item-content {
   flex: 1;
   display: flex;
@@ -539,7 +552,7 @@ header {
 }
 .ad-banner {
   position: relative; /* 버튼을 배너 안에서 고정하기 위해 relative로 설정 */
-  padding: 20px;
+  padding: 10px;
   background-color: yellow;
   background-size: cover;
   background-position: center;
@@ -594,7 +607,7 @@ header {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  padding: 15px 25px;
+  padding: 15px 70px;
   border-radius: 10px;
   background-color: #f9f9f9; /* 부드럽고 얌전한 회색 배경 */
   background-image: url("https://file.giantsclub.com/upload2014/Player/62528_m.png");
@@ -640,7 +653,8 @@ header {
   line-height: 1.4;
   z-index: 2;
 }
-
+.nameandtag {
+}
 .side-banner .cta-button {
   background-color: #6c757d; /* 차분한 회색 버튼 */
   color: white;
@@ -692,10 +706,6 @@ header {
   .matchInfo-box {
     align-items: flex-end;
   }
-  .rank-info {
-    align-items: flex-start;
-    margin-top: 2vw;
-  }
 
   .profile-top {
     margin-right: 4vw;
@@ -710,7 +720,7 @@ header {
   }
   #tier,
   #rank {
-    font-size: 1.2rem; /* 티어와 랭크 강조 */
+    font-size: 0.9rem; /* 티어와 랭크 강조 */
   }
   #winRate {
     font-size: 0.8rem;
@@ -734,11 +744,15 @@ header {
   .match-item {
     flex-direction: column;
     align-items: flex-start;
+    height: max-content;
   }
 
   #profileIcon {
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
+  }
+  hr {
+    margin: 0 0;
   }
   .user-info {
     padding: 0;
@@ -756,10 +770,14 @@ header {
 
   .side-info {
     flex-direction: row;
-    width: 50%;
+    width: 30%;
     margin: 0;
-    padding: 10px 10px 10px 15px;
     flex: none;
+  }
+  .sideinfo-box {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
   }
   .main-content {
     width: 100%;
@@ -775,14 +793,29 @@ header {
     padding: 1vw 5vw;
   }
   .side-banner {
-    display: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 50%;
+    border-radius: 10px;
+    background-color: #f9f9f9; /* 부드럽고 얌전한 회색 배경 */
+    background-image: url("https://file.giantsclub.com/upload2014/Player/62528_m.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 30% 60%;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 더 부드러운 그림자 */
+    font-family: "Arial", sans-serif;
+    text-align: right; /* 텍스트를 오른쪽으로 정렬 */
+    height: 80px;
+    position: relative;
   }
   .ad-banner {
     display: none;
   }
   #rankImageContainer {
     width: 40px; /* Desired width */
-    height: 30px; /* Desired height */
+    height: 20px; /* Desired height */
     position: relative;
   }
 
@@ -803,10 +836,41 @@ header {
   #recent-matches {
     overflow-y: hidden;
   }
+
+  .match-item {
+    padding: 5px;
+    border-radius: 3px;
+  }
+
+  .match-item + .match-item {
+    margin-top: 10px; /* 다음 항목과의 간격 추가 */
+  }
+
+  .match-item img {
+    max-width: 66px;
+    max-height: 66px;
+  }
+
+  .textInfo-box {
+    margin-bottom: 2vw;
+  }
+  .toggle-box {
+    text-align: right;
+  }
+  .item-container {
+    gap: 5px; /* 아이템 간격 조절 */
+    margin-bottom: 0;
+  }
+  .match-item p {
+    font-size: 0.7rem;
+  }
+  .match-details.open {
+    padding: 1vw 5vw;
+  }
 }
 @media (max-width: 480px) {
   .container {
-    padding: 1vh 2%;
+    padding: 1vh 8%;
     max-height: max-content;
     height: max-content;
   }
@@ -814,10 +878,6 @@ header {
   .match-item {
     flex-direction: column;
     align-items: center;
-  }
-  .rank-info {
-    align-items: flex-start;
-    margin-top: 5vw;
   }
 
   .match-item-content {

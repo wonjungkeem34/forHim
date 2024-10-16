@@ -57,60 +57,53 @@
     </div>
 
     <div class="container">
-      <div class="side-info" id="summoner-info">
-        <div class="profile-top">
-          <div class="profile-icon">
-            <img
-              id="profileIcon"
-              alt="Profile Icon"
-              src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/empty-icon.png"
-            />
-            <div id="summonerLevel" style="display: none"></div>
+      <div class="sideinfo-box" style="display: none">
+        <div class="side-info" id="summoner-info">
+          <div class="profile-top">
+            <div class="profile-icon">
+              <img
+                id="profileIcon"
+                alt="Profile Icon"
+                src="https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/empty-icon.png"
+              />
+              <div id="summonerLevel" style="display: none"></div>
+            </div>
+            <span id="rankImageContainer" style="display: none"> </span>
+            <div class="nameandtag" style="display: none">
+              <p id="gameName"></p>
+              <p id="tagLine"></p>
+            </div>
+            <div id="countdown" class="countdown"></div>
           </div>
-          <span id="rankImageContainer" style="display: none"> </span>
-          <div style="margin-top: 10px; transform: translateY(-40%)">
-            <p id="gameName"></p>
-            <p id="tagLine"></p>
-          </div>
-          <div
-            id="countdown"
-            style="
-              font-size: 0.7rem;
-              color: red;
-              display: none;
-              margin-bottom: 0;
-            "
-          ></div>
-        </div>
-        <div class="user-info">
-          <p class="rank">
-            <span id="queueType" class="rank-value"> </span>
-            <button id="refreshButton">
-              <span class="button-image"></span>
-            </button>
-          </p>
-          <hr />
-
-          <div class="rank-info">
-            <p class="rank" style="gap: 0.5vw">
-              <span id="tier" class="rank-value"> </span>
-              <span id="rank" class="rank-value"></span>
-
-              <span id="leaguePoints" class="rank-value"></span>
-            </p>
+          <div class="user-info">
             <p class="rank">
-              <span id="winRate" class="rank-value"></span>
-              <span id="wins" class="rank-value"></span>
-              <span id="losses" class="rank-value"></span>
+              <span id="queueType" class="rank-value"> </span>
+              <button id="refreshButton" style="display: none">
+                <span class="button-image"></span>
+              </button>
             </p>
+            <hr />
+
+            <div class="rank-info">
+              <p class="rank" style="gap: 0.5vw">
+                <span id="tier" class="rank-value"> </span>
+                <span id="rank" class="rank-value"></span>
+
+                <span id="leaguePoints" class="rank-value"></span>
+              </p>
+              <p class="rank">
+                <span id="winRate" class="rank-value"></span>
+                <span id="wins" class="rank-value"></span>
+                <span id="losses" class="rank-value"></span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
-
       <div class="main-content">
         <div class="box">
+          <p id="showNum" style="display: none">최근 전적 10개</p>
           <div id="recent-matches">
-            <p>최근 전적 6개</p>
             <button class="toggle-details close">
               <span class="triangle"></span>
             </button>
@@ -119,13 +112,14 @@
       </div>
 
       <div
-        class="side-banner side-info"
+        class="side-banner"
         data-url="https://www.giantsclub.com/html/?pcode=410&pc=62528"
+        style="display: none"
       ></div>
     </div>
 
     <script type="module" src="./main.js"></script>
-    <script type="module" src="./addControl.js"></script>
+    <script type="module" src="./adControl.js"></script>
     <script type="module" src="./toggleControl.js"></script>
     <script>
       document
