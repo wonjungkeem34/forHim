@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://asia.api.riotgames.com/:path*"
+    },
+    {
+      "source": "/krapi/:path*",
+      "destination": "https://kr.api.riotgames.com/:path*"
+    }
+  ],
+  "headers": [{}]
+}

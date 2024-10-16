@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("광고 클릭");
   const closeAdButton = document.querySelector(".close-ad");
   const adBanner = document.querySelector(".ad-banner");
 

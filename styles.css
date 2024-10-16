@@ -65,6 +65,7 @@ header {
   justify-content: flex-start;
   overflow-y: auto; /* 세로 스크롤 활성화 */
   scrollbar-color: transparent transparent;
+  max-height: max-content;
 }
 
 .side-info {
@@ -728,7 +729,6 @@ header {
 
   #recent-matches {
     display: block;
-    max-height: 120vw;
     width: 100%;
   }
   .match-item {
@@ -750,6 +750,8 @@ header {
     align-items: center;
     padding: 2vh 3%;
     overflow: hidden;
+    max-height: max-content;
+    height: max-content;
   }
 
   .side-info {
@@ -798,10 +800,15 @@ header {
     font-size: 0.6rem; /* 작은 글씨 */
     font-weight: lighter;
   }
+  #recent-matches {
+    overflow-y: hidden;
+  }
 }
 @media (max-width: 480px) {
   .container {
     padding: 1vh 2%;
+    max-height: max-content;
+    height: max-content;
   }
 
   .match-item {
@@ -818,8 +825,8 @@ header {
     text-align: center;
   }
   #recent-matches {
+    overflow-y: hidden;
     display: block;
-    max-height: 200vw;
     width: 100%;
   }
   .side-banner {

@@ -13,7 +13,6 @@ const api_key = import.meta.env.VITE_RIOT_API_KEY;
 
 const asia = "/api";
 const kr = "/krapi";
-const PROXY_SERVER = "";
 
 const REQUEST_HEADERS = {
   "User-Agent":
@@ -37,7 +36,7 @@ export async function fetchPlayerData() {
 
   const response = await fetch(
     // 요청할 URL을 콘솔에 출력
-    `${PROXY_SERVER}${asia}/riot/account/v1/accounts/by-riot-id/${encodedName}/${tagLine}`,
+    `${asia}/riot/account/v1/accounts/by-riot-id/${encodedName}/${tagLine}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
@@ -55,7 +54,7 @@ export async function fetchPlayerData() {
   const puuid = player_id["puuid"];
 
   const playerResponse = await fetch(
-    `${PROXY_SERVER}${kr}/lol/summoner/v4/summoners/by-puuid/${puuid}`,
+    `${kr}/lol/summoner/v4/summoners/by-puuid/${puuid}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
@@ -78,7 +77,7 @@ export async function fetchPlayerData() {
   document.querySelector("#profileIcon").style.display = "block";
 
   const leagueResponse = await fetch(
-    `${PROXY_SERVER}${kr}/lol/league/v4/entries/by-summoner/${player["id"]}`,
+    `${kr}/lol/league/v4/entries/by-summoner/${player["id"]}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
@@ -110,18 +109,6 @@ export async function fetchPlayerData() {
 
   const rankImagePath = `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier.toLowerCase()}.png`;
 
-  const imgElement = document.createElement("img");
-  imgElement.id = "rankImage";
-  imgElement.src = rankImagePath;
-  imgElement.alt = `${tier} emblem`;
-
-  const rankImageContainer = document.getElementById("rankImageContainer");
-  if (rankImageContainer) {
-    rankImageContainer.appendChild(imgElement);
-  } else {
-    console.error("Rank image container not found");
-  }
-
   document.getElementById("queueType").innerText = queueType;
   tierElement.innerText = tier;
   rankElement.innerText = playerInfo[0].rank;
@@ -136,7 +123,8 @@ export async function fetchPlayerData() {
 
   profileIconElement.addEventListener("mouseover", () => {
     profileIconElement.classList.add("hovered");
-    profileIconElement.src = rankImagePath;
+    profileIconElement.src =
+      "https://file.giantsclub.com/upload2014/2023/08/16/230816-SSG%EC%A0%84-67-%EA%B9%80%EC%9B%90%EC%A4%91100%EC%84%B8%EC%9D%B4%EB%B8%8C%EC%9C%84%ED%95%B4%20%EB%93%B1%ED%8C%90KCH39434.jpg";
   });
 
   profileIconElement.addEventListener("mouseout", () => {
@@ -156,7 +144,7 @@ export async function fetchPlayerData() {
     const count = i !== r ? 100 : other;
 
     const matchResponse = await fetch(
-      `${PROXY_SERVER}${asia}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}`,
+      `${asia}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}`,
       {
         headers: REQUEST_HEADERS,
       }
@@ -177,7 +165,7 @@ export async function fetchPlayerData() {
     // 6개의 최근 매치 정보를 병렬로 가져오기
     const recentMatchesPromises = allGamesID.slice(0, 6).map(async (gameId) => {
       const matchDetailResponse = await fetch(
-        `${PROXY_SERVER}${asia}/lol/match/v5/matches/${gameId}`,
+        `${asia}/lol/match/v5/matches/${gameId}`,
         {
           headers: REQUEST_HEADERS,
         }
