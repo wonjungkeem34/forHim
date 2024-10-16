@@ -38,3 +38,25 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+document.addEventListener("click", function (event) {
+  // 클릭된 요소가 .toggle-details 또는 .match-details가 아닌 경우
+  if (
+    !event.target.closest(".toggle-details") &&
+    !event.target.closest(".match-details")
+  ) {
+    const openDetailsDivs = document.querySelectorAll(".match-details.open");
+
+    openDetailsDivs.forEach((matchDetailsDiv) => {
+      matchDetailsDiv.classList.remove("open");
+      matchDetailsDiv.style.display = "none"; // 숨김 처리
+      // toggleButton을 찾고 이미지 변경
+      const toggleButton =
+        matchDetailsDiv.previousElementSibling.querySelector(".toggle-details");
+      if (toggleButton) {
+        // 버튼의 배경 이미지를 열기 이미지로 변경
+        toggleButton.classList.add("closed");
+      }
+    });
+  }
+});
