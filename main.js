@@ -9,11 +9,9 @@ fetchPlayerData();
 
 const handleRefreshButtonClick = async () => {
   if (cooldown) return;
-
+  await fetchPlayerData(); // 데이터 새로 고침
   cooldown = true;
   refreshButton.disabled = true; // 버튼 비활성화
-
-  await fetchPlayerData(); // 데이터 새로 고침
 
   let countdown = 120; // 카운트다운 시간 (초)
   countdownElement.style.display = "block";
@@ -36,4 +34,5 @@ const handleRefreshButtonClick = async () => {
 refreshButton.addEventListener("click", handleRefreshButtonClick);
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM fully loaded and parsed");
+  document.getElementById("refreshButton").style.display = "inline-block";
 });

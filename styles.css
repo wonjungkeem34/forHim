@@ -495,9 +495,6 @@ header {
   background-color: #212427; /* 호버 시 배경색 변화 */
 }
 
-.toggle-details:active {
-  transform: scale(0.95); /* 클릭 시 크기 감소 */
-}
 .toggle-box {
   margin-left: auto;
   width: max-content;

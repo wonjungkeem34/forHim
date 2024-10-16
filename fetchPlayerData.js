@@ -130,7 +130,7 @@ export async function fetchPlayerData() {
   document.getElementById("queueType").innerText = queueType;
   tierElement.innerText = tier;
   rankElement.innerText = playerInfo[0].rank;
-  document.getElementById("refreshButton").style.display = "inline-block";
+
   document.getElementById("leaguePoints").innerText = leaguePoints + "LP";
   document.getElementById("wins").innerText = wins + " 승";
   document.getElementById("losses").innerText = losses + " 패";
