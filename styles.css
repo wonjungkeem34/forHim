@@ -731,7 +731,9 @@ header {
   .matchInfo-box {
     align-items: flex-end;
   }
-
+  .rank-info {
+    margin-top: 2vw;
+  }
   .profile-top {
     margin-right: 2vw;
     width: 50%;
