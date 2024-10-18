@@ -574,7 +574,8 @@ header {
 .ad-banner {
   position: relative; /* 버튼을 배너 안에서 고정하기 위해 relative로 설정 */
   padding: 10px;
-  background-color: yellow;
+  /* background-color: yellow; */
+  background-color: rgb(54, 54, 54);
   background-size: cover;
   background-position: center;
   color: #4b4b4b;
@@ -596,7 +597,8 @@ header {
   transform: translateY(5px); /* 원하는 만큼 아래로 이동, 여기서는 5px */
 }
 .highlight {
-  color: #ffcc00; /* 강조할 색상, 예: 밝은 노란색 */
+  /* color: #ffcc00; 강조할 색상, 예: 밝은 노란색 */
+  color: #ffffff98;
   font-weight: bold; /* 두껍게 */
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* 그림자 효과 추가 */
   border-radius: 4px; /* 모서리를 둥글게 */
@@ -626,7 +628,6 @@ header {
 }
 .side-banner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
   align-items: center;
   padding: 15px 70px;
   border-radius: 10px;
