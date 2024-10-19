@@ -184,7 +184,7 @@ export async function fetchPlayerData() {
 
   if (allGamesID.length > 0) {
     const recentMatches = [];
-    const maxConcurrentRequests = 5; // 동시 요청 수 제한
+    const maxConcurrentRequests = 10; // 동시 요청 수 제한
     const promises = []; // 요청 Promise 배열
     // 각 매치 정보를 순차적으로 가져오기
     for (const gameId of allGamesID.slice(0, 5)) {
