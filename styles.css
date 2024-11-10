@@ -586,15 +586,15 @@ header {
 
 @keyframes moveText {
   0% {
-    transform: translateX(70%); /* 오른쪽 끝에서 시작 */
+    transform: translateX(50%); /* 오른쪽 끝에서 시작 */
   }
   100% {
-    transform: translateX(-100%); /* 왼쪽 끝으로 이동 */
+    transform: translateX(-80%); /* 왼쪽 끝으로 이동 */
   }
 }
 .ad-banner p {
   margin: 0;
-  font-size: 1.2em;
+  font-size: 1rem;
   font-weight: bold;
   color: #1f1f1f;
   text-shadow: 1px 1px 2px rgba(163, 163, 163, 0.8);
@@ -602,9 +602,8 @@ header {
   text-align: center;
   display: inline-block; /* 텍스트가 한 줄로 나오도록 설정 */
   white-space: nowrap; /* 텍스트 줄바꿈 방지 */
-  animation: moveText 20s linear infinite; /* 텍스트가 왼쪽으로 흐르는 애니메이션 */
+  animation: moveText 15s linear infinite; /* 텍스트가 왼쪽으로 흐르는 애니메이션 */
   will-change: transform; /* 애니메이션 성능 최적화 */
-  animation-delay: 1s;
 }
 
 .ad-banner p img {
@@ -868,15 +867,23 @@ header {
     overflow: hidden; /* 넘치는 부분은 숨기기 */
   }
 
+  @keyframes moveText {
+    0% {
+      transform: translateX(20%); /* 오른쪽 끝에서 시작 */
+    }
+    100% {
+      transform: translateX(-80%); /* 왼쪽 끝으로 이동 */
+    }
+  }
   .ad-banner p {
-    font-size: 0.8rem;
+    font-size: 0.6rem;
     font-weight: bold;
-    line-height: 1.5;
+
     color: #1f1f1f;
     text-shadow: 1px 1px 2px rgba(163, 163, 163, 0.8);
     text-align: center;
     white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
-    animation: moveText 25s linear infinite; /* 텍스트 움직이기 */
+    animation: moveText 15s linear infinite; /* 텍스트 움직이기 */
   }
 
   #rankImageContainer {
