@@ -572,30 +572,45 @@ header {
 }
 
 .ad-banner {
-  position: relative; /* 버튼을 배너 안에서 고정하기 위해 relative로 설정 */
+  position: relative; /* 배너 안에서 요소를 배치하기 위해 relative로 설정 */
   padding: 10px;
   background-color: yellow;
-  /* background-color: rgb(54, 54, 54); */
   background-size: cover;
   background-position: center;
   color: #4b4b4b;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   font-family: "Roboto", sans-serif;
   text-align: center;
+  overflow: hidden; /* 배너 영역을 벗어나는 내용은 숨기기 */
 }
 
+@keyframes moveText {
+  0% {
+    transform: translateX(50%); /* 오른쪽 끝에서 시작 */
+  }
+  100% {
+    transform: translateX(-100%); /* 왼쪽 끝으로 이동 */
+  }
+}
 .ad-banner p {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.2em;
   font-weight: bold;
   color: #1f1f1f;
   text-shadow: 1px 1px 2px rgba(163, 163, 163, 0.8);
-  line-height: 0.5;
+  line-height: 1.5;
   text-align: center;
+  display: inline-block; /* 텍스트가 한 줄로 나오도록 설정 */
+  white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+  animation: moveText 20s linear infinite; /* 텍스트가 왼쪽으로 흐르는 애니메이션 */
+  will-change: transform; /* 애니메이션 성능 최적화 */
 }
+
 .ad-banner p img {
-  transform: translateY(5px); /* 원하는 만큼 아래로 이동, 여기서는 5px */
+  transform: translateY(5px); /* 이미지 아래로 5px 이동 */
+  animation: imageMove 2s ease-in-out infinite alternate; /* 이미지 애니메이션 추가 */
 }
+
 .highlight {
   color: #ffcc00;
   /* color: #ffffff98; */
@@ -632,10 +647,10 @@ header {
   padding: 15px 70px;
   border-radius: 10px;
   background-color: #f9f9f9; /* 부드럽고 얌전한 회색 배경 */
-  background-image: url("https://file.giantsclub.com/upload2014/Player/62528_m.png");
+  background-image: url("https://pimg.mk.co.kr/news/cms/202411/10/news-p.v1.20241110.a080cb6b710847e68c1673724ceec5be_P1.jpg");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: 30% 40%;
+  background-position: 50% 40%;
   color: #333;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 더 부드러운 그림자 */
   font-family: "Arial", sans-serif;
@@ -835,21 +850,34 @@ header {
     padding: 0 50%;
     border-radius: 10px;
     background-color: #f9f9f9; /* 부드럽고 얌전한 회색 배경 */
-    background-image: url("https://file.giantsclub.com/upload2014/Player/62528_m.png");
+    background-image: url("https://pimg.mk.co.kr/news/cms/202411/10/news-p.v1.20241110.03e96c1c739a483a949db91122d73b04_P1.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: 30% 60%;
+    background-position: 30% 23%;
     color: #333;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 더 부드러운 그림자 */
     font-family: "Arial", sans-serif;
     text-align: right; /* 텍스트를 오른쪽으로 정렬 */
-    height: 80px;
+    height: 120px;
     position: relative;
   }
 
   .ad-banner {
-    display: none;
+    display: flex; /* 한 줄로 표시되도록 설정 */
+    overflow: hidden; /* 넘치는 부분은 숨기기 */
   }
+
+  .ad-banner p {
+    font-size: 1rem;
+    font-weight: bold;
+    line-height: 1.5;
+    color: #1f1f1f;
+    text-shadow: 1px 1px 2px rgba(163, 163, 163, 0.8);
+    text-align: center;
+    white-space: nowrap; /* 텍스트가 줄 바꿈되지 않도록 설정 */
+    animation: moveText 25s linear infinite; /* 텍스트 움직이기 */
+  }
+
   #rankImageContainer {
     width: 40px; /* Desired width */
     height: 20px; /* Desired height */
@@ -943,7 +971,7 @@ header {
     display: none;
   }
   .ad-banner {
-    display: none;
+    display: block;
   }
   #tier,
   #rank {
