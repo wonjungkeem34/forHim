@@ -586,7 +586,7 @@ header {
 
 @keyframes moveText {
   0% {
-    transform: translateX(100%); /* 오른쪽 끝에서 시작 */
+    transform: translateX(70%); /* 오른쪽 끝에서 시작 */
   }
   100% {
     transform: translateX(-100%); /* 왼쪽 끝으로 이동 */
