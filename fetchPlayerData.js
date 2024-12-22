@@ -98,14 +98,17 @@ export async function fetchPlayerData() {
   }
 
   const playerInfo = await leagueResponse.json();
+  const rankedSoloInfo = playerInfo.find(
+    (item) => item.queueType === "RANKED_SOLO_5x5"
+  );
 
-  const tier = playerInfo[0].tier || "unranked";
-  const [, color] = tierProcessing(tier, playerInfo[0].rank) || "";
-  const leaguePoints = playerInfo[0]?.leaguePoints || 0;
-  const wins = playerInfo[0]?.wins || 0;
-  const losses = playerInfo[0]?.losses || 0;
+  const tier = rankedSoloInfo.tier || "unranked";
+  const [, color] = tierProcessing(tier, rankedSoloInfo.rank) || "";
+  const leaguePoints = rankedSoloInfo?.leaguePoints || 0;
+  const wins = rankedSoloInfo?.wins || 0;
+  const losses = rankedSoloInfo?.losses || 0;
   const winRate = calculateWinRate(wins, losses);
-  const queueType = rankKo[playerInfo[0]?.queueType] || "";
+  const queueType = rankKo[rankedSoloInfo?.queueType] || "";
   const summonerLevel = player["summonerLevel"];
 
   const tierElement = document.getElementById("tier");
@@ -129,7 +132,7 @@ export async function fetchPlayerData() {
   }
   document.getElementById("queueType").innerText = queueType;
   tierElement.innerText = tier;
-  rankElement.innerText = playerInfo[0].rank;
+  rankElement.innerText = rankedSoloInfo.rank;
 
   document.getElementById("leaguePoints").innerText = leaguePoints + "LP";
   document.getElementById("wins").innerText = wins + " 승";
