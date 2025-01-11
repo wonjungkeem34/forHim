@@ -576,7 +576,7 @@ header {
   padding: 10px;
   /* background-color: yellow; */
   background-color: rgb(54, 54, 54);
-  background-color: yellow;
+  background-color: rgb(122, 122, 122);
   /* background-color: rgb(54, 54, 54); */
   background-size: cover;
   background-position: center;
@@ -598,7 +598,7 @@ header {
 }
 
 .highlight {
-  color: #ffcc00;
+  color: #c5c5c5;
   /* color: #ffffff98; */
   font-weight: bold; /* 두껍게 */
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* 그림자 효과 추가 */
@@ -608,6 +608,9 @@ header {
 }
 .highlight.red {
   color: #ff401f;
+}
+.highlight.grey {
+  color: rgb(36, 36, 36);
 }
 .close-ad {
   position: absolute;

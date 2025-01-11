@@ -75,6 +75,7 @@ export async function fetchPlayerData() {
   }
 
   const player = await playerResponse.json();
+
   const profileIconId = player["profileIconId"];
   const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/${version}/img/profileicon/${profileIconId}.png`;
   const profileIconElement = document.getElementById("profileIcon");
@@ -98,42 +99,55 @@ export async function fetchPlayerData() {
   }
 
   const playerInfo = await leagueResponse.json();
-  const rankedSoloInfo = playerInfo.find(
-    (item) => item.queueType === "RANKED_SOLO_5x5"
-  );
+  let tier = "unranked";
+  let color = "";
+  let leaguePoints = 0;
+  let wins = 0;
+  let losses = 0;
+  let winRate = 0;
+  let rank = null;
+  let queueType = "";
+  let summonerLevel = player["summonerLevel"];
+  let rankedSoloInfo = null;
+  let rankImagePath = null;
 
-  const tier = rankedSoloInfo.tier || "unranked";
-  const [, color] = tierProcessing(tier, rankedSoloInfo.rank) || "";
-  const leaguePoints = rankedSoloInfo?.leaguePoints || 0;
-  const wins = rankedSoloInfo?.wins || 0;
-  const losses = rankedSoloInfo?.losses || 0;
-  const winRate = calculateWinRate(wins, losses);
-  const queueType = rankKo[rankedSoloInfo?.queueType] || "";
-  const summonerLevel = player["summonerLevel"];
+  if (playerInfo.length != 0) {
+    const rankedSoloInfo = playerInfo.find(
+      (item) => item.queueType === "RANKED_SOLO_5x5"
+    );
+  }
+  if (rankedSoloInfo) {
+    tier = rankedSoloInfo.tier || "unranked";
+    rank = rankedSoloInfo.rank || null;
+    [, color] = tierProcessing(tier, rankedSoloInfo.rank) || ["", ""];
+    leaguePoints = rankedSoloInfo.leaguePoints || 0;
+    wins = rankedSoloInfo.wins || 0;
+    losses = rankedSoloInfo.losses || 0;
+    winRate = calculateWinRate(wins, losses);
+    queueType = rankKo[rankedSoloInfo.queueType] || "";
+    rankImagePath = `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier.toLowerCase()}.png`;
+    const rankImageContainer = document.getElementById("rankImageContainer");
+    if (rankImageContainer) {
+      rankImageContainer.appendChild(imgElement);
+      rankImageContainer.style.display = "block";
+    } else {
+      console.error("Rank image container not found");
+    }
+  }
 
   const tierElement = document.getElementById("tier");
   const rankElement = document.getElementById("rank");
   tierElement.style.color = color;
   rankElement.style.color = color;
 
-  const rankImagePath = `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier.toLowerCase()}.png`;
-
   const imgElement = document.createElement("img");
   imgElement.id = "rankImage";
   imgElement.src = rankImagePath;
   imgElement.alt = `${tier} emblem`;
 
-  const rankImageContainer = document.getElementById("rankImageContainer");
-  if (rankImageContainer) {
-    rankImageContainer.appendChild(imgElement);
-    rankImageContainer.style.display = "block";
-  } else {
-    console.error("Rank image container not found");
-  }
   document.getElementById("queueType").innerText = queueType;
   tierElement.innerText = tier;
-  rankElement.innerText = rankedSoloInfo.rank;
-
+  rankElement.innerText = rank;
   document.getElementById("leaguePoints").innerText = leaguePoints + "LP";
   document.getElementById("wins").innerText = wins + " 승";
   document.getElementById("losses").innerText = losses + " 패";
@@ -158,14 +172,15 @@ export async function fetchPlayerData() {
     }, 1);
   });
   const totalGames = wins + losses;
-  const r = Math.floor(totalGames / 100);
-  const other = totalGames % 100;
+
+  const r = totalGames > 0 ? Math.floor(totalGames / 100) : 0;
+  const other = totalGames > 0 ? totalGames % 100 : 100;
 
   const allGamesID = [];
 
   for (let i = 0; i <= r; i++) {
     const start = i * 100;
-    const count = i !== r ? 100 : other;
+    const count = i !== r || totalGames === 0 ? 100 : other;
 
     const matchResponse = await fetch(
       `${asia}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=${start}&count=${count}`,
@@ -173,6 +188,7 @@ export async function fetchPlayerData() {
         headers: REQUEST_HEADERS,
       }
     );
+    console.log(matchResponse);
 
     if (!matchResponse.ok) {
       console.log("Response status:", matchResponse.status);
