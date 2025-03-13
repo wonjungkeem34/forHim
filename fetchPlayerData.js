@@ -99,6 +99,7 @@ export async function fetchPlayerData() {
   }
 
   const playerInfo = await leagueResponse.json();
+
   let tier = "unranked";
   let color = "";
   let leaguePoints = 0;
@@ -112,11 +113,13 @@ export async function fetchPlayerData() {
   let rankImagePath = null;
 
   if (playerInfo.length != 0) {
-    const rankedSoloInfo = playerInfo.find(
+    rankedSoloInfo = playerInfo.find(
       (item) => item.queueType === "RANKED_SOLO_5x5"
     );
   }
   if (rankedSoloInfo) {
+    //솔랭 전적 있으면
+
     tier = rankedSoloInfo.tier || "unranked";
     rank = rankedSoloInfo.rank || null;
     [, color] = tierProcessing(tier, rankedSoloInfo.rank) || ["", ""];
@@ -127,27 +130,28 @@ export async function fetchPlayerData() {
     queueType = rankKo[rankedSoloInfo.queueType] || "";
     rankImagePath = `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier.toLowerCase()}.png`;
     const rankImageContainer = document.getElementById("rankImageContainer");
+    const imgElement = document.createElement("img");
     if (rankImageContainer) {
       rankImageContainer.appendChild(imgElement);
       rankImageContainer.style.display = "block";
     } else {
       console.error("Rank image container not found");
     }
+
+    const tierElement = document.getElementById("tier");
+    const rankElement = document.getElementById("rank");
+    tierElement.style.color = color;
+    rankElement.style.color = color;
+
+    imgElement.id = "rankImage";
+    imgElement.src = rankImagePath;
+    imgElement.alt = `${tier} emblem`;
+    tierElement.innerText = tier;
+    rankElement.innerText = rank;
   }
 
-  const tierElement = document.getElementById("tier");
-  const rankElement = document.getElementById("rank");
-  tierElement.style.color = color;
-  rankElement.style.color = color;
-
-  const imgElement = document.createElement("img");
-  imgElement.id = "rankImage";
-  imgElement.src = rankImagePath;
-  imgElement.alt = `${tier} emblem`;
-
   document.getElementById("queueType").innerText = queueType;
-  tierElement.innerText = tier;
-  rankElement.innerText = rank;
+
   document.getElementById("leaguePoints").innerText = leaguePoints + "LP";
   document.getElementById("wins").innerText = wins + " 승";
   document.getElementById("losses").innerText = losses + " 패";
@@ -188,7 +192,6 @@ export async function fetchPlayerData() {
         headers: REQUEST_HEADERS,
       }
     );
-    console.log(matchResponse);
 
     if (!matchResponse.ok) {
       console.log("Response status:", matchResponse.status);
