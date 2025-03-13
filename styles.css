@@ -1,5 +1,10 @@
 body {
-  background-color: #1e1e1e;
+  background: linear-gradient(
+    to right,
+    /* 부드러운 톤의 시작 색 */ #20383b 0%,
+
+    /* 톤다운된 깊은 에메랄드 */ #051f26 100%
+  );
   color: #f5f5f5;
   display: flex;
   flex-direction: column;
@@ -50,16 +55,14 @@ body {
 
 header {
   background: linear-gradient(
-    to right,
-    #1e1e1e 0%,
-    #24608a 49%,
-    #24608a 51%,
-    #1e1e1e 100%
+    to left,
+    #b8e1e7 0%,
+    /* 밝은 에메랄드 */ #4ac7db 50%,
+    /* 청록색 */ #0096a2 60%,
+    /* 깊은 에메랄드 */ #062930 100% /* 어두운 푸른색 */
   );
-
-  padding: 1vw 2vw;
+  position: relative;
   font-size: 1rem;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.8); /* 그림자 어둡게 */
   display: flex;
   flex-direction: row;
   align-items: flex-end;
@@ -82,9 +85,14 @@ header {
   margin-top: 1vw;
   border-radius: 8px;
   flex: 1;
-  background-color: rgb(34, 34, 44);
+  background: linear-gradient(
+    to top,
+    /* 부드러운 톤의 시작 색 */ #343f41 0%,
+
+    /* 톤다운된 깊은 에메랄드 */ #051f26 100%
+  );
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  border: 1px solid #444444;
+  border: 1px solid #051f26;
   color: #f5f5f5;
   display: flex;
   height: max-content;
@@ -404,9 +412,13 @@ header {
   display: block;
   padding: 15px;
   border-radius: 8px;
-  background-color: #2c2c2c;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  border: 2px solid #444444;
+  background: linear-gradient(
+    to bottom,
+    /* 부드러운 톤의 시작 색 */ #051f26 0%,
+
+    /* 톤다운된 깊은 에메랄드 */ #051f26 100%
+  );
+  border: 2px solid #051f26;
   transition: background-color 0.3s ease;
   opacity: 0; /* 초기 투명도 설정 */
   animation: fadeIn 0.5s forwards; /* 애니메이션 추가 */
@@ -425,7 +437,7 @@ header {
   text-align: left;
 }
 .note-info-td {
-  background-color: #2c2c2c;
+  background-color: rgba(9, 61, 104, 0.445);
 }
 .match-info-table td {
   padding: 10px;
@@ -442,7 +454,7 @@ header {
 
 .match-details.open {
   display: block;
-  background-color: #333333;
+  background-color: #051f26;
   margin-top: 3vw;
   border-width: 0;
   max-height: max-content; /* 충분히 큰 값으로 설정하여 펼칠 때 공간을 차지하도록 */
@@ -505,8 +517,10 @@ header {
 }
 
 .nav {
-  display: flex;
-  gap: 15px;
+  position: absolute;
+  z-index: 10;
+  display: block;
+  gap: 20px;
 }
 
 .nav a {
@@ -636,10 +650,10 @@ header {
   padding: 15px 70px;
   border-radius: 10px;
   background-color: #f9f9f9; /* 부드럽고 얌전한 회색 배경 */
-  background-image: url("https://pimg.mk.co.kr/news/cms/202411/10/news-p.v1.20241110.a080cb6b710847e68c1673724ceec5be_P1.jpg");
+  background-image: url("https://file.giantsclub.com/upload2014/Player/62528_m.png");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: 50% 40%;
+  background-position: 34% 43%;
   color: #333;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 더 부드러운 그림자 */
   font-family: "Arial", sans-serif;
@@ -665,13 +679,12 @@ header {
   font-size: 1.5rem; /* 로고 폰트 크기 증가 */
   font-weight: bold; /* 두껍게 */
   color: #fff; /* 텍스트 색상: 흰색으로 변경 */
-  padding: 5px 20px; /* 패딩 추가로 여백 생성 */
+  padding: 10px 20px; /* 패딩 추가로 여백 생성 */
   border-radius: 5px; /* 모서리를 둥글게 */
   margin-right: auto;
   font-family: "Arial", sans-serif; /* 폰트 패밀리 */
-  text-align: center; /* 텍스트 중앙 정렬 */
-  text-shadow: 2px 2px 0 rgb(0, 0, 0),
-    /* 오른쪽 아래 검정 그림자 */ -2px -2px 0 rgb(0, 0, 0);
+
+  text-shadow: 1px 1px 0 rgb(0, 0, 0);
 }
 
 .side-banner p {
@@ -729,10 +742,7 @@ header {
     width: 100%;
     margin-top: 0;
   }
-  .header {
-    padding: 4vw 2vw;
-    font-size: 1.5rem;
-  }
+
   .matchInfo-box {
     align-items: flex-end;
   }
@@ -839,15 +849,15 @@ header {
     padding: 0 50%;
     border-radius: 10px;
     background-color: #f9f9f9; /* 부드럽고 얌전한 회색 배경 */
-    background-image: url("https://pimg.mk.co.kr/news/cms/202411/10/news-p.v1.20241110.03e96c1c739a483a949db91122d73b04_P1.jpg");
+    background-image: url("https://scontent-gmp1-1.xx.fbcdn.net/v/t51.75761-15/483333105_18489246718061592_4240278402145805216_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=127cfc&_nc_ohc=sFRxqKpzZbgQ7kNvgGU4MD6&_nc_oc=Adh6OlUeWRCX966mkXsIFy8UjFZuDxXhjakKe97ZjGU5D7IbnnJZxocfENkfBxJhEwE&_nc_zt=23&_nc_ht=scontent-gmp1-1.xx&_nc_gid=A3UY7T2a8aeLTOA8iDYLKCy&oh=00_AYFPbnPFK7LYIrRJFOvb2kFa1qQsUyHRoFLFjMAT4ot24Q&oe=67D81698");
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: 30% 23%;
+    background-position: 30% 50%;
     color: #333;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 더 부드러운 그림자 */
     font-family: "Arial", sans-serif;
     text-align: right; /* 텍스트를 오른쪽으로 정렬 */
-    height: 120px;
+    height: 160px;
     position: relative;
   }
 
