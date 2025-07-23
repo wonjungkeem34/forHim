@@ -9,7 +9,7 @@ import { calculateGameEndTime, calculateWinRate } from "./calculator";
 import { tierProcessing } from "./tierProcessing";
 import { findSummonerImg } from "./findSummoner";
 import { findRuneImg } from "./findRune";
-const api_key = import.meta.env.VITE_RIOT_API_KEY;
+const api_key = import.meta.env.VITE_RIOT_API_KEY||process.env.VITE_RIOT_API_KEY;
 
 const asia = "/api";
 const kr = "/krapi";
@@ -23,12 +23,14 @@ const REQUEST_HEADERS = {
   "X-Riot-Token": api_key,
 };
 
-const userNickname = USERNICKNAME;
-const tagLine = TAGLINE;
+const userNickname = USERNICKNAME.trim();
+const tagLine = TAGLINE.trim();
 const encodedName = encodeURIComponent(userNickname);
+const encodedTagLine = encodeURIComponent(tagLine);
+
+
 document.getElementById("gameName").innerText = userNickname;
 document.getElementById("tagLine").innerText = tagLine;
-
 const nameandtagContainer = document.querySelector(".nameandtag");
 if (nameandtagContainer) {
   nameandtagContainer.style.display = "block";
@@ -39,16 +41,13 @@ export async function fetchPlayerData() {
   console.log("전적 데이터를 가져옵니다.");
 
   const version = await getLatestPatchVersion();
-
-  const response = await fetch(
-    // 요청할 URL을 콘솔에 출력
-    `${asia}/riot/account/v1/accounts/by-riot-id/${encodedName}/${tagLine}`,
-    {
-      method: "GET",
-      headers: REQUEST_HEADERS,
-    }
-  );
-
+  console.log("API KEY:", api_key);
+  const url = `${asia}/riot/account/v1/accounts/by-riot-id/${encodedName}/${encodedTagLine}`;
+  const response = await fetch(url, {
+    method: "GET",
+    headers: REQUEST_HEADERS,
+  });
+  //console.log("response:", response);
   if (!response.ok) {
     console.log("Response status:", response.status);
     const errorText = await response.text();
@@ -58,6 +57,8 @@ export async function fetchPlayerData() {
 
   const player_id = await response.json();
   const puuid = player_id["puuid"];
+  console.log("puuid:", puuid);
+ // 여기에 값이 잘 나오는지 확인
 
   const playerResponse = await fetch(
     `${kr}/lol/summoner/v4/summoners/by-puuid/${puuid}`,
@@ -66,6 +67,11 @@ export async function fetchPlayerData() {
       headers: REQUEST_HEADERS,
     }
   );
+  const player = await playerResponse.json();
+  //console.log("player:", player);
+
+  // const summonerId = player["id"];
+  // console.log("summonerId:", summonerId); // 이 값이 undefined면 이후 API도 실패
 
   if (!playerResponse.ok) {
     console.log("Response status:", playerResponse.status);
@@ -73,8 +79,6 @@ export async function fetchPlayerData() {
     console.error("Error response:", errorText);
     throw new Error(errorText);
   }
-
-  const player = await playerResponse.json();
 
   const profileIconId = player["profileIconId"];
   const profileIconUrl = `https://ddragon.leagueoflegends.com/cdn/${version}/img/profileicon/${profileIconId}.png`;
@@ -84,7 +88,7 @@ export async function fetchPlayerData() {
   document.querySelector("#profileIcon").style.display = "block";
 
   const leagueResponse = await fetch(
-    `${kr}/lol/league/v4/entries/by-summoner/${player["id"]}`,
+    `${kr}/lol/league/v4/entries/by-puuid/${puuid}`,
     {
       method: "GET",
       headers: REQUEST_HEADERS,
